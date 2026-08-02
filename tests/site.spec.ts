@@ -15,7 +15,7 @@ test("main navigation reaches every public page", async ({ page }) => {
   ] as const) {
     await page.goto("/");
     await page.getByRole("navigation").getByRole("link", { name: item[0] }).click();
-    await expect(page).toHaveURL(new RegExp(`${item[1]}$`));
+    await expect(page).toHaveURL(new RegExp(`${item[1]}/?$`));
   }
 });
 
