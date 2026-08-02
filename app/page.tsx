@@ -19,15 +19,17 @@ export default function Home() {
           />
           <div className="heroShade" />
           <div className="heroFrame heroFrameOuter" />
-          <div className="heroFrame heroFrameInner" />
           <SiteHeader overlay />
           <div className="heroCopy">
             <p className="heroEyebrow">Save the date</p>
             <h1 id="hero-title">{site.couple.displayNames}</h1>
-            <p className="heroDate">
-              <time dateTime={site.wedding.dateIso}>{site.wedding.date}</time>
-            </p>
-            <p className="heroLocation">{site.wedding.city}</p>
+            <div className="heroMeta">
+              <p className="heroDate">
+                <time dateTime={site.wedding.dateIso}>{site.wedding.date}</time>
+              </p>
+              <span aria-hidden="true" />
+              <p className="heroLocation">{site.wedding.city}</p>
+            </div>
           </div>
           <a className="scrollCue" href="#invitation">
             <span>Enter</span>
