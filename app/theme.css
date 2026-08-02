@@ -1,0 +1,12 @@
+:root {
+  --paper: #f4efe6;
+  --paper-light: #fbf8f1;
+  --limestone: #d8c8aa;
+  --iron: #20221d;
+  --garden: #4d5946;
+  --brass: #9a7847;
+  --white: #fffdf8;
+  --display: "Cormorant Garamond", Georgia, serif;
+  --body: "Libre Franklin", Arial, sans-serif;
+  --content: min(1120px, calc(100vw - 48px));
+}
