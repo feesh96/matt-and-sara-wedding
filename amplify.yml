@@ -3,6 +3,7 @@ frontend:
   phases:
     preBuild:
       commands:
+        - npm install --global pnpm@11.9.0
         - pnpm install --frozen-lockfile
     build:
       commands:
