@@ -21,8 +21,11 @@ export default function Home() {
           <div className="heroFrame heroFrameOuter" />
           <SiteHeader overlay />
           <div className="heroCopy">
-            <p className="heroEyebrow">Save the date</p>
-            <h1 id="hero-title">{site.couple.displayNames}</h1>
+            <h1 id="hero-title" aria-label={site.couple.displayNames}>
+              <span aria-hidden="true">Sara</span>
+              <span className="heroAmpersand" aria-hidden="true">&amp;</span>
+              <span aria-hidden="true">Matt</span>
+            </h1>
             <div className="heroMeta">
               <p className="heroDate">
                 <time dateTime={site.wedding.dateIso}>{site.wedding.date}</time>
@@ -31,10 +34,6 @@ export default function Home() {
               <p className="heroLocation">{site.wedding.city}</p>
             </div>
           </div>
-          <a className="scrollCue" href="#invitation">
-            <span>Enter</span>
-            <span className="scrollLine" aria-hidden="true" />
-          </a>
         </section>
 
         <section className="invitationBand" id="invitation">
@@ -50,6 +49,16 @@ export default function Home() {
             <span>May · 2027</span>
           </div>
         </section>
+
+        {site.media.couple.length === 2 ? (
+          <section className="photoStoryBand" aria-label="Sara and Matt">
+            {site.media.couple.map((photo) => (
+              <div className={`couplePhoto couplePhoto-${photo.position}`} key={photo.src}>
+                <Image src={photo.src} alt={photo.alt} fill sizes="(max-width: 720px) 82vw, 44vw" />
+              </div>
+            ))}
+          </section>
+        ) : null}
 
         <section className="detailsBand">
           <div className="detailBlock">

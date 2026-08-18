@@ -1,7 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import "@fontsource/cormorant-garamond/400.css";
 import "@fontsource/cormorant-garamond/400-italic.css";
-import "@fontsource/cormorant-garamond/500.css";
+import "@fontsource/cormorant-garamond/300.css";
+import "@fontsource/cormorant-garamond/300-italic.css";
 import "@fontsource/libre-franklin/400.css";
 import "@fontsource/libre-franklin/500.css";
 import "./theme.css";

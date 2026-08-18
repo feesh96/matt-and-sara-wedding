@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "Milton One";
+  src: url("/fonts/milton-one-bold.otf") format("opentype");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 700;
+}
+
 :root {
   --paper: #f4efe6;
   --paper-light: #fbf8f1;
@@ -8,6 +16,14 @@
   --white: #fffdf8;
   --display: "Cormorant Garamond", Georgia, serif;
   --body: "Libre Franklin", Arial, sans-serif;
+  --hero-display: "Milton One", "Cormorant Garamond", Georgia, serif;
+  --hero-weight: 700;
+  --hero-tracking: 0;
+  --hero-amp-size: 0.7em;
+  --display-style: normal;
+  --display-tracking: -0.018em;
+  --hero-name-size: 6rem;
+  --page-title-size: 4.625rem;
   --content: min(1080px, calc(100vw - 64px));
   --reading: 680px;
   --space-1: 8px;
