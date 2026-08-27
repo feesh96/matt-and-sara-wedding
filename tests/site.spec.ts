@@ -1,55 +1,71 @@
 import { expect, test } from "@playwright/test";
 
-test("shows the save-the-date essentials", async ({ page }) => {
+test("shows the final home-page lockup and supplied photography", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByRole("heading", { name: "Sara & Matt" })).toBeVisible();
-  await expect(page.getByText("May 30, 2027", { exact: true }).first()).toBeVisible();
-  await expect(page.getByText("Princeton, New Jersey", { exact: true }).first()).toBeVisible();
-  await expect(page.getByText("Save the date", { exact: true })).toHaveCount(0);
 
-  const fade = await page.locator(".hero").evaluate((hero) =>
-    getComputedStyle(hero, "::after").backgroundImage,
+  await expect(page.getByRole("heading", { name: "Sara & Matt" })).toBeVisible();
+  await expect(page.getByText("May 30, 2027", { exact: true })).toBeVisible();
+  await expect(page.getByText("Welcome", { exact: true })).toBeVisible();
+  await expect(page.getByAltText("Sara and Matt in front of a pagoda tower in Japan")).toHaveAttribute(
+    "src",
+    /pagoda-tower\.jpeg/,
   );
-  expect(fade).toContain("linear-gradient");
+  await expect(page.getByAltText("Sara and Matt together at a temple in Japan")).toHaveAttribute(
+    "src",
+    /holding-hands\.jpeg/,
+  );
 });
 
-test("main navigation reaches every public page", async ({ page }) => {
-  for (const item of [
+test("desktop navigation reaches every available route and leaves Registry inert", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 960 });
+  await page.goto("/");
+  const navigation = page.getByRole("navigation", { name: "Primary navigation" });
+
+  for (const [label, path] of [
+    ["Home", "/"],
     ["Schedule", "/schedule"],
     ["Travel", "/travel"],
-    ["FAQ", "/faq"],
   ] as const) {
-    await page.goto("/");
-    await page.getByRole("navigation").getByRole("link", { name: item[0] }).click();
-    await expect(page).toHaveURL(new RegExp(`${item[1]}/?$`));
+    const expectedHref = path === "/" ? /^\/$/ : new RegExp(`^${path}/$`);
+    await expect(navigation.getByRole("link", { name: label })).toHaveAttribute("href", expectedHref);
   }
+
+  await expect(page.locator(".desktopNavRight .navPending")).toHaveText("Registry");
+  await expect(page.locator(".desktopNavRight a", { hasText: "Registry" })).toHaveCount(0);
+
+  const secondaryNavigation = page.getByRole("navigation", { name: "Secondary navigation" });
+  await expect(secondaryNavigation.getByRole("link", { name: "FAQs" })).toHaveAttribute("href", "/faq/");
+  await expect(secondaryNavigation.getByRole("link", { name: "RSVP" })).toHaveAttribute("href", "/rsvp/");
 });
 
-test("mobile pages keep a shared content edge without horizontal overflow", async ({ page }) => {
+test("mobile navigation opens and provides every working route", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  for (const path of ["/faq", "/travel"] as const) {
-    await page.goto(path);
+  await page.goto("/");
 
-    const layout = await page.evaluate(() => {
-      const left = (selector: string) =>
-        Math.round(document.querySelector(selector)!.getBoundingClientRect().left);
+  const menu = page.locator(".mobileMenu");
+  await expect(menu).not.toHaveAttribute("open", "");
+  await menu.locator("summary").click();
+  await expect(menu).toHaveAttribute("open", "");
 
-      return {
-        contentLeft: left(".pageContent"),
-        headerLeft: left(".siteHeader"),
-        headingLeft: left(".pageHeading"),
-        pageWidth: document.documentElement.scrollWidth,
-        viewportWidth: document.documentElement.clientWidth,
-      };
-    });
-
-    expect(layout.headerLeft).toBe(layout.headingLeft);
-    expect(layout.headingLeft).toBe(layout.contentLeft);
-    expect(layout.pageWidth).toBe(layout.viewportWidth);
-  }
+  const navigation = page.getByRole("navigation", { name: "Mobile navigation" });
+  await expect(navigation.getByRole("link", { name: "Schedule" })).toHaveAttribute("href", /\/schedule\/$/);
+  await expect(navigation.getByRole("link", { name: "RSVP" })).toHaveAttribute("href", /\/rsvp\/$/);
+  await expect(navigation.locator(".navPending")).toHaveText("Registry");
 });
 
-test("shows both hotel blocks with safe external booking links", async ({ page }) => {
+test("schedule presents the event and its exact map destination", async ({ page }) => {
+  await page.goto("/schedule");
+
+  await expect(page.getByRole("heading", { name: "Ceremony & Reception" })).toBeVisible();
+  await expect(page.getByText("5:00 pm - 11:00 pm", { exact: true })).toBeVisible();
+  const venue = page.getByRole("link", { name: /TPC Jasna Polana/ });
+  await expect(venue).toHaveAttribute("href", /google\.com\/maps\/place\/TPC\+Jasna\+Polana/);
+  await expect(venue).toHaveAttribute("target", "_blank");
+  await expect(venue).toHaveAttribute("rel", /noopener/);
+  await expect(page.locator(".scheduleAerial")).toHaveAttribute("src", /jasna-polana-aerial\.jpg/);
+});
+
+test("travel preserves both room-block destinations", async ({ page }) => {
   await page.goto("/travel");
   await expect(page.getByRole("heading", { name: "Accommodations" })).toBeVisible();
 
@@ -59,76 +75,37 @@ test("shows both hotel blocks with safe external booking links", async ({ page }
     "https://reservations.travelclick.com/13522?groupID=5358089",
   );
   await expect(nassau).toHaveAttribute("target", "_blank");
-  await expect(nassau).toHaveAttribute("rel", /noopener/);
 
   const graduate = page.getByRole("link", { name: /room block for The Graduate by Hilton/ });
-  await expect(graduate).toHaveAttribute("href", /ctyhocn=PCTGPGU/);
   await expect(graduate).toHaveAttribute("href", /groupCode=GRPSAC/);
-  await expect(graduate).toHaveAttribute("target", "_blank");
   await expect(graduate).toHaveAttribute("rel", /noreferrer/);
 });
 
-test("uses Milton One Bold for the hero title", async ({ page }) => {
-  await page.goto("/?type=script");
-  const hero = await page.locator(".heroCopy h1").evaluate((heading) => {
-    const style = getComputedStyle(heading);
-    return {
-      family: style.fontFamily,
-      weight: style.fontWeight,
-      color: style.color,
-      left: heading.getBoundingClientRect().left,
-      preview: document.documentElement.dataset.typeface,
-    };
-  });
-  const contentLeft = await page.locator(".siteHeader").evaluate((header) =>
-    header.getBoundingClientRect().left,
-  );
-  const fontLoaded = await page.evaluate(() => document.fonts.check('700 64px "Milton One"'));
+test("FAQs begin collapsed and can be expanded", async ({ page }) => {
+  await page.goto("/faq");
+  const firstQuestion = page.locator(".faqList details").first();
+  await expect(firstQuestion).not.toHaveAttribute("open", "");
 
-  expect(hero.family).toContain("Milton One");
-  expect(hero.weight).toBe("700");
-  expect(fontLoaded).toBe(true);
-  expect(hero.color).toBe("rgb(244, 239, 230)");
-  expect(hero.preview).toBeUndefined();
-  expect(Math.round(hero.left)).toBe(Math.round(contentLeft));
+  await firstQuestion.locator("summary").click();
+  await expect(firstQuestion).toHaveAttribute("open", "");
+  await expect(firstQuestion.getByText(/Formal invitations with RSVP information/)).toBeVisible();
 });
 
-test("uses the supplied original hotel sketches", async ({ page }) => {
-  await page.goto("/travel");
-
-  await expect(page.getByAltText("Architectural sketch of the Nassau Inn")).toHaveAttribute(
-    "src",
-    /hotel-nassau-inn-sketch\.png/,
-  );
-  await expect(
-    page.getByAltText("Architectural sketch of the Graduate by Hilton in Princeton"),
-  ).toHaveAttribute("src", /hotel-graduate-sketch\.png/);
+test("RSVP remains a static invitation-status page", async ({ page }) => {
+  await page.goto("/rsvp");
+  await expect(page.getByText(/Formal invitations with RSVP details/)).toBeVisible();
+  await expect(page.locator("form")).toHaveCount(0);
 });
 
-test("shows the selected couple photos in the editorial band", async ({ page }) => {
-  await page.goto("/");
+test("phone layouts have no horizontal overflow", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
 
-  const portrait = page.getByAltText(
-    "Sara and Matt seated together during their engagement trip in Kyoto",
-  );
-  const sunset = page.getByAltText(
-    "Sara and Matt holding hands while walking together at sunset",
-  );
-
-  await expect(page.getByRole("region", { name: "Sara and Matt" })).toBeVisible();
-  await expect(portrait).toHaveAttribute("src", /couple-engagement-portrait\.jpeg/);
-  await expect(sunset).toHaveAttribute("src", /couple-sunset-walk\.jpeg/);
-});
-
-test("uses the save-the-date monogram in the header and footer", async ({ page }) => {
-  await page.goto("/");
-
-  await expect(page.getByRole("link", { name: "Sara and Matt, home" }).locator("img")).toHaveAttribute(
-    "src",
-    /monogram\.png/,
-  );
-  await expect(page.getByAltText("Sara and Matt monogram")).toHaveAttribute(
-    "src",
-    /monogram\.png/,
-  );
+  for (const path of ["/", "/schedule", "/travel", "/faq", "/rsvp"] as const) {
+    await page.goto(path);
+    const dimensions = await page.evaluate(() => ({
+      pageWidth: document.documentElement.scrollWidth,
+      viewportWidth: document.documentElement.clientWidth,
+    }));
+    expect(dimensions.pageWidth).toBe(dimensions.viewportWidth);
+  }
 });

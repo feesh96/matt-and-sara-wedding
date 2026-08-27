@@ -8,30 +8,13 @@
 
 :root {
   --paper: #f4efe6;
-  --paper-light: #fbf8f1;
-  --limestone: #d8c8aa;
-  --iron: #20221d;
-  --garden: #4d5946;
-  --brass: #9a7847;
-  --white: #fffdf8;
-  --display: "Cormorant Garamond", Georgia, serif;
-  --body: "Libre Franklin", Arial, sans-serif;
-  --hero-display: "Milton One", "Cormorant Garamond", Georgia, serif;
-  --hero-weight: 700;
-  --hero-tracking: 0;
-  --hero-amp-size: 0.7em;
-  --display-style: normal;
-  --display-tracking: -0.018em;
-  --hero-name-size: 6rem;
-  --page-title-size: 4.625rem;
-  --content: min(1080px, calc(100vw - 64px));
-  --reading: 680px;
-  --space-1: 8px;
-  --space-2: 16px;
-  --space-3: 24px;
-  --space-4: 32px;
-  --space-5: 48px;
-  --space-6: 64px;
-  --space-7: 96px;
-  --space-8: 128px;
+  --paper-bright: #fbf8f1;
+  --ink: #161411;
+  --frame: #4d3829;
+  --sage: #abb0a2;
+  --sage-deep: #405c59;
+  --script: "Milton One", "Cormorant Garamond", Georgia, serif;
+  --print: "Cormorant Garamond", Georgia, serif;
+  --content: min(92vw, 1600px);
+  --reading: min(82vw, 1320px);
 }

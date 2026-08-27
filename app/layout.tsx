@@ -3,8 +3,6 @@ import "@fontsource/cormorant-garamond/400.css";
 import "@fontsource/cormorant-garamond/400-italic.css";
 import "@fontsource/cormorant-garamond/300.css";
 import "@fontsource/cormorant-garamond/300-italic.css";
-import "@fontsource/libre-franklin/400.css";
-import "@fontsource/libre-franklin/500.css";
 import "./theme.css";
 import "./globals.css";
 
@@ -14,12 +12,12 @@ export const metadata: Metadata = {
     default: "Sara & Matt | May 30, 2027",
     template: "%s | Sara & Matt",
   },
-  description: "Save the date for Sara and Matt's wedding in Princeton, New Jersey.",
+  description: "Sara and Matt's wedding celebration in Princeton, New Jersey.",
   robots: { index: false, follow: false },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#20221d",
+  themeColor: "#f4efe6",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

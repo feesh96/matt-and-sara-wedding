@@ -1,83 +1,61 @@
 import Image from "next/image";
-import Link from "next/link";
-import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { site } from "@/lib/site";
 
 export default function Home() {
   return (
-    <>
-      <main>
-        <section className="hero" aria-labelledby="hero-title">
-          <Image
-            className="heroImage"
-            src={site.media.hero}
-            alt="The open iron gates at TPC Jasna Polana"
-            fill
-            priority
-            sizes="100vw"
-          />
-          <div className="heroShade" />
-          <div className="heroFrame heroFrameOuter" />
-          <SiteHeader overlay />
-          <div className="heroCopy">
-            <h1 id="hero-title" aria-label={site.couple.displayNames}>
-              <span aria-hidden="true">Sara</span>
-              <span className="heroAmpersand" aria-hidden="true">&amp;</span>
-              <span aria-hidden="true">Matt</span>
-            </h1>
-            <div className="heroMeta">
-              <p className="heroDate">
-                <time dateTime={site.wedding.dateIso}>{site.wedding.date}</time>
-              </p>
-              <span aria-hidden="true" />
-              <p className="heroLocation">{site.wedding.city}</p>
-            </div>
-          </div>
-        </section>
-
-        <section className="invitationBand" id="invitation">
-          <p className="eyebrow">Together with our families</p>
-          <h2>We are getting married</h2>
-          <p className="invitationCopy">
-            Please save the date for our wedding celebration at {site.wedding.venue}.
-            We cannot wait to celebrate with you.
+    <main className="homePage">
+      <section className="homeHero" aria-labelledby="home-title">
+        <Image
+          className="homeGates"
+          src={site.media.gates}
+          alt="The open iron gates at TPC Jasna Polana"
+          fill
+          priority
+          sizes="100vw"
+        />
+        <div className="homeHeroWash" aria-hidden="true" />
+        <SiteHeader overlay />
+        <div className="homeTitleLockup">
+          <h1 id="home-title" aria-label={site.couple.displayNames}>
+            Sara <span aria-hidden="true">&amp;</span> Matt
+          </h1>
+          <p>
+            <time dateTime={site.wedding.dateIso}>May 30, 2027</time>
           </p>
-          <div className="dateLockup" aria-label={`${site.wedding.day}, ${site.wedding.date}`}>
-            <span>{site.wedding.day}</span>
-            <strong>30</strong>
-            <span>May · 2027</span>
-          </div>
-        </section>
+          <p>{site.wedding.city}</p>
+          <span className="titleRule" aria-hidden="true" />
+        </div>
+      </section>
 
-        {site.media.couple.length === 2 ? (
-          <section className="photoStoryBand" aria-label="Sara and Matt">
-            {site.media.couple.map((photo) => (
-              <div className={`couplePhoto couplePhoto-${photo.position}`} key={photo.src}>
-                <Image src={photo.src} alt={photo.alt} fill sizes="(max-width: 720px) 82vw, 44vw" />
-              </div>
-            ))}
-          </section>
-        ) : null}
+      <section className="homeWelcome" aria-labelledby="welcome-title">
+        <h2 id="welcome-title">Welcome</h2>
+        <p>
+          We look forward to celebrating our marriage with you at {site.wedding.venue} in
+          Princeton.
+        </p>
+      </section>
 
-        <section className="detailsBand">
-          <div className="detailBlock">
-            <p className="eyebrow">The celebration</p>
-            <h2>{site.wedding.venue}</h2>
-            <p>{site.wedding.city}</p>
-            <p>Formal invitation and celebration details to follow.</p>
-            <Link className="textLink" href="/schedule">View schedule</Link>
-          </div>
-          <div className="detailRule" aria-hidden="true" />
-          <div className="detailBlock">
-            <p className="eyebrow">Planning ahead</p>
-            <h2>A spring weekend in Princeton</h2>
-            <p>Travel guidance will be added here as plans take shape.</p>
-            <Link className="textLink" href="/travel">View travel notes</Link>
-          </div>
-        </section>
-      </main>
-      <SiteFooter />
-    </>
+      <section className="homePhotoStory" aria-label="Sara and Matt in Japan">
+        <figure className="homePhoto homePhotoTower">
+          <Image
+            src={site.media.pagodaTower}
+            alt="Sara and Matt in front of a pagoda tower in Japan"
+            fill
+            loading="eager"
+            sizes="(max-width: 720px) 82vw, 42vw"
+          />
+        </figure>
+        <figure className="homePhoto homePhotoHands">
+          <Image
+            src={site.media.holdingHands}
+            alt="Sara and Matt together at a temple in Japan"
+            fill
+            loading="eager"
+            sizes="(max-width: 720px) 68vw, 36vw"
+          />
+        </figure>
+      </section>
+    </main>
   );
 }
