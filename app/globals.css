@@ -790,6 +790,29 @@ summary:focus-visible {
   }
 }
 
+/* The desktop artboards use generous display type.  Scale it down on smaller
+   laptop screens while preserving the same hierarchy and line breaks. */
+@media (min-width: 761px) and (max-width: 1200px) {
+  body { font-size: clamp(0.85rem, 1.19vw, 1.05rem); }
+  .desktopNav a, .navPending, .menuButton { font-size: clamp(0.7rem, 1.19vw, 1.015rem); }
+  .homeTitleLockup h1 { font-size: clamp(3.08rem, 7.35vw, 7.35rem); }
+  .homeTitleLockup p { font-size: clamp(0.735rem, 1.54vw, 1.12rem); }
+  .homeWelcome h2 { font-size: clamp(2.8rem, 5.6vw, 5.6rem); }
+  .homeWelcome p { font-size: clamp(0.945rem, 1.75vw, 1.785rem); }
+  .scheduleLead h1 { font-size: clamp(2.17rem, 3.64vw, 3.92rem); }
+  .scheduleEvent h2 { font-size: clamp(1.05rem, 1.82vw, 1.89rem); }
+  .scheduleTime { font-size: clamp(0.84rem, 1.68vw, 1.75rem); }
+  .venueButton { font-size: clamp(0.7rem, 1.05vw, 0.945rem); }
+  .travelIntro h1 { font-size: clamp(2.8rem, 5.81vw, 5.74rem); }
+  .travelIntro p { font-size: clamp(0.875rem, 1.54vw, 1.645rem); }
+  .hotelCard h2 { font-size: clamp(1.89rem, 3.5vw, 3.85rem); }
+  .hotelCard p { font-size: clamp(0.875rem, 1.47vw, 1.505rem); }
+  .hotelLink { font-size: clamp(0.77rem, 1.4vw, 1.33rem); }
+  .faqList summary { font-size: clamp(1.89rem, 3.92vw, 3.99rem); }
+  .faqList details p { font-size: clamp(1.015rem, 2.17vw, 2.17rem); }
+  .rsvpNotice p { font-size: clamp(0.875rem, 1.47vw, 1.54rem); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
