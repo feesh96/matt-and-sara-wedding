@@ -65,6 +65,7 @@ export const site = {
   media: {
     gates: "/images/venue-gates.png",
     pagodaTower: "/images/pagoda-tower.jpeg",
+    pagodaTowerLandscape: "/images/pagoda-tower-landscape.png",
     holdingHands: "/images/holding-hands.jpeg",
     aerial: "/images/jasna-polana-aerial.jpg",
   },

@@ -19,15 +19,27 @@ export default function SchedulePage() {
         <div className="scheduleEvent">
           <h2 id="ceremony-title">Ceremony &amp; Reception</h2>
           <p className="scheduleTime">5:00 pm - 11:00 pm</p>
-          <a
-            className="venueButton"
-            href={site.wedding.mapsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <div className="scheduleVenue">
             <strong>{site.wedding.venue}</strong>
-            <span>{site.wedding.address}</span>
-          </a>
+            <address>{site.wedding.address}</address>
+          </div>
+          <div className="scheduleActions">
+            <a
+              className="hotelLink scheduleActionLink scheduleMapLink"
+              href={site.wedding.mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View Map
+            </a>
+            <a
+              className="hotelLink scheduleActionLink"
+              href="/sara-and-matt-wedding.ics"
+              download
+            >
+              Add to Calendar
+            </a>
+          </div>
         </div>
       </section>
     </PageShell>

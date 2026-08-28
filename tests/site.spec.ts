@@ -5,15 +5,17 @@ test("shows the final home-page lockup and supplied photography", async ({ page 
 
   await expect(page.getByRole("heading", { name: "Sara & Matt" })).toBeVisible();
   await expect(page.getByText("May 30, 2027", { exact: true })).toBeVisible();
-  await expect(page.getByText("Welcome", { exact: true })).toBeVisible();
+  await expect(page.getByText("05.30, 2027", { exact: true })).toBeVisible();
+  await expect(page.getByText(/We look forward to celebrating our marriage/)).toBeVisible();
   await expect(page.getByAltText("Sara and Matt in front of a pagoda tower in Japan")).toHaveAttribute(
     "src",
-    /pagoda-tower\.jpeg/,
+    /pagoda-tower-landscape\.png/,
   );
   await expect(page.getByAltText("Sara and Matt together at a temple in Japan")).toHaveAttribute(
     "src",
     /holding-hands\.jpeg/,
   );
+  await expect(page.getByRole("heading", { name: "Welcome" })).toBeVisible();
 });
 
 test("keeps the home title visible and on one line across viewport shapes", async ({ page }) => {
@@ -96,11 +98,32 @@ test("schedule presents the event and its exact map destination", async ({ page 
 
   await expect(page.getByRole("heading", { name: "Ceremony & Reception" })).toBeVisible();
   await expect(page.getByText("5:00 pm - 11:00 pm", { exact: true })).toBeVisible();
-  const venue = page.getByRole("link", { name: /TPC Jasna Polana/ });
-  await expect(venue).toHaveAttribute("href", /google\.com\/maps\/place\/TPC\+Jasna\+Polana/);
-  await expect(venue).toHaveAttribute("target", "_blank");
-  await expect(venue).toHaveAttribute("rel", /noopener/);
+  await expect(page.getByText("TPC Jasna Polana", { exact: true })).toBeVisible();
+  await expect(page.getByText("4519 Province Line Rd, Princeton, NJ 08540", { exact: true })).toBeVisible();
+  await expect(page.getByRole("link", { name: /TPC Jasna Polana/ })).toHaveCount(0);
+  const mapLink = page.getByRole("link", { name: "View Map" });
+  await expect(mapLink).toHaveAttribute("href", /google\.com\/maps\/place\/TPC\+Jasna\+Polana/);
+  await expect(mapLink).toHaveAttribute("target", "_blank");
+  await expect(mapLink).toHaveAttribute("rel", /noopener/);
+  await expect(mapLink).toHaveCSS("border-radius", "4px");
+  const calendarLink = page.getByRole("link", { name: "Add to Calendar" });
+  await expect(calendarLink).toHaveAttribute("href", "/sara-and-matt-wedding.ics");
+  await expect(calendarLink).toHaveAttribute("download", "");
+  await expect(calendarLink).toHaveCSS("border-radius", "4px");
+  for (const action of [mapLink, calendarLink]) {
+    expect(await action.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(true);
+  }
   await expect(page.locator(".scheduleAerial")).toHaveAttribute("src", /jasna-polana-aerial\.jpg/);
+
+  const calendarResponse = await page.request.get("/sara-and-matt-wedding.ics");
+  expect(calendarResponse.ok()).toBe(true);
+  expect(await calendarResponse.text()).toContain("DTSTART;TZID=America/New_York:20270530T170000");
+
+  const sceneBox = await page.locator(".scheduleScene").boundingBox();
+  const viewport = page.viewportSize();
+  expect(sceneBox).not.toBeNull();
+  expect(viewport).not.toBeNull();
+  expect(sceneBox!.y + sceneBox!.height).toBeGreaterThanOrEqual(viewport!.height - 1);
 });
 
 test("travel preserves both room-block destinations", async ({ page }) => {
@@ -138,12 +161,23 @@ test("RSVP remains a static invitation-status page", async ({ page }) => {
 test("phone layouts have no horizontal overflow", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
 
-  for (const path of ["/", "/schedule", "/travel", "/faq", "/rsvp"] as const) {
+  for (const [path, contentSelector] of [
+    ["/", ".homeStoryLower"],
+    ["/schedule", ".scheduleEvent"],
+    ["/travel", ".travelIntro"],
+    ["/faq", ".faqList"],
+    ["/rsvp", ".rsvpNotice"],
+  ] as const) {
     await page.goto(path);
     const dimensions = await page.evaluate(() => ({
       pageWidth: document.documentElement.scrollWidth,
       viewportWidth: document.documentElement.clientWidth,
     }));
     expect(dimensions.pageWidth).toBe(dimensions.viewportWidth);
+
+    const contentBox = await page.locator(contentSelector).boundingBox();
+    expect(contentBox).not.toBeNull();
+    expect(contentBox!.x).toBeGreaterThanOrEqual(38);
+    expect(dimensions.viewportWidth - contentBox!.x - contentBox!.width).toBeGreaterThanOrEqual(38);
   }
 });

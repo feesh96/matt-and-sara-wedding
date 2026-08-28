@@ -117,8 +117,8 @@ summary {
 .mobileNav a:focus-visible,
 .hotelLink:hover,
 .hotelLink:focus-visible,
-.venueButton:hover,
-.venueButton:focus-visible {
+.scheduleMapLink:hover,
+.scheduleMapLink:focus-visible {
   text-decoration: underline;
   text-underline-offset: 7px;
 }
@@ -231,71 +231,117 @@ summary:focus-visible {
   background: currentColor;
 }
 
-.homeWelcome {
-  min-height: clamp(350px, 34vw, 550px);
-  padding: clamp(40px, 4.5vw, 75px) 22px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+.homePhotoStory {
+  padding: clamp(44px, 5vw, 80px) 0 0;
+  background: var(--paper);
 }
 
-.homeWelcome h2 {
+.homeStoryPanorama,
+.homeStoryPortrait {
   margin: 0;
-  font-size: clamp(4rem, 8vw, 8rem);
+  overflow: hidden;
+  position: relative;
+}
+
+.homeStoryPanorama {
+  width: 100%;
+  aspect-ratio: 2.4 / 1;
+}
+
+.homeStoryPanorama img,
+.homeStoryPortrait img {
+  object-fit: cover;
+}
+
+.homeStoryPanorama img {
+  object-position: center bottom;
+}
+
+.homeStoryPanorama::after {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background: linear-gradient(180deg, var(--paper) 0%, rgba(244, 239, 230, 0.66) 8%, transparent 24%);
+}
+
+.homeStoryLower {
+  width: var(--content);
+  margin: 0 auto;
+  padding-bottom: clamp(52px, 6vw, 96px);
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(44px, 7vw, 130px);
+  align-items: center;
+}
+
+.homeStoryMessage {
+  padding-left: clamp(0px, 2vw, 28px);
+}
+
+.homeStoryDetails {
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.homeStoryMessage h2 {
+  max-width: 680px;
+  margin: 0;
+  font-family: var(--script);
+  font-size: clamp(4rem, 7vw, 7.2rem);
+  font-weight: 700;
   line-height: 0.9;
   letter-spacing: 0;
 }
 
-.homeWelcome p {
-  max-width: 900px;
-  margin: clamp(28px, 3.2vw, 50px) 0 0;
-  font-size: clamp(1.35rem, 2.5vw, 2.55rem);
-  line-height: 1.25;
+.homeStoryIntro {
+  max-width: 540px;
+  margin: clamp(24px, 3vw, 42px) 0 0;
+  font-size: clamp(1.05rem, 1.45vw, 1.55rem);
+  font-weight: 300;
+  line-height: 1.35;
 }
 
-.homePhotoStory {
-  min-height: clamp(740px, 80vw, 1380px);
-  padding: 40px 0 70px;
-  position: relative;
-  background: linear-gradient(180deg, var(--paper) 0%, #b9b9ac 24%, #9ea396 100%);
+.homeStoryRule {
+  width: clamp(82px, 9vw, 145px);
+  height: 1px;
+  margin-top: clamp(28px, 3.4vw, 52px);
+  display: block;
+  background: currentColor;
 }
 
-.homePhoto {
-  margin: 0;
-  overflow: hidden;
-  position: absolute;
-  border: clamp(4px, 0.45vw, 7px) solid var(--frame);
-  outline: 1px solid var(--frame);
-  outline-offset: clamp(10px, 1.5vw, 22px);
-  background: var(--paper);
+.homeStoryDetails {
+  margin-top: 18px;
+  font-size: clamp(0.72rem, 0.82vw, 0.92rem);
+  letter-spacing: 0.16em;
+  line-height: 1.5;
 }
 
-.homePhoto img {
-  object-fit: cover;
+.homeStoryDetails time {
+  font-size: calc(1em + 4px);
+  font-variant-numeric: lining-nums;
+  letter-spacing: 0.1em;
 }
 
-.homePhotoTower {
-  width: min(31vw, 500px);
-  aspect-ratio: 2 / 3;
-  top: clamp(100px, 10vw, 160px);
-  left: clamp(12vw, 19vw, 27vw);
+.homeStoryPortrait {
+  aspect-ratio: 4 / 3;
+  border: clamp(2px, 0.18vw, 3px) solid transparent;
+  border-image: linear-gradient(
+      135deg,
+      var(--gold-deep),
+      var(--gold-light) 38%,
+      var(--gold) 68%,
+      #e3d39e
+    )
+    1;
+  box-shadow:
+    0 0 0 clamp(5px, 0.48vw, 8px) var(--paper),
+    0 0 0 clamp(6px, 0.62vw, 10px) var(--gold);
 }
 
-.homePhotoTower img {
-  object-position: center 77%;
-}
-
-.homePhotoHands {
-  width: min(25vw, 410px);
-  aspect-ratio: 2 / 3;
-  right: clamp(12vw, 23vw, 29vw);
-  bottom: clamp(140px, 18vw, 260px);
-}
-
-.homePhotoHands img {
-  object-position: center 66%;
+.homeStoryPortrait img {
+  object-position: center 56%;
 }
 
 .pageShell {
@@ -303,9 +349,19 @@ summary:focus-visible {
   background: var(--paper);
 }
 
+.schedulePage {
+  --schedule-header-height: 90px;
+}
+
+.schedulePage main {
+  min-height: calc(100svh - var(--schedule-header-height));
+  display: flex;
+  flex-direction: column;
+}
+
 .scheduleLead {
-  min-height: clamp(70px, 7vw, 110px);
-  padding: clamp(20px, 2.5vw, 40px) 22px 0;
+  min-height: clamp(100px, 8.5vw, 145px);
+  padding: clamp(38px, 3.5vw, 58px) 22px clamp(8px, 0.8vw, 14px);
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -330,7 +386,8 @@ summary:focus-visible {
 }
 
 .scheduleScene {
-  min-height: clamp(330px, 34vw, 560px);
+  flex: 1 0 auto;
+  min-height: 330px;
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -355,7 +412,7 @@ summary:focus-visible {
 
 .scheduleEvent {
   width: min(92vw, 980px);
-  padding-top: 0;
+  padding-top: clamp(24px, 2.4vw, 44px);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -371,25 +428,48 @@ summary:focus-visible {
 }
 
 .scheduleTime {
-  margin: clamp(8px, 1vw, 14px) 0 clamp(16px, 2vw, 28px);
+  margin: clamp(8px, 1vw, 14px) 0 clamp(16px, 1.6vw, 24px);
   font-size: clamp(1.2rem, 2.4vw, 2.5rem);
   line-height: 1;
 }
 
-.venueButton {
-  max-width: 360px;
-  padding: 8px 16px 7px;
-  display: grid;
-  color: #28472a;
-  border: 1px solid rgba(42, 68, 35, 0.45);
-  background: rgba(151, 164, 96, 0.48);
+.scheduleVenue {
+  margin: 0;
   font-size: clamp(1rem, 1.5vw, 1.35rem);
   line-height: 1.15;
-  text-decoration: none;
 }
 
-.venueButton strong {
+.scheduleVenue strong,
+.scheduleVenue address {
+  display: block;
+}
+
+.scheduleVenue strong {
   font-weight: 700;
+}
+
+.scheduleVenue address {
+  margin-top: 0.18em;
+  font-size: 1.15em;
+  font-style: normal;
+}
+
+.scheduleActions {
+  width: fit-content;
+  max-width: 92vw;
+  margin-top: clamp(18px, 1.8vw, 28px);
+  display: grid;
+  grid-template-columns: max-content max-content;
+  gap: clamp(10px, 1vw, 16px);
+}
+
+.scheduleActionLink {
+  min-width: 0;
+  padding-right: clamp(12px, 1.4vw, 20px);
+  padding-left: clamp(12px, 1.4vw, 20px);
+  margin-top: 0;
+  border-radius: 4px;
+  white-space: nowrap;
 }
 
 .travelIntro {
@@ -418,7 +498,7 @@ summary:focus-visible {
 }
 
 .hotelGrid {
-  width: min(88vw, 1600px);
+  width: var(--content);
   padding: clamp(30px, 2.5vw, 45px) 0 clamp(55px, 6vw, 100px);
   margin: 0 auto;
   display: grid;
@@ -484,7 +564,7 @@ summary:focus-visible {
 }
 
 .faqList {
-  width: min(89vw, 1500px);
+  width: var(--reading);
   min-height: calc(100svh - 90px);
   padding: clamp(20px, 2vw, 35px) 0 clamp(65px, 7vw, 115px);
   margin: 0 auto;
@@ -539,7 +619,7 @@ summary:focus-visible {
 }
 
 .rsvpNotice {
-  width: min(86vw, 1500px);
+  width: var(--reading);
   min-height: calc(100svh - 90px);
   padding: clamp(78px, 8vw, 125px) 0 clamp(60px, 6vw, 100px);
   margin: 0 auto;
@@ -550,19 +630,28 @@ summary:focus-visible {
 }
 
 .rsvpNotice p {
-  max-width: 1450px;
+  max-width: 100%;
   margin: 0;
   font-size: clamp(1.25rem, 2.1vw, 2.2rem);
   line-height: 1.25;
 }
 
 @media (max-width: 760px) {
+  :root {
+    --content: min(80vw, 620px);
+    --reading: min(80vw, 620px);
+  }
+
+  .schedulePage {
+    --schedule-header-height: 92px;
+  }
+
   .desktopHeader {
     display: none;
   }
 
   .mobileHeader {
-    width: min(90vw, 620px);
+    width: var(--content);
     min-height: 92px;
     margin: 0 auto;
     display: grid;
@@ -685,7 +774,7 @@ summary:focus-visible {
   }
 
   .homeTitleLockup {
-    padding: 71svh 0 18px;
+    padding: 76svh 0 18px;
   }
 
   .homeTitleLockup h1 {
@@ -708,39 +797,53 @@ summary:focus-visible {
     margin-top: 16px;
   }
 
-  .homeWelcome {
-    min-height: 430px;
-    padding: 45px 25px 50px;
+  .homePhotoStory {
+    padding-top: 34px;
+    padding-bottom: 0;
   }
 
-  .homeWelcome h2 {
+  .homeStoryPanorama {
+    aspect-ratio: 4 / 5;
+  }
+
+  .homeStoryPanorama img {
+    object-position: center bottom;
+  }
+
+  .homeStoryLower {
+    width: var(--content);
+    padding-bottom: 48px;
+    grid-template-columns: 1fr;
+    gap: 38px;
+  }
+
+  .homeStoryMessage {
+    padding-left: 0;
+  }
+
+  .homeStoryMessage h2 {
+    max-width: 10em;
     font-size: 4.1rem;
   }
 
-  .homeWelcome p {
-    margin-top: 42px;
-    font-size: 1.8rem;
+  .homeStoryIntro {
+    max-width: 22em;
+    margin-top: 24px;
+    font-size: 1.2rem;
   }
 
-  .homePhotoStory {
-    min-height: 940px;
+  .homeStoryDetails {
+    max-width: 25em;
+    font-size: 0.72rem;
   }
 
-  .homePhotoTower {
-    width: 63vw;
-    top: 72px;
-    left: 12vw;
-  }
-
-  .homePhotoHands {
-    width: 55vw;
-    right: 12vw;
-    bottom: 80px;
+  .homeStoryPortrait {
+    aspect-ratio: 4 / 3;
   }
 
   .scheduleLead {
-    min-height: 105px;
-    padding: 53px 18px 0;
+    min-height: 130px;
+    padding: 60px 18px 10px;
   }
 
   .scheduleLead h1 {
@@ -748,11 +851,12 @@ summary:focus-visible {
   }
 
   .scheduleScene {
-    min-height: 460px;
+    min-height: 345px;
   }
 
   .scheduleEvent {
-    padding-top: 0;
+    width: var(--content);
+    padding-top: 30px;
   }
 
   .scheduleEvent h2 {
@@ -764,13 +868,26 @@ summary:focus-visible {
     font-size: 1.65rem;
   }
 
-  .venueButton {
-    padding: 10px 14px;
+  .scheduleVenue {
     font-size: 1.1rem;
   }
 
+  .scheduleActions {
+    margin-top: 22px;
+    gap: 10px;
+  }
+
+  .scheduleActionLink {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .hotelLink.scheduleActionLink {
+    font-size: clamp(0.82rem, 3.7vw, 1rem);
+  }
+
   .travelIntro {
-    width: min(88vw, 620px);
+    width: var(--reading);
     min-height: 225px;
     padding: 73px 0 30px;
   }
@@ -785,7 +902,7 @@ summary:focus-visible {
   }
 
   .hotelGrid {
-    width: min(86vw, 600px);
+    width: var(--content);
     padding-top: 25px;
     grid-template-columns: 1fr;
     gap: 49px;
@@ -811,7 +928,7 @@ summary:focus-visible {
   }
 
   .faqList {
-    width: min(88vw, 620px);
+    width: var(--reading);
     min-height: calc(100svh - 92px);
     padding: 40px 0 50px;
   }
@@ -829,7 +946,7 @@ summary:focus-visible {
   }
 
   .rsvpNotice {
-    width: min(86vw, 620px);
+    width: var(--reading);
     min-height: calc(100svh - 92px);
     padding: 60px 0 50px;
   }
@@ -843,7 +960,7 @@ summary:focus-visible {
   .homeWelcome p { font-size: 1.45rem; }
   .scheduleEvent h2 { font-size: 1.6rem; }
   .scheduleTime { font-size: 1.32rem; }
-  .venueButton { font-size: 0.95rem; }
+  .scheduleVenue { font-size: 0.95rem; }
   .travelIntro p { font-size: 1.2rem; }
   .hotelCard p { font-size: 1.16rem; }
   .hotelLink { font-size: 1.08rem; }
@@ -859,7 +976,7 @@ summary:focus-visible {
   .homeWelcome p { font-size: clamp(0.945rem, 1.75vw, 1.785rem); }
   .scheduleEvent h2 { font-size: clamp(1.05rem, 1.82vw, 1.89rem); }
   .scheduleTime { font-size: clamp(0.84rem, 1.68vw, 1.75rem); }
-  .venueButton { font-size: clamp(0.7rem, 1.05vw, 0.945rem); }
+  .scheduleVenue { font-size: clamp(0.7rem, 1.05vw, 0.945rem); }
   .travelIntro p { font-size: clamp(0.875rem, 1.54vw, 1.645rem); }
   .hotelCard p { font-size: clamp(0.875rem, 1.47vw, 1.505rem); }
   .hotelLink { font-size: clamp(0.77rem, 1.4vw, 1.33rem); }
@@ -873,7 +990,7 @@ summary:focus-visible {
   .homeWelcome p { font-size: clamp(0.945rem, 1.75vw, 1.785rem); }
   .scheduleEvent h2 { font-size: clamp(1.05rem, 1.82vw, 1.89rem); }
   .scheduleTime { font-size: clamp(0.84rem, 1.68vw, 1.75rem); }
-  .venueButton { font-size: clamp(0.7rem, 1.05vw, 0.945rem); }
+  .scheduleVenue { font-size: clamp(0.7rem, 1.05vw, 0.945rem); }
   .travelIntro p { font-size: clamp(0.875rem, 1.54vw, 1.645rem); }
   .hotelCard p { font-size: clamp(0.875rem, 1.47vw, 1.505rem); }
   .hotelLink { font-size: clamp(0.77rem, 1.4vw, 1.33rem); }

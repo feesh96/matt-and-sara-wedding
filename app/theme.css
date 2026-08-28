@@ -11,10 +11,13 @@
   --paper-bright: #fbf8f1;
   --ink: #161411;
   --frame: #4d3829;
+  --gold-deep: #87682c;
+  --gold: #b49755;
+  --gold-light: #dbc582;
   --sage: #abb0a2;
   --sage-deep: #405c59;
   --script: "Milton One", "Cormorant Garamond", Georgia, serif;
   --print: "Cormorant Garamond", Georgia, serif;
-  --content: min(92vw, 1600px);
-  --reading: min(82vw, 1320px);
+  --content: min(78vw, 1240px);
+  --reading: min(66vw, 1100px);
 }
