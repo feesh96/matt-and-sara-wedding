@@ -165,7 +165,6 @@ summary:focus-visible {
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(180deg, transparent 90%, var(--paper) 100%),
     linear-gradient(180deg, rgba(244, 239, 230, 0.95) 0%, rgba(244, 239, 230, 0.3) 15%, transparent 28%),
     linear-gradient(
       180deg,
@@ -232,8 +231,36 @@ summary:focus-visible {
 }
 
 .homePhotoStory {
-  padding: clamp(44px, 5vw, 80px) 0 0;
+  padding: clamp(64px, 6vw, 104px) 0 0;
   background: var(--paper);
+}
+
+.homeStoryDivider {
+  width: min(32vw, 220px);
+  margin: 0 auto clamp(42px, 4vw, 64px);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--gold);
+}
+
+.homeStoryDivider::before,
+.homeStoryDivider::after {
+  height: 1px;
+  content: "";
+  flex: 1;
+  background: linear-gradient(90deg, transparent, currentColor);
+}
+
+.homeStoryDivider::after {
+  background: linear-gradient(90deg, currentColor, transparent);
+}
+
+.homeStoryDivider span {
+  width: 7px;
+  height: 7px;
+  border: 1px solid currentColor;
+  transform: rotate(45deg);
 }
 
 .homeStoryPanorama,
@@ -269,7 +296,7 @@ summary:focus-visible {
 .homeStoryLower {
   width: var(--content);
   margin: 0 auto;
-  padding-bottom: clamp(52px, 6vw, 96px);
+  padding-bottom: clamp(76px, 8vw, 128px);
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   gap: clamp(44px, 7vw, 130px);
@@ -288,11 +315,11 @@ summary:focus-visible {
 .homeStoryMessage h2 {
   max-width: 680px;
   margin: 0;
-  font-family: var(--script);
-  font-size: clamp(4rem, 7vw, 7.2rem);
-  font-weight: 700;
-  line-height: 0.9;
-  letter-spacing: 0;
+  font-family: var(--print);
+  font-size: clamp(2.6rem, 3.7vw, 4rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.01em;
 }
 
 .homeStoryIntro {
@@ -798,8 +825,13 @@ summary:focus-visible {
   }
 
   .homePhotoStory {
-    padding-top: 34px;
+    padding-top: 50px;
     padding-bottom: 0;
+  }
+
+  .homeStoryDivider {
+    width: min(46vw, 180px);
+    margin-bottom: 38px;
   }
 
   .homeStoryPanorama {
@@ -812,7 +844,7 @@ summary:focus-visible {
 
   .homeStoryLower {
     width: var(--content);
-    padding-bottom: 48px;
+    padding-bottom: 72px;
     grid-template-columns: 1fr;
     gap: 38px;
   }
@@ -823,7 +855,7 @@ summary:focus-visible {
 
   .homeStoryMessage h2 {
     max-width: 10em;
-    font-size: 4.1rem;
+    font-size: 2.9rem;
   }
 
   .homeStoryIntro {

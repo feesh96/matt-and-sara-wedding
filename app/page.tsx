@@ -29,6 +29,9 @@ export default function Home() {
       </section>
 
       <section className="homePhotoStory" aria-label="Sara and Matt in Japan">
+        <div className="homeStoryDivider" aria-hidden="true">
+          <span />
+        </div>
         <div className="homeStoryLower">
           <div className="homeStoryMessage">
             <h2>Welcome</h2>

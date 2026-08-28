@@ -16,6 +16,12 @@ test("shows the final home-page lockup and supplied photography", async ({ page 
     /holding-hands\.jpeg/,
   );
   await expect(page.getByRole("heading", { name: "Welcome" })).toBeVisible();
+  await expect(page.locator(".homeStoryDivider")).toHaveCount(1);
+  await expect(page.getByRole("heading", { name: "Welcome" })).toHaveCSS(
+    "font-family",
+    /Cormorant Garamond/,
+  );
+  await expect(page.getByRole("heading", { name: "Welcome" })).toHaveCSS("font-weight", "400");
 });
 
 test("keeps the home title visible and on one line across viewport shapes", async ({ page }) => {
