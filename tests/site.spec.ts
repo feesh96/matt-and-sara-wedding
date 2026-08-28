@@ -16,6 +16,26 @@ test("shows the final home-page lockup and supplied photography", async ({ page 
   );
 });
 
+test("keeps the home title visible and on one line across viewport shapes", async ({ page }) => {
+  for (const viewport of [
+    { width: 1440, height: 600 },
+    { width: 1366, height: 768 },
+    { width: 768, height: 1024 },
+    { width: 390, height: 844 },
+    { width: 320, height: 568 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await page.goto("/");
+
+    const title = page.getByRole("heading", { name: "Sara & Matt" });
+    const titleBox = await title.boundingBox();
+    expect(titleBox).not.toBeNull();
+    expect(titleBox!.y).toBeGreaterThanOrEqual(0);
+    expect(titleBox!.y + titleBox!.height).toBeLessThanOrEqual(viewport.height);
+    await expect(title).toHaveCSS("white-space", "nowrap");
+  }
+});
+
 test("desktop navigation reaches every available route and leaves Registry inert", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 960 });
   await page.goto("/");
@@ -43,6 +63,12 @@ test("mobile navigation opens and provides every working route", async ({ page }
   await page.goto("/");
 
   const menu = page.locator(".mobileMenu");
+  const wordmark = page.locator(".mobileHeader .wordmark");
+  const menuBox = await menu.boundingBox();
+  const wordmarkBox = await wordmark.boundingBox();
+  expect(menuBox).not.toBeNull();
+  expect(wordmarkBox).not.toBeNull();
+  expect(Math.abs(menuBox!.y + menuBox!.height / 2 - (wordmarkBox!.y + wordmarkBox!.height / 2))).toBeLessThanOrEqual(1);
   await expect(menu).not.toHaveAttribute("open", "");
   await menu.locator("summary").click();
   await expect(menu).toHaveAttribute("open", "");
@@ -50,7 +76,19 @@ test("mobile navigation opens and provides every working route", async ({ page }
   const navigation = page.getByRole("navigation", { name: "Mobile navigation" });
   await expect(navigation.getByRole("link", { name: "Schedule" })).toHaveAttribute("href", /\/schedule\/$/);
   await expect(navigation.getByRole("link", { name: "RSVP" })).toHaveAttribute("href", /\/rsvp\/$/);
-  await expect(navigation.locator(".navPending")).toHaveText("Registry");
+  const registry = navigation.locator(".navPending");
+  await expect(registry).toHaveText("Registry");
+  await expect(registry).toHaveCSS("text-transform", "none");
+  await expect(navigation).toHaveCSS("border-top-left-radius", "14px");
+  await expect(navigation.locator(".mobileNavIcon")).toHaveCount(6);
+
+  const menuItems = navigation.locator("li");
+  const firstItem = await menuItems.first().boundingBox();
+  const secondItem = await menuItems.nth(1).boundingBox();
+  expect(firstItem).not.toBeNull();
+  expect(secondItem).not.toBeNull();
+  expect(secondItem!.x).toBe(firstItem!.x);
+  expect(secondItem!.y).toBeGreaterThan(firstItem!.y);
 });
 
 test("schedule presents the event and its exact map destination", async ({ page }) => {

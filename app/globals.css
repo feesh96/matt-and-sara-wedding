@@ -62,8 +62,10 @@ summary {
   min-height: 90px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: auto auto auto;
+  column-gap: clamp(52px, 4.8vw, 92px);
   align-items: center;
+  justify-content: center;
 }
 
 .desktopNav ul,
@@ -76,11 +78,15 @@ summary {
 .desktopNav ul {
   display: flex;
   align-items: center;
-  gap: clamp(24px, 4.5vw, 86px);
+  gap: clamp(52px, 4.8vw, 92px);
+}
+
+.desktopNavLeft ul {
+  justify-content: center;
 }
 
 .desktopNavRight ul {
-  justify-content: flex-end;
+  justify-content: center;
 }
 
 .desktopNav a,
@@ -141,7 +147,7 @@ summary:focus-visible {
 }
 
 .homeHero {
-  min-height: clamp(780px, 72vw, 1120px);
+  min-height: 100svh;
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -150,7 +156,7 @@ summary:focus-visible {
 .homeGates {
   z-index: -3;
   object-fit: cover;
-  object-position: center 50%;
+  object-position: center bottom;
 }
 
 .homeHeroWash {
@@ -159,13 +165,21 @@ summary:focus-visible {
   inset: 0;
   pointer-events: none;
   background:
+    linear-gradient(180deg, transparent 90%, var(--paper) 100%),
     linear-gradient(180deg, rgba(244, 239, 230, 0.95) 0%, rgba(244, 239, 230, 0.3) 15%, transparent 28%),
-    linear-gradient(180deg, transparent 44%, rgba(244, 239, 230, 0.05) 58%, var(--paper) 94%, var(--paper) 100%);
+    linear-gradient(
+      180deg,
+      transparent 48%,
+      rgba(244, 239, 230, 0.08) 56%,
+      rgba(244, 239, 230, 0.4) 66%,
+      rgba(244, 239, 230, 0.7) 72%,
+      rgba(244, 239, 230, 0.82) 100%
+    );
 }
 
 .homeTitleLockup {
   width: min(92vw, 1100px);
-  padding: clamp(475px, 46.5vw, 730px) 0 0;
+  padding: 71svh 0 clamp(12px, 2svh, 32px);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -186,7 +200,7 @@ summary:focus-visible {
   max-width: 100%;
   margin: 0;
   color: #25221f;
-  font-size: clamp(4.4rem, 10.5vw, 10.5rem);
+  font-size: clamp(4.4rem, min(10.5vw, 16svh), 10.5rem);
   line-height: 0.86;
   letter-spacing: 0;
   white-space: nowrap;
@@ -198,7 +212,7 @@ summary:focus-visible {
 }
 
 .homeTitleLockup p {
-  margin: 30px 0 0;
+  margin: 16px 0 0;
   font-size: clamp(1.05rem, 2.2vw, 1.6rem);
   font-weight: 400;
   letter-spacing: 0.28em;
@@ -207,19 +221,19 @@ summary:focus-visible {
 }
 
 .homeTitleLockup p + p {
-  margin-top: 18px;
+  margin-top: 10px;
 }
 
 .titleRule {
   width: 160px;
   height: 1px;
-  margin-top: 42px;
+  margin-top: 20px;
   background: currentColor;
 }
 
 .homeWelcome {
   min-height: clamp(350px, 34vw, 550px);
-  padding: clamp(80px, 9vw, 150px) 22px clamp(80px, 9vw, 150px);
+  padding: clamp(40px, 4.5vw, 75px) 22px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -243,7 +257,7 @@ summary:focus-visible {
 
 .homePhotoStory {
   min-height: clamp(740px, 80vw, 1380px);
-  padding: 80px 0 140px;
+  padding: 40px 0 70px;
   position: relative;
   background: linear-gradient(180deg, var(--paper) 0%, #b9b9ac 24%, #9ea396 100%);
 }
@@ -290,8 +304,8 @@ summary:focus-visible {
 }
 
 .scheduleLead {
-  min-height: clamp(140px, 14vw, 220px);
-  padding: clamp(40px, 5vw, 80px) 22px 0;
+  min-height: clamp(70px, 7vw, 110px);
+  padding: clamp(20px, 2.5vw, 40px) 22px 0;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -380,8 +394,8 @@ summary:focus-visible {
 
 .travelIntro {
   width: var(--reading);
-  min-height: clamp(370px, 36vw, 600px);
-  padding: clamp(155px, 16vw, 255px) 0 70px;
+  min-height: clamp(185px, 18vw, 300px);
+  padding: clamp(78px, 8vw, 128px) 0 35px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -405,7 +419,7 @@ summary:focus-visible {
 
 .hotelGrid {
   width: min(88vw, 1600px);
-  padding: clamp(60px, 5vw, 90px) 0 clamp(110px, 12vw, 200px);
+  padding: clamp(30px, 2.5vw, 45px) 0 clamp(55px, 6vw, 100px);
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -472,7 +486,7 @@ summary:focus-visible {
 .faqList {
   width: min(89vw, 1500px);
   min-height: calc(100svh - 90px);
-  padding: clamp(40px, 4vw, 70px) 0 clamp(130px, 14vw, 230px);
+  padding: clamp(20px, 2vw, 35px) 0 clamp(65px, 7vw, 115px);
   margin: 0 auto;
 }
 
@@ -527,7 +541,7 @@ summary:focus-visible {
 .rsvpNotice {
   width: min(86vw, 1500px);
   min-height: calc(100svh - 90px);
-  padding: clamp(155px, 16vw, 250px) 0 clamp(120px, 12vw, 200px);
+  padding: clamp(78px, 8vw, 125px) 0 clamp(60px, 6vw, 100px);
   margin: 0 auto;
   display: flex;
   align-items: flex-start;
@@ -551,29 +565,35 @@ summary:focus-visible {
     width: min(90vw, 620px);
     min-height: 92px;
     margin: 0 auto;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    justify-content: space-between;
   }
 
-  .wordmark {
+  .mobileHeader .wordmark {
+    grid-column: 2;
+    grid-row: 1;
     width: 72px;
   }
 
   .mobileMenu {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
     position: relative;
   }
 
   .menuButton {
-    padding: 8px 0 7px;
-    display: inline-flex;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    display: inline-grid;
+    place-items: center;
     align-items: center;
-    gap: 10px;
     border: 0;
     color: inherit;
     background: transparent;
     cursor: pointer;
-    font-size: 1.25rem;
     list-style: none;
   }
 
@@ -581,31 +601,46 @@ summary:focus-visible {
     display: none;
   }
 
-  .menuCloseLabel {
-    display: none;
+  .menuIcon {
+    width: 25px;
+    display: grid;
+    gap: 5px;
   }
 
-  .mobileMenu[open] .menuOpenLabel {
-    display: none;
-  }
-
-  .mobileMenu[open] .menuCloseLabel {
-    display: inline;
-  }
-
-  .menuRule {
-    width: 27px;
+  .menuIcon span {
+    display: block;
     height: 1px;
     background: currentColor;
+    transform-origin: center;
+    transition: transform 180ms ease, opacity 180ms ease;
+  }
+
+  .mobileMenu[open] .menuIcon span:first-child {
+    transform: translateY(6px) rotate(45deg);
+  }
+
+  .mobileMenu[open] .menuIcon span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .mobileMenu[open] .menuIcon span:last-child {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .menuIcon span {
+      transition: none;
+    }
   }
 
   .mobileNav {
-    width: min(90vw, 620px);
-    padding: 10px 0 20px;
+    width: min(76vw, 330px);
+    padding: 16px;
     position: absolute;
     top: calc(100% + 10px);
-    right: 0;
-    border-top: 1px solid rgba(77, 56, 41, 0.36);
+    left: 0;
+    border: 1px solid rgba(77, 56, 41, 0.22);
+    border-radius: 14px;
     background: var(--paper);
     box-shadow: 0 18px 24px rgba(77, 56, 41, 0.12);
   }
@@ -616,52 +651,66 @@ summary:focus-visible {
 
   .mobileNav ul {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0;
+    grid-template-columns: 1fr;
+    gap: 4px;
   }
 
   .mobileNav a,
   .mobileNav .navPending {
-    padding: 12px 0;
-    display: block;
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
     font-size: 1.45rem;
+    text-align: left;
     text-decoration: none;
   }
 
+  .mobileNav .navPending {
+    text-transform: none;
+  }
+
+  .mobileNavIcon {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
+  }
+
   .homeHero {
-    min-height: 700px;
+    min-height: 100svh;
   }
 
   .homeGates {
-    object-position: 60% 50%;
+    object-position: 60% bottom;
   }
 
   .homeTitleLockup {
-    padding: 440px 0 46px;
+    padding: 71svh 0 18px;
   }
 
   .homeTitleLockup h1 {
-    font-size: clamp(3.9rem, 17vw, 5.7rem);
-    white-space: normal;
+    font-size: clamp(3rem, min(17vw, 14svh), 5.7rem);
+    white-space: nowrap;
   }
 
   .homeTitleLockup p {
-    margin-top: 24px;
+    margin-top: 14px;
     font-size: 1rem;
+    letter-spacing: 0.22em;
   }
 
   .homeTitleLockup p + p {
-    margin-top: 14px;
+    margin-top: 8px;
   }
 
   .titleRule {
     width: 108px;
-    margin-top: 30px;
+    margin-top: 16px;
   }
 
   .homeWelcome {
     min-height: 430px;
-    padding: 90px 25px 100px;
+    padding: 45px 25px 50px;
   }
 
   .homeWelcome h2 {
@@ -690,8 +739,8 @@ summary:focus-visible {
   }
 
   .scheduleLead {
-    min-height: 210px;
-    padding: 105px 18px 0;
+    min-height: 105px;
+    padding: 53px 18px 0;
   }
 
   .scheduleLead h1 {
@@ -722,8 +771,8 @@ summary:focus-visible {
 
   .travelIntro {
     width: min(88vw, 620px);
-    min-height: 450px;
-    padding: 145px 0 60px;
+    min-height: 225px;
+    padding: 73px 0 30px;
   }
 
   .travelIntro h1 {
@@ -737,9 +786,9 @@ summary:focus-visible {
 
   .hotelGrid {
     width: min(86vw, 600px);
-    padding-top: 50px;
+    padding-top: 25px;
     grid-template-columns: 1fr;
-    gap: 98px;
+    gap: 49px;
   }
 
   .hotelArtwork {
@@ -764,7 +813,7 @@ summary:focus-visible {
   .faqList {
     width: min(88vw, 620px);
     min-height: calc(100svh - 92px);
-    padding: 80px 0 100px;
+    padding: 40px 0 50px;
   }
 
   .faqList summary {
@@ -782,33 +831,52 @@ summary:focus-visible {
   .rsvpNotice {
     width: min(86vw, 620px);
     min-height: calc(100svh - 92px);
-    padding: 120px 0 100px;
+    padding: 60px 0 50px;
   }
 
   .rsvpNotice p {
     font-size: 1.45rem;
   }
+
+  /* Keep small-screen copy comfortably readable while reducing the print type. */
+  .homeTitleLockup p { font-size: 0.9rem; }
+  .homeWelcome p { font-size: 1.45rem; }
+  .scheduleEvent h2 { font-size: 1.6rem; }
+  .scheduleTime { font-size: 1.32rem; }
+  .venueButton { font-size: 0.95rem; }
+  .travelIntro p { font-size: 1.2rem; }
+  .hotelCard p { font-size: 1.16rem; }
+  .hotelLink { font-size: 1.08rem; }
+  .faqList details p { font-size: 1.28rem; }
+  .rsvpNotice p { font-size: 1.16rem; }
 }
 
 /* The desktop artboards use generous display type.  Scale it down on smaller
    laptop screens while preserving the same hierarchy and line breaks. */
 @media (min-width: 761px) and (max-width: 1200px) {
   body { font-size: clamp(0.85rem, 1.19vw, 1.05rem); }
-  .desktopNav a, .navPending, .menuButton { font-size: clamp(0.7rem, 1.19vw, 1.015rem); }
-  .homeTitleLockup h1 { font-size: clamp(3.08rem, 7.35vw, 7.35rem); }
   .homeTitleLockup p { font-size: clamp(0.735rem, 1.54vw, 1.12rem); }
-  .homeWelcome h2 { font-size: clamp(2.8rem, 5.6vw, 5.6rem); }
   .homeWelcome p { font-size: clamp(0.945rem, 1.75vw, 1.785rem); }
-  .scheduleLead h1 { font-size: clamp(2.17rem, 3.64vw, 3.92rem); }
   .scheduleEvent h2 { font-size: clamp(1.05rem, 1.82vw, 1.89rem); }
   .scheduleTime { font-size: clamp(0.84rem, 1.68vw, 1.75rem); }
   .venueButton { font-size: clamp(0.7rem, 1.05vw, 0.945rem); }
-  .travelIntro h1 { font-size: clamp(2.8rem, 5.81vw, 5.74rem); }
   .travelIntro p { font-size: clamp(0.875rem, 1.54vw, 1.645rem); }
-  .hotelCard h2 { font-size: clamp(1.89rem, 3.5vw, 3.85rem); }
   .hotelCard p { font-size: clamp(0.875rem, 1.47vw, 1.505rem); }
   .hotelLink { font-size: clamp(0.77rem, 1.4vw, 1.33rem); }
-  .faqList summary { font-size: clamp(1.89rem, 3.92vw, 3.99rem); }
+  .faqList details p { font-size: clamp(1.015rem, 2.17vw, 2.17rem); }
+  .rsvpNotice p { font-size: clamp(0.875rem, 1.47vw, 1.54rem); }
+}
+
+@media (min-width: 1201px) {
+  body { font-size: clamp(0.735rem, 1.19vw, 1.05rem); }
+  .homeTitleLockup p { font-size: clamp(0.735rem, 1.54vw, 1.12rem); }
+  .homeWelcome p { font-size: clamp(0.945rem, 1.75vw, 1.785rem); }
+  .scheduleEvent h2 { font-size: clamp(1.05rem, 1.82vw, 1.89rem); }
+  .scheduleTime { font-size: clamp(0.84rem, 1.68vw, 1.75rem); }
+  .venueButton { font-size: clamp(0.7rem, 1.05vw, 0.945rem); }
+  .travelIntro p { font-size: clamp(0.875rem, 1.54vw, 1.645rem); }
+  .hotelCard p { font-size: clamp(0.875rem, 1.47vw, 1.505rem); }
+  .hotelLink { font-size: clamp(0.77rem, 1.4vw, 1.33rem); }
   .faqList details p { font-size: clamp(1.015rem, 2.17vw, 2.17rem); }
   .rsvpNotice p { font-size: clamp(0.875rem, 1.47vw, 1.54rem); }
 }

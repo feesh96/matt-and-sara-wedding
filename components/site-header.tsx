@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { site, type NavigationItem } from "@/lib/site";
 
 type SiteHeaderProps = {
@@ -8,8 +9,10 @@ type SiteHeaderProps = {
 
 function NavigationItems({
   side,
+  mobile = false,
 }: {
   side?: NavigationItem["side"];
+  mobile?: boolean;
 }) {
   const items = side ? site.navigation.filter((item) => item.side === side) : site.navigation;
 
@@ -17,15 +20,34 @@ function NavigationItems({
     <li key={item.label}>
       {item.pending ? (
         <span className="navPending" aria-disabled="true">
+          {mobile && <MobileNavIcon label={item.label} />}
           {item.label}
         </span>
       ) : (
         <Link href={item.href}>
+          {mobile && <MobileNavIcon label={item.label} />}
           {item.label}
         </Link>
       )}
     </li>
   ));
+}
+
+function MobileNavIcon({ label }: { label: string }) {
+  const paths: Record<string, ReactNode> = {
+    Home: <path d="m3 10 9-7 9 7v10H3V10Zm6 10v-6h6v6" />,
+    Schedule: <path d="M5 4h14v16H5V4Zm0 5h14M8 2v4m8-4v4" />,
+    Travel: <path d="M5 8h14v12H5V8Zm4 0V5h6v3m-3 4v4" />,
+    Registry: <path d="M4 10h16v10H4V10Zm8 0v10M3 6h18v4H3V6Zm9 0c-3 0-4-4-1-4 2 0 1 3 1 4Zm0 0c3 0 4-4 1-4-2 0-1 3-1 4Z" />,
+    FAQs: <path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm-2-11a2 2 0 1 1 3.6 1.2c-.8 1.1-1.6 1.2-1.6 2.8m0 3h.01" />,
+    RSVP: <path d="M3 6h18v12H3V6Zm0 1 9 6 9-6" />,
+  };
+
+  return (
+    <svg className="mobileNavIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" aria-hidden="true">
+      {paths[label]}
+    </svg>
+  );
 }
 
 export function SiteHeader({ overlay = false }: SiteHeaderProps) {
@@ -55,13 +77,16 @@ export function SiteHeader({ overlay = false }: SiteHeaderProps) {
         </Link>
         <details className="mobileMenu">
           <summary className="menuButton">
-            <span className="menuOpenLabel">Menu</span>
-            <span className="menuCloseLabel">Close</span>
-            <span className="menuRule" aria-hidden="true" />
+            <span className="visuallyHidden">Toggle navigation</span>
+            <span className="menuIcon" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </span>
           </summary>
           <nav id="mobile-navigation" className="mobileNav" aria-label="Mobile navigation">
             <ul>
-              <NavigationItems />
+              <NavigationItems mobile />
             </ul>
           </nav>
         </details>
