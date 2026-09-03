@@ -1,6 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { usePathname } from "next/navigation";
 import { site, type NavigationItem } from "@/lib/site";
 
 type SiteHeaderProps = {
@@ -10,9 +13,11 @@ type SiteHeaderProps = {
 function NavigationItems({
   side,
   mobile = false,
+  pathname,
 }: {
   side?: NavigationItem["side"];
   mobile?: boolean;
+  pathname: string;
 }) {
   const items = side ? site.navigation.filter((item) => item.side === side) : site.navigation;
 
@@ -23,8 +28,16 @@ function NavigationItems({
           {mobile && <MobileNavIcon label={item.label} />}
           {item.label}
         </span>
+      ) : item.external ? (
+        <a href={item.href} target="_blank" rel="noreferrer">
+          {mobile && <MobileNavIcon label={item.label} />}
+          {item.label}
+        </a>
       ) : (
-        <Link href={item.href}>
+        <Link
+          href={item.href}
+          aria-current={pathname === item.href ? "page" : undefined}
+        >
           {mobile && <MobileNavIcon label={item.label} />}
           {item.label}
         </Link>
@@ -52,13 +65,14 @@ function MobileNavIcon({ label }: { label: string }) {
 
 export function SiteHeader({ overlay = false }: SiteHeaderProps) {
   const headerClassName = `siteHeader${overlay ? " siteHeaderOverlay" : ""}`;
+  const pathname = usePathname().replace(/\/$/, "") || "/";
 
   return (
     <header className={headerClassName}>
       <div className="desktopHeader">
         <nav className="desktopNav desktopNavLeft" aria-label="Primary navigation">
           <ul>
-            <NavigationItems side="left" />
+            <NavigationItems side="left" pathname={pathname} />
           </ul>
         </nav>
         <Link className="wordmark" href="/" aria-label="Sara and Matt, home">
@@ -66,7 +80,7 @@ export function SiteHeader({ overlay = false }: SiteHeaderProps) {
         </Link>
         <nav className="desktopNav desktopNavRight" aria-label="Secondary navigation">
           <ul>
-            <NavigationItems side="right" />
+            <NavigationItems side="right" pathname={pathname} />
           </ul>
         </nav>
       </div>
@@ -78,6 +92,7 @@ export function SiteHeader({ overlay = false }: SiteHeaderProps) {
         <details className="mobileMenu">
           <summary className="menuButton">
             <span className="visuallyHidden">Toggle navigation</span>
+            <span className="menuButtonLabel" aria-hidden="true">Menu</span>
             <span className="menuIcon" aria-hidden="true">
               <span />
               <span />
@@ -86,7 +101,7 @@ export function SiteHeader({ overlay = false }: SiteHeaderProps) {
           </summary>
           <nav id="mobile-navigation" className="mobileNav" aria-label="Mobile navigation">
             <ul>
-              <NavigationItems mobile />
+              <NavigationItems mobile pathname={pathname} />
             </ul>
           </nav>
         </details>

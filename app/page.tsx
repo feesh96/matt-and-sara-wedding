@@ -5,6 +5,7 @@ import { site } from "@/lib/site";
 export default function Home() {
   return (
     <main className="homePage">
+      <SiteHeader overlay />
       <section className="homeHero" aria-labelledby="home-title">
         <Image
           className="homeGates"
@@ -15,7 +16,6 @@ export default function Home() {
           sizes="100vw"
         />
         <div className="homeHeroWash" aria-hidden="true" />
-        <SiteHeader overlay />
         <div className="homeTitleLockup">
           <h1 id="home-title" aria-label={site.couple.displayNames}>
             Sara <span aria-hidden="true">&amp;</span> Matt
@@ -24,7 +24,6 @@ export default function Home() {
             <time dateTime={site.wedding.dateIso}>{site.wedding.date}</time>
           </p>
           <p>{site.wedding.city}</p>
-          <span className="titleRule" aria-hidden="true" />
         </div>
       </section>
 
@@ -38,12 +37,6 @@ export default function Home() {
             <p className="homeStoryIntro">
               We look forward to celebrating our marriage with you at {site.wedding.venue} in
               Princeton.
-            </p>
-            <span className="homeStoryRule" aria-hidden="true" />
-            <p className="homeStoryDetails">
-              <time dateTime={site.wedding.dateIso}>05.30, 2027</time>
-              <span aria-hidden="true"> · </span>
-              {site.wedding.city}
             </p>
           </div>
           <figure className="homeStoryPortrait">

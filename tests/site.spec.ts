@@ -5,7 +5,7 @@ test("shows the final home-page lockup and supplied photography", async ({ page 
 
   await expect(page.getByRole("heading", { name: "Sara & Matt" })).toBeVisible();
   await expect(page.getByText("May 30, 2027", { exact: true })).toBeVisible();
-  await expect(page.getByText("05.30, 2027", { exact: true })).toBeVisible();
+  await expect(page.getByText("05.30, 2027", { exact: true })).toHaveCount(0);
   await expect(page.getByText(/We look forward to celebrating our marriage/)).toBeVisible();
   await expect(page.getByAltText("Sara and Matt in front of a pagoda tower in Japan")).toHaveAttribute(
     "src",
@@ -19,9 +19,9 @@ test("shows the final home-page lockup and supplied photography", async ({ page 
   await expect(page.locator(".homeStoryDivider")).toHaveCount(1);
   await expect(page.getByRole("heading", { name: "Welcome" })).toHaveCSS(
     "font-family",
-    /Cormorant Garamond/,
+    /Milton One/,
   );
-  await expect(page.getByRole("heading", { name: "Welcome" })).toHaveCSS("font-weight", "400");
+  await expect(page.getByRole("heading", { name: "Welcome" })).toHaveCSS("font-weight", "700");
 });
 
 test("keeps the home title visible and on one line across viewport shapes", async ({ page }) => {
@@ -44,7 +44,7 @@ test("keeps the home title visible and on one line across viewport shapes", asyn
   }
 });
 
-test("desktop navigation reaches every available route and leaves Registry inert", async ({ page }) => {
+test("desktop navigation reaches every available route", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 960 });
   await page.goto("/");
   const navigation = page.getByRole("navigation", { name: "Primary navigation" });
@@ -58,10 +58,11 @@ test("desktop navigation reaches every available route and leaves Registry inert
     await expect(navigation.getByRole("link", { name: label })).toHaveAttribute("href", expectedHref);
   }
 
-  await expect(page.locator(".desktopNavRight .navPending")).toHaveText("Registry");
-  await expect(page.locator(".desktopNavRight a", { hasText: "Registry" })).toHaveCount(0);
-
   const secondaryNavigation = page.getByRole("navigation", { name: "Secondary navigation" });
+  await expect(secondaryNavigation.getByRole("link", { name: "Registry" })).toHaveAttribute(
+    "href",
+    "/registry/",
+  );
   await expect(secondaryNavigation.getByRole("link", { name: "FAQs" })).toHaveAttribute("href", "/faq/");
   await expect(secondaryNavigation.getByRole("link", { name: "RSVP" })).toHaveAttribute("href", "/rsvp/");
 });
@@ -82,11 +83,12 @@ test("mobile navigation opens and provides every working route", async ({ page }
   await expect(menu).toHaveAttribute("open", "");
 
   const navigation = page.getByRole("navigation", { name: "Mobile navigation" });
+  await expect(menu.getByText("Menu", { exact: true })).toBeVisible();
+  await expect(navigation.getByRole("link", { name: "Home" })).toHaveAttribute("aria-current", "page");
   await expect(navigation.getByRole("link", { name: "Schedule" })).toHaveAttribute("href", /\/schedule\/$/);
   await expect(navigation.getByRole("link", { name: "RSVP" })).toHaveAttribute("href", /\/rsvp\/$/);
-  const registry = navigation.locator(".navPending");
-  await expect(registry).toHaveText("Registry");
-  await expect(registry).toHaveCSS("text-transform", "none");
+  const registry = navigation.getByRole("link", { name: "Registry" });
+  await expect(registry).toHaveAttribute("href", /\/registry\/$/);
   await expect(navigation).toHaveCSS("border-top-left-radius", "14px");
   await expect(navigation.locator(".mobileNavIcon")).toHaveCount(6);
 
@@ -97,6 +99,19 @@ test("mobile navigation opens and provides every working route", async ({ page }
   expect(secondItem).not.toBeNull();
   expect(secondItem!.x).toBe(firstItem!.x);
   expect(secondItem!.y).toBeGreaterThan(firstItem!.y);
+});
+
+test("mobile header remains pinned while scrolling", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  await page.evaluate(() => window.scrollTo(0, 1000));
+
+  const headerBox = await page.locator(".siteHeader").boundingBox();
+  expect(headerBox).not.toBeNull();
+  expect(headerBox!.y).toBe(0);
+  expect(
+    await page.evaluate(() => document.elementFromPoint(window.innerWidth / 2, 46)?.closest(".siteHeader") !== null),
+  ).toBe(true);
 });
 
 test("schedule presents the event and its exact map destination", async ({ page }) => {
@@ -133,6 +148,7 @@ test("schedule presents the event and its exact map destination", async ({ page 
 });
 
 test("travel preserves both room-block destinations", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 960 });
   await page.goto("/travel");
   await expect(page.getByRole("heading", { name: "Accommodations" })).toBeVisible();
 
@@ -146,6 +162,27 @@ test("travel preserves both room-block destinations", async ({ page }) => {
   const graduate = page.getByRole("link", { name: /room block for The Graduate by Hilton/ });
   await expect(graduate).toHaveAttribute("href", /groupCode=GRPSAC/);
   await expect(graduate).toHaveAttribute("rel", /noreferrer/);
+
+  const buttons = page.locator(".hotelLink");
+  const firstButton = await buttons.first().boundingBox();
+  const secondButton = await buttons.nth(1).boundingBox();
+  expect(firstButton).not.toBeNull();
+  expect(secondButton).not.toBeNull();
+  expect(Math.abs(firstButton!.y - secondButton!.y)).toBeLessThanOrEqual(1);
+});
+
+test("registry provides the Joy link and password", async ({ page }) => {
+  await page.goto("/registry");
+
+  await expect(page.getByRole("heading", { name: "Registry" })).toBeVisible();
+  await expect(page.getByText("jragnk", { exact: true })).toBeVisible();
+  const registryLink = page.getByRole("link", { name: "View our registry" });
+  await expect(registryLink).toHaveAttribute(
+    "href",
+    /withjoy\.com\/matthew-and-sara-may-2027\/registry/,
+  );
+  await expect(registryLink).toHaveAttribute("target", "_blank");
+  await expect(registryLink).toHaveAttribute("rel", /noopener/);
 });
 
 test("FAQs begin collapsed and can be expanded", async ({ page }) => {
@@ -171,6 +208,7 @@ test("phone layouts have no horizontal overflow", async ({ page }) => {
     ["/", ".homeStoryLower"],
     ["/schedule", ".scheduleEvent"],
     ["/travel", ".travelIntro"],
+    ["/registry", ".registryIntro"],
     ["/faq", ".faqList"],
     ["/rsvp", ".rsvpNotice"],
   ] as const) {

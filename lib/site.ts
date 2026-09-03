@@ -3,6 +3,7 @@ export type NavigationItem =
       label: string;
       side: "left" | "right";
       href: string;
+      external?: boolean;
       pending?: false;
     }
   | {
@@ -23,7 +24,11 @@ const navigation: readonly NavigationItem[] = [
   { label: "Home", side: "left", href: "/" },
   { label: "Schedule", side: "left", href: "/schedule" },
   { label: "Travel", side: "left", href: "/travel" },
-  { label: "Registry", side: "right", pending: true },
+  {
+    label: "Registry",
+    side: "right",
+    href: "/registry",
+  },
   { label: "FAQs", side: "right", href: "/faq" },
   { label: "RSVP", side: "right", href: "/rsvp" },
 ];
@@ -73,6 +78,11 @@ export const site = {
     accommodations:
       "We have reserved room blocks at two hotels in the heart of downtown Princeton. The hotels are a three-minute walk from one another and approximately an 11-minute drive from TPC Jasna Polana. Shuttle transportation will be provided between the hotels and the venue on the wedding day.",
     hotels,
+  },
+  registry: {
+    password: "jragnk",
+    joyUrl:
+      "https://withjoy.com/matthew-and-sara-may-2027/registry?utm_medium=web&utm_source=joy&utm_campaign=share_website_dialog",
   },
   faqs: [
     {

@@ -165,7 +165,7 @@ summary:focus-visible {
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(180deg, rgba(244, 239, 230, 0.95) 0%, rgba(244, 239, 230, 0.3) 15%, transparent 28%),
+    linear-gradient(180deg, rgba(244, 239, 230, 0.99) 0%, rgba(244, 239, 230, 0.82) 12%, rgba(244, 239, 230, 0.4) 23%, transparent 34%),
     linear-gradient(
       180deg,
       transparent 48%,
@@ -221,13 +221,6 @@ summary:focus-visible {
 
 .homeTitleLockup p + p {
   margin-top: 10px;
-}
-
-.titleRule {
-  width: 160px;
-  height: 1px;
-  margin-top: 20px;
-  background: currentColor;
 }
 
 .homePhotoStory {
@@ -307,19 +300,14 @@ summary:focus-visible {
   padding-left: clamp(0px, 2vw, 28px);
 }
 
-.homeStoryDetails {
-  margin: 0;
-  text-transform: uppercase;
-}
-
 .homeStoryMessage h2 {
   max-width: 680px;
   margin: 0;
-  font-family: var(--print);
-  font-size: clamp(2.6rem, 3.7vw, 4rem);
-  font-weight: 400;
-  line-height: 1;
-  letter-spacing: 0.01em;
+  font-family: var(--script);
+  font-size: clamp(2.8rem, 3.9vw, 4.15rem);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: 0;
 }
 
 .homeStoryIntro {
@@ -328,27 +316,6 @@ summary:focus-visible {
   font-size: clamp(1.05rem, 1.45vw, 1.55rem);
   font-weight: 300;
   line-height: 1.35;
-}
-
-.homeStoryRule {
-  width: clamp(82px, 9vw, 145px);
-  height: 1px;
-  margin-top: clamp(28px, 3.4vw, 52px);
-  display: block;
-  background: currentColor;
-}
-
-.homeStoryDetails {
-  margin-top: 18px;
-  font-size: clamp(0.72rem, 0.82vw, 0.92rem);
-  letter-spacing: 0.16em;
-  line-height: 1.5;
-}
-
-.homeStoryDetails time {
-  font-size: calc(1em + 4px);
-  font-variant-numeric: lining-nums;
-  letter-spacing: 0.1em;
 }
 
 .homeStoryPortrait {
@@ -563,6 +530,7 @@ summary:focus-visible {
 .hotelCard p {
   max-width: 620px;
   margin: clamp(34px, 3.4vw, 56px) 0 0;
+  flex: 1 0 auto;
   font-size: clamp(1.25rem, 2.1vw, 2.15rem);
   line-height: 1.35;
 }
@@ -578,6 +546,179 @@ summary:focus-visible {
   line-height: 1;
   text-decoration: none;
   text-transform: uppercase;
+}
+
+.registryPage {
+  min-height: 100svh;
+  background:
+    radial-gradient(circle at 50% 38%, rgba(219, 197, 130, 0.12), transparent 34%),
+    var(--paper);
+}
+
+.registryIntro {
+  width: var(--reading);
+  padding: clamp(55px, 6vw, 96px) 0 clamp(76px, 8vw, 130px);
+  margin: 0 auto;
+  display: grid;
+  justify-items: center;
+  gap: clamp(44px, 5vw, 78px);
+  text-align: center;
+}
+
+.registryMessage {
+  display: grid;
+  justify-items: center;
+}
+
+.registryMessage h1 {
+  margin: 0;
+  font-family: var(--script);
+  font-size: clamp(4rem, 7vw, 7rem);
+  font-weight: 700;
+  line-height: 0.88;
+}
+
+.registryDivider {
+  width: min(32vw, 180px);
+  margin: clamp(28px, 3vw, 42px) 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--gold);
+}
+
+.registryDivider::before,
+.registryDivider::after {
+  height: 1px;
+  content: "";
+  flex: 1;
+  background: linear-gradient(90deg, transparent, currentColor);
+}
+
+.registryDivider::after {
+  background: linear-gradient(90deg, currentColor, transparent);
+}
+
+.registryDivider span {
+  width: 7px;
+  height: 7px;
+  border: 1px solid currentColor;
+  transform: rotate(45deg);
+}
+
+.registryMessage > p {
+  max-width: 710px;
+  margin: 0;
+  font-size: clamp(1.2rem, 1.8vw, 1.85rem);
+  line-height: 1.38;
+}
+
+.registryCard {
+  width: min(100%, 620px);
+  padding: clamp(42px, 5vw, 72px) clamp(30px, 6vw, 82px) clamp(46px, 5.5vw, 78px);
+  position: relative;
+  border: 1px solid var(--gold);
+  background: rgba(251, 248, 241, 0.72);
+  box-shadow:
+    0 0 0 7px var(--paper),
+    0 0 0 8px rgba(180, 151, 85, 0.52);
+}
+
+.registryCard::before,
+.registryCard::after {
+  width: 28px;
+  height: 28px;
+  position: absolute;
+  content: "";
+  border-color: var(--gold-deep);
+  pointer-events: none;
+}
+
+.registryCard::before {
+  top: 13px;
+  left: 13px;
+  border-top: 1px solid;
+  border-left: 1px solid;
+}
+
+.registryCard::after {
+  right: 13px;
+  bottom: 13px;
+  border-right: 1px solid;
+  border-bottom: 1px solid;
+}
+
+.registryKicker {
+  margin: 0;
+  color: var(--gold-deep);
+  font-size: clamp(0.82rem, 1vw, 1rem);
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.registryCard h2 {
+  margin: 14px 0 0;
+  font-family: var(--script);
+  font-size: clamp(3.5rem, 5.5vw, 5.4rem);
+  font-weight: 700;
+  line-height: 0.9;
+}
+
+.registryInstructions {
+  max-width: 430px;
+  margin: clamp(25px, 3vw, 38px) auto 0;
+  font-size: clamp(1.05rem, 1.45vw, 1.4rem);
+  line-height: 1.35;
+}
+
+.registryPassword {
+  width: min(100%, 330px);
+  padding: 15px 20px 17px;
+  margin: clamp(24px, 3vw, 38px) auto 0;
+  border-top: 1px solid rgba(135, 104, 44, 0.48);
+  border-bottom: 1px solid rgba(135, 104, 44, 0.48);
+  display: grid;
+  gap: 4px;
+}
+
+.registryPassword span {
+  color: var(--gold-deep);
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.registryPassword strong {
+  font-size: clamp(1.55rem, 2.2vw, 2rem);
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  line-height: 1.15;
+}
+
+.registryLink {
+  min-width: 190px;
+  padding: 12px 24px 11px;
+  margin-top: clamp(30px, 3.5vw, 46px);
+  display: inline-block;
+  color: var(--paper);
+  border-radius: 4px;
+  background: var(--sage-deep);
+  font-size: clamp(1rem, 1.5vw, 1.35rem);
+  font-weight: 400;
+  line-height: 1;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background-color 160ms ease, transform 160ms ease;
+}
+
+.registryLink:hover,
+.registryLink:focus-visible {
+  background: #314c49;
+  transform: translateY(-1px);
 }
 
 .faqPage {
@@ -609,7 +750,10 @@ summary:focus-visible {
   padding: clamp(32px, 3.7vw, 58px) 70px clamp(28px, 3.2vw, 50px) 0;
   position: relative;
   cursor: pointer;
-  font-size: clamp(2.7rem, 5.6vw, 5.7rem);
+  font-family: var(--print);
+  font-size: clamp(1.8rem, 3.2vw, 3.25rem);
+  font-weight: 400;
+  font-style: italic;
   line-height: 0.93;
   letter-spacing: 0;
   list-style: none;
@@ -677,6 +821,31 @@ summary:focus-visible {
     display: none;
   }
 
+  .siteHeader {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--paper);
+  }
+
+  .siteHeaderOverlay {
+    position: fixed;
+    inset: 0 0 auto;
+    height: 124px;
+    background: linear-gradient(
+      180deg,
+      rgba(244, 239, 230, 0.99) 0%,
+      rgba(244, 239, 230, 0.94) 38%,
+      rgba(244, 239, 230, 0.72) 65%,
+      rgba(244, 239, 230, 0.32) 84%,
+      transparent 100%
+    );
+  }
+
+  .siteHeaderOverlay .mobileHeader {
+    min-height: 124px;
+  }
+
   .mobileHeader {
     width: var(--content);
     min-height: 92px;
@@ -700,12 +869,12 @@ summary:focus-visible {
   }
 
   .menuButton {
-    width: 42px;
+    min-width: 74px;
     height: 42px;
-    padding: 0;
-    display: inline-grid;
-    place-items: center;
+    padding: 0 4px 0 0;
+    display: inline-flex;
     align-items: center;
+    gap: 8px;
     border: 0;
     color: inherit;
     background: transparent;
@@ -715,6 +884,14 @@ summary:focus-visible {
 
   .menuButton::-webkit-details-marker {
     display: none;
+  }
+
+  .menuButtonLabel {
+    font-size: 0.9rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    text-transform: uppercase;
   }
 
   .menuIcon {
@@ -782,6 +959,17 @@ summary:focus-visible {
     text-decoration: none;
   }
 
+  .mobileNav a {
+    border-radius: 8px;
+    transition: background-color 160ms ease;
+  }
+
+  .mobileNav a:hover,
+  .mobileNav a:focus-visible,
+  .mobileNav a[aria-current="page"] {
+    background: rgba(180, 151, 85, 0.18);
+  }
+
   .mobileNav .navPending {
     text-transform: none;
   }
@@ -819,11 +1007,6 @@ summary:focus-visible {
     margin-top: 8px;
   }
 
-  .titleRule {
-    width: 108px;
-    margin-top: 16px;
-  }
-
   .homePhotoStory {
     padding-top: 50px;
     padding-bottom: 0;
@@ -855,7 +1038,7 @@ summary:focus-visible {
 
   .homeStoryMessage h2 {
     max-width: 10em;
-    font-size: 2.9rem;
+    font-size: 3.2rem;
   }
 
   .homeStoryIntro {
@@ -959,6 +1142,35 @@ summary:focus-visible {
     font-size: 1.35rem;
   }
 
+  .registryIntro {
+    padding: 48px 0 72px;
+    gap: 48px;
+  }
+
+  .registryMessage h1 {
+    font-size: 4.6rem;
+  }
+
+  .registryMessage > p {
+    font-size: 1.22rem;
+  }
+
+  .registryCard {
+    padding: 44px 28px 50px;
+  }
+
+  .registryCard h2 {
+    font-size: 4rem;
+  }
+
+  .registryInstructions {
+    font-size: 1.1rem;
+  }
+
+  .registryLink {
+    font-size: 1rem;
+  }
+
   .faqList {
     width: var(--reading);
     min-height: calc(100svh - 92px);
@@ -967,7 +1179,7 @@ summary:focus-visible {
 
   .faqList summary {
     padding: 28px 34px 24px 0;
-    font-size: 3rem;
+    font-size: 2.15rem;
     text-align: left;
   }
 
@@ -1005,6 +1217,7 @@ summary:focus-visible {
 @media (min-width: 761px) and (max-width: 1200px) {
   body { font-size: clamp(0.85rem, 1.19vw, 1.05rem); }
   .homeTitleLockup p { font-size: clamp(0.735rem, 1.54vw, 1.12rem); }
+  .homeStoryMessage h2 { font-size: clamp(3.64rem, 5.07vw, 5.4rem); }
   .homeWelcome p { font-size: clamp(0.945rem, 1.75vw, 1.785rem); }
   .scheduleEvent h2 { font-size: clamp(1.05rem, 1.82vw, 1.89rem); }
   .scheduleTime { font-size: clamp(0.84rem, 1.68vw, 1.75rem); }
@@ -1019,6 +1232,7 @@ summary:focus-visible {
 @media (min-width: 1201px) {
   body { font-size: clamp(0.735rem, 1.19vw, 1.05rem); }
   .homeTitleLockup p { font-size: clamp(0.735rem, 1.54vw, 1.12rem); }
+  .homeStoryMessage h2 { font-size: clamp(3.64rem, 5.07vw, 5.4rem); }
   .homeWelcome p { font-size: clamp(0.945rem, 1.75vw, 1.785rem); }
   .scheduleEvent h2 { font-size: clamp(1.05rem, 1.82vw, 1.89rem); }
   .scheduleTime { font-size: clamp(0.84rem, 1.68vw, 1.75rem); }
