@@ -179,7 +179,7 @@ test("registry provides the Joy link and password", async ({ page }) => {
   const registryLink = page.getByRole("link", { name: "View our registry" });
   await expect(registryLink).toHaveAttribute(
     "href",
-    /withjoy\.com\/matthew-and-sara-may-2027\/registry/,
+    "https://withjoy.com/matthew-and-sara-may-2027/registry",
   );
   await expect(registryLink).toHaveAttribute("target", "_blank");
   await expect(registryLink).toHaveAttribute("rel", /noopener/);

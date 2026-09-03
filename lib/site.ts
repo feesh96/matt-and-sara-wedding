@@ -81,8 +81,7 @@ export const site = {
   },
   registry: {
     password: "jragnk",
-    joyUrl:
-      "https://withjoy.com/matthew-and-sara-may-2027/registry?utm_medium=web&utm_source=joy&utm_campaign=share_website_dialog",
+    joyUrl: "https://withjoy.com/matthew-and-sara-may-2027/registry",
   },
   faqs: [
     {
