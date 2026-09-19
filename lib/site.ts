@@ -72,6 +72,8 @@ export const site = {
     pagodaTower: "/images/pagoda-tower.jpeg",
     pagodaTowerLandscape: "/images/pagoda-tower-landscape.png",
     holdingHands: "/images/holding-hands.jpeg",
+    welcomePortrait: "/images/welcome-portrait.png",
+    rsvpKyoto: "/images/rsvp-kyoto.jpg",
     aerial: "/images/jasna-polana-aerial.jpg",
   },
   travel: {

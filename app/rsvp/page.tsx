@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { PageShell } from "@/components/page-shell";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = { title: "RSVP" };
 
@@ -16,6 +18,17 @@ export default function RsvpPage() {
           with you!
         </p>
       </section>
+      <div className="rsvpPhotoDivider" aria-hidden="true">
+        <span />
+      </div>
+      <figure className="rsvpPhoto">
+        <Image
+          src={site.media.rsvpKyoto}
+          alt="Sara and Matt beside a temple pond in Kyoto"
+          fill
+          sizes="100vw"
+        />
+      </figure>
     </PageShell>
   );
 }

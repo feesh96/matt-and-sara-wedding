@@ -41,7 +41,7 @@ export default function Home() {
           </div>
           <figure className="homeStoryPortrait">
             <Image
-              src={site.media.holdingHands}
+              src={site.media.welcomePortrait}
               alt="Sara and Matt together at a temple in Japan"
               fill
               loading="eager"
