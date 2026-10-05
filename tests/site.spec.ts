@@ -6,14 +6,16 @@ test("shows the final home-page lockup and supplied photography", async ({ page 
   await expect(page.getByRole("heading", { name: "Sara & Matt" })).toBeVisible();
   await expect(page.getByText("May 30, 2027", { exact: true })).toBeVisible();
   await expect(page.getByText("05.30, 2027", { exact: true })).toHaveCount(0);
-  await expect(page.getByText(/We look forward to celebrating our marriage/)).toBeVisible();
+  await expect(
+    page.getByText("We are so excited to celebrate our marriage with our cherished family and friends."),
+  ).toBeVisible();
   await expect(page.getByAltText("Sara and Matt in front of a pagoda tower in Japan")).toHaveAttribute(
     "src",
-    /pagoda-tower-landscape\.png/,
+    /pagoda-tower-landscape-sara-wedding\.jpg/,
   );
   await expect(page.getByAltText("Sara and Matt together at a temple in Japan")).toHaveAttribute(
     "src",
-    /holding-hands\.jpeg/,
+    /welcome-portrait\.png/,
   );
   await expect(page.getByRole("heading", { name: "Welcome" })).toBeVisible();
   await expect(page.locator(".homeStoryDivider")).toHaveCount(1);
@@ -22,6 +24,17 @@ test("shows the final home-page lockup and supplied photography", async ({ page 
     /Milton One/,
   );
   await expect(page.getByRole("heading", { name: "Welcome" })).toHaveCSS("font-weight", "700");
+});
+
+test("uses the original pagoda photo on mobile", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+
+  const photo = page.getByAltText("Sara and Matt in front of a pagoda tower in Japan");
+  await expect(photo).toBeVisible();
+  await expect.poll(() => photo.evaluate((image: HTMLImageElement) => image.currentSrc)).toMatch(
+    /pagoda-tower-landscape\.png/,
+  );
 });
 
 test("keeps the home title visible and on one line across viewport shapes", async ({ page }) => {

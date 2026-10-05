@@ -70,7 +70,8 @@ export const site = {
   media: {
     gates: "/images/venue-gates.png",
     pagodaTower: "/images/pagoda-tower.jpeg",
-    pagodaTowerLandscape: "/images/pagoda-tower-landscape.png",
+    pagodaTowerLandscape: "/images/pagoda-tower-landscape-sara-wedding.jpg",
+    pagodaTowerLandscapeMobile: "/images/pagoda-tower-landscape.png",
     holdingHands: "/images/holding-hands.jpeg",
     welcomePortrait: "/images/welcome-portrait.png",
     rsvpKyoto: "/images/rsvp-kyoto.jpg",

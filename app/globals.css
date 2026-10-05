@@ -893,13 +893,15 @@ summary:focus-visible {
     position: sticky;
     top: 0;
     z-index: 20;
-    background: var(--paper);
   }
 
-  .siteHeaderOverlay {
-    position: fixed;
+  .siteHeader::before {
+    position: absolute;
+    z-index: -1;
     inset: 0 0 auto;
     height: 124px;
+    content: "";
+    pointer-events: none;
     background: linear-gradient(
       180deg,
       rgba(244, 239, 230, 0.99) 0%,
@@ -908,6 +910,12 @@ summary:focus-visible {
       rgba(244, 239, 230, 0.32) 84%,
       transparent 100%
     );
+  }
+
+  .siteHeaderOverlay {
+    position: fixed;
+    inset: 0 0 auto;
+    height: 124px;
   }
 
   .siteHeaderOverlay .mobileHeader {

@@ -35,8 +35,7 @@ export default function Home() {
           <div className="homeStoryMessage">
             <h2>Welcome</h2>
             <p className="homeStoryIntro">
-              We look forward to celebrating our marriage with you at {site.wedding.venue} in
-              Princeton.
+              We are so excited to celebrate our marriage with our cherished family and friends.
             </p>
           </div>
           <figure className="homeStoryPortrait">
@@ -50,13 +49,16 @@ export default function Home() {
           </figure>
         </div>
         <figure className="homeStoryPanorama">
-          <Image
-            src={site.media.pagodaTowerLandscape}
-            alt="Sara and Matt in front of a pagoda tower in Japan"
-            fill
-            loading="eager"
-            sizes="100vw"
-          />
+          <picture>
+            <source media="(max-width: 760px)" srcSet={site.media.pagodaTowerLandscapeMobile} />
+            <Image
+              src={site.media.pagodaTowerLandscape}
+              alt="Sara and Matt in front of a pagoda tower in Japan"
+              fill
+              loading="eager"
+              sizes="100vw"
+            />
+          </picture>
         </figure>
       </section>
     </main>
