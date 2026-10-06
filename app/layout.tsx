@@ -13,6 +13,33 @@ export const metadata: Metadata = {
     template: "%s | Sara & Matt",
   },
   description: "Sara and Matt's wedding celebration in Princeton, New Jersey.",
+  icons: {
+    icon: [
+      { url: "/ring-icon.svg", type: "image/svg+xml" },
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+  },
+  openGraph: {
+    type: "website",
+    siteName: "Sara & Matt",
+    title: "Sara & Matt | May 30, 2027",
+    description: "Celebrate with us in Princeton, New Jersey on May 30, 2027.",
+    images: [
+      {
+        url: "/social-preview.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Sara and Matt together in Japan",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sara & Matt | May 30, 2027",
+    description: "Celebrate with us in Princeton, New Jersey on May 30, 2027.",
+    images: ["/social-preview.jpg"],
+  },
   robots: { index: false, follow: false },
 };
 
