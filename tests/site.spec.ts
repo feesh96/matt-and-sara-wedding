@@ -26,15 +26,17 @@ test("shows the final home-page lockup and supplied photography", async ({ page 
   await expect(page.getByRole("heading", { name: "Welcome" })).toHaveCSS("font-weight", "700");
 });
 
-test("uses the original pagoda photo on mobile", async ({ page }) => {
+test("uses the updated pagoda photo on mobile without stretching it", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
 
   const photo = page.getByAltText("Sara and Matt in front of a pagoda tower in Japan");
   await expect(photo).toBeVisible();
   await expect.poll(() => photo.evaluate((image: HTMLImageElement) => image.currentSrc)).toMatch(
-    /pagoda-tower-landscape\.png/,
+    /pagoda-tower-landscape-sara-wedding\.jpg/,
   );
+  await expect(photo).toHaveCSS("object-fit", "cover");
+  await expect(page.locator(".homeStoryPanorama")).toHaveCSS("aspect-ratio", "4 / 5");
 });
 
 test("keeps the home title visible and on one line across viewport shapes", async ({ page }) => {

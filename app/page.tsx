@@ -49,16 +49,13 @@ export default function Home() {
           </figure>
         </div>
         <figure className="homeStoryPanorama">
-          <picture>
-            <source media="(max-width: 760px)" srcSet={site.media.pagodaTowerLandscapeMobile} />
-            <Image
-              src={site.media.pagodaTowerLandscape}
-              alt="Sara and Matt in front of a pagoda tower in Japan"
-              fill
-              loading="eager"
-              sizes="100vw"
-            />
-          </picture>
+          <Image
+            src={site.media.pagodaTowerLandscape}
+            alt="Sara and Matt in front of a pagoda tower in Japan"
+            fill
+            loading="eager"
+            sizes="100vw"
+          />
         </figure>
       </section>
     </main>
