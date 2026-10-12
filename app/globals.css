@@ -154,9 +154,15 @@ summary:focus-visible {
 }
 
 .homeGates {
+  opacity: 0;
+  transition: opacity 700ms ease;
   z-index: -3;
   object-fit: cover;
   object-position: center bottom;
+}
+
+.homeGates.isReady {
+  opacity: 1;
 }
 
 .homeHeroWash {
@@ -177,6 +183,9 @@ summary:focus-visible {
 }
 
 .homeTitleLockup {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 420ms ease;
   width: min(92vw, 1100px);
   padding: 71svh 0 clamp(12px, 2svh, 32px);
   margin: 0 auto;
@@ -184,6 +193,11 @@ summary:focus-visible {
   flex-direction: column;
   align-items: center;
   text-align: center;
+}
+
+.homeTitleLockup.isReady {
+  opacity: 1;
+  visibility: visible;
 }
 
 .homeTitleLockup h1 {
@@ -784,11 +798,7 @@ summary:focus-visible {
   transform: translateY(-1px);
 }
 
-.faqPage {
-  min-height: 100svh;
-  background: linear-gradient(180deg, var(--paper) 0%, var(--paper) 65%, #d9d6c9 85%, #9ea397 100%);
-}
-
+.faqPage,
 .rsvpPage {
   min-height: 100svh;
   background: var(--paper);
@@ -878,21 +888,6 @@ summary:focus-visible {
 .rsvpPhoto img {
   object-fit: cover;
   object-position: center 60%;
-}
-
-.rsvpPhoto::after {
-  position: absolute;
-  z-index: 1;
-  inset: 0;
-  content: "";
-  pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    var(--paper) 0%,
-    rgba(244, 239, 230, 0.86) 7%,
-    rgba(244, 239, 230, 0.4) 16%,
-    transparent 30%
-  );
 }
 
 @media (max-width: 760px) {
@@ -1213,6 +1208,11 @@ summary:focus-visible {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .homeTitleLockup,
+  .homeGates {
+    transition: none;
+  }
+
   html {
     scroll-behavior: auto;
   }

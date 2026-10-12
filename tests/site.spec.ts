@@ -375,9 +375,138 @@ test("FAQs respect reduced motion", async ({ page }) => {
   await page.goto("/faq/");
   const item = page.locator(".faqList details").first();
   const trigger = item.locator("summary");
+  await expect(trigger).toBeVisible();
   await trigger.press("Enter");
   await expect(item).toHaveAttribute("open", "");
   expect(await item.locator(".faqAnswer").evaluate((element) => element.getAnimations().length)).toBe(0);
   await trigger.press("Space");
   await expect(item).not.toHaveAttribute("open", "");
+});
+
+
+test("home title waits for its fonts and fades in together", async ({ page }) => {
+  let releaseFonts!: () => void;
+  const fontsAllowed = new Promise<void>((resolve) => { releaseFonts = resolve; });
+  await page.route("**/fonts/*", async (route) => {
+    await fontsAllowed;
+    await route.continue();
+  });
+
+  try {
+    await page.goto("/", { waitUntil: "domcontentloaded" });
+    const lockup = page.locator(".homeTitleLockup");
+    await expect(lockup).toHaveCSS("opacity", "0");
+    await expect(lockup).toHaveCSS("visibility", "hidden");
+    releaseFonts();
+    await expect(lockup).toHaveCSS("visibility", "visible");
+    await expect(lockup).toHaveCSS("opacity", "1");
+    expect(await page.evaluate(() =>
+      document.fonts.check('700 1em "Milton One"') &&
+      document.fonts.check('400 1em "Cormorant Garamond"'),
+    )).toBe(true);
+    await expect(lockup.getByText("May 30, 2027", { exact: true })).toBeVisible();
+    await expect(lockup.getByText("Princeton, New Jersey", { exact: true })).toBeVisible();
+  } finally {
+    releaseFonts();
+  }
+});
+
+test("home font reveal respects reduced motion", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  const lockup = page.locator(".homeTitleLockup");
+  await expect(lockup).toHaveCSS("opacity", "1");
+  await expect(lockup).toHaveCSS("transition-duration", "0s");
+  await expect(page.locator(".homeGates")).toHaveCSS("opacity", "1");
+  await expect(page.locator(".homeGates")).toHaveCSS("transition-duration", "0s");
+});
+
+
+test("home background waits for its image before fading in, including on reload", async ({ page }) => {
+  let releaseImage!: () => void;
+  const imageAllowed = new Promise<void>((resolve) => { releaseImage = resolve; });
+  await page.route("**/images/venue-gates.png", async (route) => {
+    await imageAllowed;
+    await route.continue();
+  });
+
+  try {
+    await page.goto("/", { waitUntil: "domcontentloaded" });
+    const image = page.locator(".homeGates");
+    await expect(image).toHaveCSS("opacity", "0");
+    releaseImage();
+    await expect(image).toHaveCSS("opacity", "1");
+    expect(await image.evaluate((element: HTMLImageElement) => element.complete && element.naturalWidth > 0)).toBe(true);
+    await page.reload();
+    await expect(image).toHaveCSS("opacity", "1");
+  } finally {
+    releaseImage();
+  }
+});
+
+
+test("navigation fades every interior page, including return visits", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/");
+  await expect(page.locator(".homeTitleLockup")).toHaveCSS("opacity", "1");
+
+  for (const [label, path] of [
+    ["Schedule", "/schedule/"],
+    ["Travel", "/travel/"],
+    ["Registry", "/registry/"],
+    ["FAQs", "/faq/"],
+    ["RSVP", "/rsvp/"],
+    ["Travel", "/travel/"],
+  ]) {
+    if (page.viewportSize()!.width <= 760) {
+      await page.locator(".mobileMenu summary").click();
+      await page.getByRole("navigation", { name: "Mobile navigation" }).getByRole("link", { name: label, exact: true }).click();
+    } else {
+      await page.locator(".desktopHeader").getByRole("link", { name: label, exact: true }).click();
+    }
+    await page.waitForURL(`**${path}`);
+    const content = page.locator(".pageReveal");
+    await expect(content).toHaveCSS("visibility", "visible");
+    expect(await content.evaluate((element) => element.getAnimations().length)).toBeGreaterThan(0);
+    await expect(page.locator(".siteHeader")).toHaveCSS("opacity", "1");
+    await expect(content).toHaveCSS("opacity", "1");
+  }
+
+  await page.goto("/faq/");
+  const content = page.locator(".pageReveal");
+  await expect(content).toHaveCSS("opacity", "1");
+  await page.locator(".faqList summary").first().click();
+  expect(await content.evaluate((element) => element.getAnimations().length)).toBe(0);
+});
+
+test("page reveal waits for fonts and the visible background photo", async ({ page }) => {
+  let releaseFonts!: () => void;
+  let releaseImage!: () => void;
+  const fontsAllowed = new Promise<void>((resolve) => { releaseFonts = resolve; });
+  const imageAllowed = new Promise<void>((resolve) => { releaseImage = resolve; });
+  await page.route("**/fonts/*", async (route) => { await fontsAllowed; await route.continue(); });
+  await page.route("**/images/jasna-polana-aerial.jpg", async (route) => { await imageAllowed; await route.continue(); });
+
+  try {
+    await page.goto("/schedule/", { waitUntil: "domcontentloaded" });
+    const content = page.locator(".pageReveal");
+    await expect(content).toHaveCSS("visibility", "hidden");
+    await expect(page.locator(".siteHeader")).toBeVisible();
+    releaseFonts();
+    await expect.poll(() => page.evaluate(() => document.fonts.check('700 1em "Milton One"'))).toBe(true);
+    await expect(content).toHaveCSS("visibility", "hidden");
+    releaseImage();
+    await expect(content).toHaveCSS("opacity", "1");
+    expect(await page.locator(".scheduleAerial").evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true);
+  } finally {
+    releaseFonts();
+    releaseImage();
+  }
+});
+
+test("page fades respect reduced motion", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/registry/");
+  await expect(page.locator(".pageReveal")).toHaveCSS("opacity", "1");
+  await expect(page.locator(".pageReveal")).toHaveCSS("transition-duration", "0s");
 });

@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { SiteHeader } from "@/components/site-header";
+import { HomeTitle } from "@/components/home-title";
+import { HomeHeroImage } from "@/components/home-hero-image";
 import { SectionDivider } from "@/components/section-divider";
 import { site } from "@/lib/site";
 
@@ -8,16 +10,9 @@ export default function Home() {
     <main className="homePage">
       <SiteHeader overlay />
       <section className="homeHero" aria-labelledby="home-title">
-        <Image
-          className="homeGates"
-          src={site.media.gates}
-          alt="The open iron gates at TPC Jasna Polana"
-          fill
-          priority
-          sizes="100vw"
-        />
+        <HomeHeroImage src={site.media.gates} />
         <div className="homeHeroWash" aria-hidden="true" />
-        <div className="homeTitleLockup">
+        <HomeTitle>
           <h1 id="home-title" aria-label={site.couple.displayNames}>
             Sara <span aria-hidden="true">&amp;</span> Matt
           </h1>
@@ -25,7 +20,7 @@ export default function Home() {
             <time dateTime={site.wedding.dateIso}>{site.wedding.date}</time>
           </p>
           <p>{site.wedding.city}</p>
-        </div>
+        </HomeTitle>
       </section>
 
       <SectionDivider className="homeStoryDivider" />

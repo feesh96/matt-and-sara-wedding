@@ -1,8 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import "@fontsource/cormorant-garamond/400.css";
-import "@fontsource/cormorant-garamond/400-italic.css";
-import "@fontsource/cormorant-garamond/300.css";
-import "@fontsource/cormorant-garamond/300-italic.css";
+import { preload } from "react-dom";
 import "./theme.css";
 import "./design-system.css";
 import "./globals.css";
@@ -49,6 +46,10 @@ export const viewport: Viewport = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  preload("/fonts/milton-one-bold.otf", { as: "font", type: "font/otf", crossOrigin: "anonymous" });
+  preload("/fonts/cormorant-garamond-latin-400-normal.woff2", { as: "font", type: "font/woff2", crossOrigin: "anonymous" });
+  preload("/fonts/cormorant-garamond-latin-300-normal.woff2", { as: "font", type: "font/woff2", crossOrigin: "anonymous" });
+
   return (
     <html lang="en">
       <body>{children}</body>

@@ -33,3 +33,22 @@ Keep the established paper (`#f4efe6`), ink (`#161411`), gold (`#b49755`), and s
 The registry card is an intentional exception: preserve its original typography,
 internal spacing, and centered alignment rather than applying the shared card
 subheading and body-copy tokens.
+
+Font files are served from `public/fonts`. Preload Milton One and the normal
+Cormorant Garamond weights in the root layout. The font faces use `font-display:
+block` to wait briefly for the intended type rather than flashing a fallback.
+Keep the Cormorant font license alongside the font files.
+
+The home title, date, and location stay hidden until both of their font faces
+finish loading, then fade in together. Reduced-motion users see them immediately
+once the fonts are ready.
+
+The home background photo starts transparent and fades in over 700ms after the
+image loads. Its reveal is independent of the title's font readiness. Reduced
+motion disables both fades.
+
+Interior pages use `PageContent` inside `PageShell`. On each route change the
+content waits for the wedding fonts and images in the first screen, then fades
+in over 700ms. The navigation stays visible. Returning to a cached page repeats
+the fade; expanding an FAQ or travel card does not. Photos farther down the
+page never delay the reveal, and reduced motion disables the fade.

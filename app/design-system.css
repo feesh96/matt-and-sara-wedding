@@ -64,3 +64,20 @@
   border: 1px solid currentColor;
   transform: rotate(45deg);
 }
+
+.pageReveal {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 700ms ease;
+}
+
+.pageReveal.isReady {
+  opacity: 1;
+  visibility: visible;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pageReveal {
+    transition: none;
+  }
+}
