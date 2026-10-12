@@ -133,7 +133,7 @@ export const site = {
     {
       question: "What is the dress code?",
       answer:
-        "Our wedding is black tie optional. We ask that men wear a tuxedo or dark-colored suit and tie and women wear a floor-length evening gown or upscale cocktail dress.",
+        "Our wedding is black tie optional. We ask that men wear a tuxedo or dark-colored suit and tie and women wear a floor-length evening gown or upscale cocktail dress. The ceremony will be on grass so please plan footwear accordingly.",
     },
     {
       question: "What if I have more questions?",

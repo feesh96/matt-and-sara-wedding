@@ -297,3 +297,87 @@ test("selected travel cards fill the gutters and slide the other choices away", 
     await expect(page.getByRole("button", { name: "By Car", exact: true })).toBeVisible();
   }
 });
+
+
+test("interior pages share title sizing and header spacing", async ({ page }) => {
+  let reference: { size: number; gap: number } | undefined;
+  for (const path of ["/travel/", "/registry/", "/faq/", "/rsvp/"]) {
+    await page.goto(path);
+    const title = page.locator(".pageTitle");
+    await expect(title).toBeVisible();
+    const metrics = await title.evaluate((element) => ({
+      size: parseFloat(getComputedStyle(element).fontSize),
+      gap: element.getBoundingClientRect().top - document.querySelector(".siteHeader")!.getBoundingClientRect().bottom,
+    }));
+    expect(metrics.size).toBeLessThanOrEqual(80);
+    if (reference) {
+      expect(metrics.size).toBe(reference.size);
+      expect(Math.abs(metrics.gap - reference.gap)).toBeLessThan(1);
+    }
+    reference = metrics;
+  }
+  await page.goto("/schedule/");
+  const scheduleTitle = page.locator(".pageTitle");
+  const gap = await scheduleTitle.evaluate((element) => element.getBoundingClientRect().top - document.querySelector(".siteHeader")!.getBoundingClientRect().bottom);
+  expect(Math.abs(gap - reference!.gap)).toBeLessThan(1);
+});
+
+test("section dividers sit halfway between adjacent sections", async ({ page }) => {
+  for (const [path, before, after] of [
+    ["/travel/", "main > section:first-child", ".travelDirections"],
+    ["/registry/", ".registryIntro", ".registryContent"],
+    ["/schedule/", ".scheduleLead", ".scheduleScene"],
+    ["/rsvp/", ".rsvpNotice", ".rsvpPhoto"],
+    ["/", ".homeHero", ".homePhotoStory"],
+  ]) {
+    await page.goto(path);
+    const first = (await page.locator(before).boundingBox())!;
+    const second = (await page.locator(after).boundingBox())!;
+    const divider = (await page.locator(".sectionDivider").first().boundingBox())!;
+    const gapAbove = divider.y - first.y - first.height;
+    const gapBelow = second.y - divider.y - divider.height;
+    expect(gapAbove).toBeGreaterThanOrEqual(47);
+    expect(Math.abs(gapAbove - gapBelow)).toBeLessThan(1);
+  }
+});
+
+
+test("FAQs animate both directions and handle rapid reversals", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/faq/");
+  const item = page.locator(".faqList details").first();
+  const trigger = item.locator("summary");
+  const answer = item.locator(".faqAnswer");
+
+  await trigger.click();
+  expect(await answer.evaluate((element) => element.getAnimations().length)).toBeGreaterThan(0);
+  await expect.poll(() => answer.evaluate((element) => element.getAnimations().length)).toBe(0);
+  const expandedHeight = (await answer.boundingBox())!.height;
+  expect(expandedHeight).toBeGreaterThan(40);
+
+  await trigger.click();
+  await expect(item).toHaveAttribute("open", "");
+  expect(await answer.evaluate((element) => element.getAnimations().length)).toBeGreaterThan(0);
+  await expect(item).not.toHaveAttribute("open", "");
+
+  await trigger.click();
+  await trigger.click();
+  await trigger.click();
+  await expect.poll(() => answer.evaluate((element) => element.getAnimations().length)).toBe(0);
+  await expect(item).toHaveAttribute("open", "");
+  expect((await answer.boundingBox())!.height).toBeCloseTo(expandedHeight, 0);
+  await trigger.press("Enter");
+  await expect(item).not.toHaveAttribute("open", "");
+});
+
+test("FAQs respect reduced motion", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/faq/");
+  const item = page.locator(".faqList details").first();
+  const trigger = item.locator("summary");
+  await trigger.press("Enter");
+  await expect(item).toHaveAttribute("open", "");
+  expect(await item.locator(".faqAnswer").evaluate((element) => element.getAnimations().length)).toBe(0);
+  await trigger.press("Space");
+  await expect(item).not.toHaveAttribute("open", "");
+});

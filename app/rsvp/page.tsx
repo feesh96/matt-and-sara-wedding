@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { PageShell } from "@/components/page-shell";
+import { PageIntro } from "@/components/page-intro";
+import { SectionDivider } from "@/components/section-divider";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = { title: "RSVP" };
@@ -8,19 +10,14 @@ export const metadata: Metadata = { title: "RSVP" };
 export default function RsvpPage() {
   return (
     <PageShell className="rsvpPage">
-      <section className="rsvpNotice" aria-labelledby="rsvp-title">
-        <h1 id="rsvp-title" className="visuallyHidden">
-          RSVP
-        </h1>
+      <PageIntro className="rsvpNotice" title="Coming Soon" titleId="rsvp-title">
         <p>
           Formal invitations with RSVP details will be sent closer to the wedding. Please check
           back here when your invitation arrives to RSVP online. We look forward to celebrating
           with you!
         </p>
-      </section>
-      <div className="rsvpPhotoDivider" aria-hidden="true">
-        <span />
-      </div>
+      </PageIntro>
+      <SectionDivider />
       <figure className="rsvpPhoto">
         <Image
           src={site.media.rsvpKyoto}

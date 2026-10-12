@@ -4,6 +4,7 @@ import "@fontsource/cormorant-garamond/400-italic.css";
 import "@fontsource/cormorant-garamond/300.css";
 import "@fontsource/cormorant-garamond/300-italic.css";
 import "./theme.css";
+import "./design-system.css";
 import "./globals.css";
 
 export const metadata: Metadata = {

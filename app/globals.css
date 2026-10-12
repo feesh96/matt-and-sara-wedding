@@ -14,9 +14,9 @@ body {
   color: var(--ink);
   background: var(--paper);
   font-family: var(--print);
-  font-size: clamp(1.05rem, 1.7vw, 1.5rem);
+  font-size: var(--type-body);
   font-weight: 300;
-  line-height: 1.46;
+  line-height: var(--line-body);
 }
 
 a {
@@ -186,16 +186,9 @@ summary:focus-visible {
   text-align: center;
 }
 
-.homeTitleLockup h1,
-.homeWelcome h2,
-.travelIntro h1,
-.faqList summary,
-.scheduleLead h1 {
+.homeTitleLockup h1 {
   font-family: var(--script);
   font-weight: 700;
-}
-
-.homeTitleLockup h1 {
   max-width: 100%;
   margin: 0;
   color: #25221f;
@@ -224,36 +217,8 @@ summary:focus-visible {
 }
 
 .homePhotoStory {
-  padding: clamp(64px, 6vw, 104px) 0 0;
+  padding: 0;
   background: var(--paper);
-}
-
-.homeStoryDivider {
-  width: min(32vw, 220px);
-  margin: 0 auto clamp(42px, 4vw, 64px);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: var(--gold);
-}
-
-.homeStoryDivider::before,
-.homeStoryDivider::after {
-  height: 1px;
-  content: "";
-  flex: 1;
-  background: linear-gradient(90deg, transparent, currentColor);
-}
-
-.homeStoryDivider::after {
-  background: linear-gradient(90deg, currentColor, transparent);
-}
-
-.homeStoryDivider span {
-  width: 7px;
-  height: 7px;
-  border: 1px solid currentColor;
-  transform: rotate(45deg);
 }
 
 .homeStoryPanorama,
@@ -289,7 +254,7 @@ summary:focus-visible {
 .homeStoryLower {
   width: var(--content);
   margin: 0 auto;
-  padding-bottom: clamp(76px, 8vw, 128px);
+  padding-bottom: 0;
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   gap: clamp(44px, 7vw, 130px);
@@ -297,25 +262,16 @@ summary:focus-visible {
 }
 
 .homeStoryMessage {
-  padding-left: clamp(0px, 2vw, 28px);
-}
-
-.homeStoryMessage h2 {
-  max-width: 680px;
-  margin: 0;
-  font-family: var(--script);
-  font-size: clamp(2.8rem, 3.9vw, 4.15rem);
-  font-weight: 700;
-  line-height: 0.9;
-  letter-spacing: 0;
+  text-align: center;
+  padding-left: 0;
 }
 
 .homeStoryIntro {
   max-width: 540px;
-  margin: clamp(24px, 3vw, 42px) 0 0;
-  font-size: clamp(1.05rem, 1.45vw, 1.55rem);
+  margin: var(--content-space) auto 0;
+  font-size: var(--type-body);
   font-weight: 300;
-  line-height: 1.35;
+  line-height: var(--line-body);
 }
 
 .homeStoryPortrait {
@@ -351,22 +307,7 @@ summary:focus-visible {
   min-height: calc(100svh - var(--schedule-header-height));
   display: flex;
   flex-direction: column;
-}
-
-.scheduleLead {
-  min-height: clamp(100px, 8.5vw, 145px);
-  padding: clamp(38px, 3.5vw, 58px) 22px clamp(8px, 0.8vw, 14px);
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  text-align: center;
-}
-
-.scheduleLead h1 {
-  margin: 0;
-  font-size: clamp(3.1rem, 5.2vw, 5.6rem);
-  line-height: 0.92;
-  letter-spacing: 0;
+  padding-bottom: 0;
 }
 
 .scheduleLead h1 span {
@@ -406,7 +347,7 @@ summary:focus-visible {
 
 .scheduleEvent {
   width: min(92vw, 980px);
-  padding-top: clamp(24px, 2.4vw, 44px);
+  padding: 0 0 var(--page-end);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -416,21 +357,21 @@ summary:focus-visible {
 
 .scheduleEvent h2 {
   margin: 0;
-  font-size: clamp(1.5rem, 2.6vw, 2.7rem);
+  font-size: var(--type-question);
   font-weight: 700;
   line-height: 1;
 }
 
 .scheduleTime {
   margin: clamp(8px, 1vw, 14px) 0 clamp(16px, 1.6vw, 24px);
-  font-size: clamp(1.2rem, 2.4vw, 2.5rem);
+  font-size: var(--type-body);
   line-height: 1;
 }
 
 .scheduleVenue {
   margin: 0;
-  font-size: clamp(1rem, 1.5vw, 1.35rem);
-  line-height: 1.15;
+  font-size: var(--type-body);
+  line-height: var(--line-body);
 }
 
 .scheduleVenue strong,
@@ -464,7 +405,7 @@ summary:focus-visible {
   gap: clamp(10px, 1vw, 16px);
 }
 
-.scheduleActionLink {
+.hotelLink.scheduleActionLink {
   min-width: 0;
   padding-right: clamp(12px, 1.4vw, 20px);
   padding-left: clamp(12px, 1.4vw, 20px);
@@ -473,51 +414,14 @@ summary:focus-visible {
   white-space: nowrap;
 }
 
-.travelIntro {
-  width: var(--reading);
-  min-height: clamp(185px, 18vw, 300px);
-  padding: clamp(55px, 6vw, 96px) 0 35px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.travelIntro h1,
-.travelDirections h2 {
-  font-size: clamp(4rem, 8.3vw, 8.2rem);
-}
-
-.travelIntro h1 {
-  margin: 0;
-  line-height: 0.86;
-  letter-spacing: 0;
-}
-
-.travelIntro p {
-  max-width: 1450px;
-  margin: 0;
-  font-size: clamp(1.25rem, 2.2vw, 2.35rem);
-  line-height: 1.33;
-}
-
-.travelIntro p + p {
-  margin-top: clamp(20px, 2vw, 32px);
-}
-
 .travelDirections {
   width: var(--content);
-  padding: clamp(24px, 3.5vw, 56px) 0 clamp(55px, 6vw, 100px);
+  padding: 0;
   margin: 0 auto;
 }
 
 .travelDirections h2 {
-  margin: 0 0 clamp(28px, 3vw, 44px);
-  font-family: var(--script);
-  font-weight: 700;
-  line-height: 1;
-  text-align: center;
+  margin-bottom: var(--content-space);
 }
 
 .travelCardViewport {
@@ -604,7 +508,7 @@ summary:focus-visible {
 }
 
 .travelCardTitle {
-  font-size: clamp(1.7rem, 2.5vw, 2.2rem);
+  font-size: var(--type-question);
   font-weight: 500;
   font-style: italic;
   line-height: 1.1;
@@ -636,8 +540,8 @@ summary:focus-visible {
   max-width: 860px;
   padding: 0 clamp(22px, 3vw, 44px) 30px;
   margin: 0 auto;
-  font-size: clamp(1.15rem, 1.6vw, 1.4rem);
-  line-height: 1.4;
+  font-size: var(--type-body);
+  line-height: var(--line-body);
 }
 
 .travelCardParagraph {
@@ -677,7 +581,7 @@ summary:focus-visible {
   }
 
   .travelCard.isActive .travelCardTitle {
-    font-size: 1.8rem;
+    font-size: var(--type-question);
   }
 }
 
@@ -697,11 +601,11 @@ summary:focus-visible {
 
 .hotelGrid {
   width: var(--content);
-  padding: clamp(30px, 2.5vw, 45px) 0 clamp(55px, 6vw, 100px);
-  margin: 0 auto;
+  padding: 0;
+  margin: var(--section-space) auto 0;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(70px, 12vw, 220px);
+  gap: clamp(48px, 6vw, 88px);
 }
 
 .hotelCard {
@@ -723,9 +627,9 @@ summary:focus-visible {
 }
 
 .hotelCard h2 {
-  margin: clamp(20px, 2vw, 34px) 0 0;
+  margin: var(--item-space) 0 0;
   font-family: var(--script);
-  font-size: clamp(2.2rem, 4vw, 4.4rem);
+  font-size: var(--type-subtitle);
   font-weight: 700;
   line-height: 0.93;
   letter-spacing: 0;
@@ -733,19 +637,23 @@ summary:focus-visible {
 
 .hotelCard p {
   max-width: 620px;
-  margin: clamp(34px, 3.4vw, 56px) 0 0;
+  margin: var(--item-space) 0 0;
   flex: 1 0 auto;
-  font-size: clamp(1.25rem, 2.1vw, 2.15rem);
-  line-height: 1.35;
+  font-size: var(--type-body);
+  line-height: var(--line-body);
 }
 
 .hotelLink {
   min-width: 104px;
-  padding: 9px 18px 8px;
-  margin-top: clamp(35px, 4vw, 62px);
+  min-height: 44px;
+  padding: 12px 20px;
+  margin-top: var(--content-space);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   color: var(--paper);
   background: var(--sage-deep);
-  font-size: clamp(1.1rem, 2vw, 1.9rem);
+  font-size: var(--type-action);
   font-weight: 400;
   line-height: 1;
   text-decoration: none;
@@ -759,65 +667,16 @@ summary:focus-visible {
     var(--paper);
 }
 
-.registryIntro {
+.registryContent {
+  text-align: center;
   width: var(--reading);
-  padding: clamp(55px, 6vw, 96px) 0 clamp(76px, 8vw, 130px);
   margin: 0 auto;
   display: grid;
   justify-items: center;
-  gap: clamp(44px, 5vw, 78px);
-  text-align: center;
-}
-
-.registryMessage {
-  display: grid;
-  justify-items: center;
-}
-
-.registryMessage h1 {
-  margin: 0;
-  font-family: var(--script);
-  font-size: clamp(4rem, 7vw, 7rem);
-  font-weight: 700;
-  line-height: 0.88;
-}
-
-.registryDivider {
-  width: min(32vw, 180px);
-  margin: clamp(28px, 3vw, 42px) 0;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: var(--gold);
-}
-
-.registryDivider::before,
-.registryDivider::after {
-  height: 1px;
-  content: "";
-  flex: 1;
-  background: linear-gradient(90deg, transparent, currentColor);
-}
-
-.registryDivider::after {
-  background: linear-gradient(90deg, currentColor, transparent);
-}
-
-.registryDivider span {
-  width: 7px;
-  height: 7px;
-  border: 1px solid currentColor;
-  transform: rotate(45deg);
-}
-
-.registryMessage > p {
-  max-width: 710px;
-  margin: 0;
-  font-size: clamp(1.2rem, 1.8vw, 1.85rem);
-  line-height: 1.38;
 }
 
 .registryCard {
+  text-align: center;
   width: min(100%, 620px);
   padding: clamp(42px, 5vw, 72px) clamp(30px, 6vw, 82px) clamp(46px, 5.5vw, 78px);
   position: relative;
@@ -937,9 +796,8 @@ summary:focus-visible {
 
 .faqList {
   width: var(--reading);
-  min-height: calc(100svh - 90px);
-  padding: clamp(20px, 2vw, 35px) 0 clamp(65px, 7vw, 115px);
-  margin: 0 auto;
+  padding: 0;
+  margin: var(--content-space) auto 0;
 }
 
 .faqList details {
@@ -951,17 +809,16 @@ summary:focus-visible {
 }
 
 .faqList summary {
-  padding: clamp(32px, 3.7vw, 58px) 70px clamp(28px, 3.2vw, 50px) 0;
+  padding: var(--control-space) 44px var(--control-space) 0;
   position: relative;
   cursor: pointer;
   font-family: var(--print);
-  font-size: clamp(1.8rem, 3.2vw, 3.25rem);
+  font-size: var(--type-question);
   font-weight: 400;
   font-style: italic;
-  line-height: 0.93;
-  letter-spacing: 0;
+  line-height: 1.25;
   list-style: none;
-  text-align: center;
+  text-align: left;
 }
 
 .faqList summary::-webkit-details-marker {
@@ -972,11 +829,12 @@ summary:focus-visible {
   content: "+";
   position: absolute;
   top: 50%;
-  right: 6px;
-  color: var(--frame);
+  right: 4px;
+  color: var(--gold-deep);
   font-family: var(--print);
-  font-size: 0.58em;
-  font-weight: 300;
+  font-size: 1.75rem;
+  font-weight: 400;
+  line-height: 1;
   transform: translateY(-50%);
 }
 
@@ -984,37 +842,23 @@ summary:focus-visible {
   content: "−";
 }
 
+.faqAnswer {
+  overflow: hidden;
+}
+
 .faqList details p {
-  max-width: 1400px;
-  padding: 0 20px clamp(42px, 4.5vw, 70px);
-  margin: 0 auto;
-  font-size: clamp(1.45rem, 3.1vw, 3.1rem);
-  line-height: 1.3;
-  text-align: center;
-}
-
-.rsvpNotice {
-  width: var(--reading);
-  min-height: clamp(240px, 34svh, 360px);
-  padding: clamp(78px, 8vw, 125px) 0 clamp(24px, 3vw, 44px);
-  margin: 0 auto;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  text-align: center;
-}
-
-.rsvpNotice p {
-  max-width: 100%;
+  max-width: 70ch;
+  padding: 0 32px var(--item-space) 0;
   margin: 0;
-  font-size: clamp(1.25rem, 2.1vw, 2.2rem);
-  line-height: 1.25;
+  font-size: var(--type-body);
+  line-height: var(--line-body);
+  text-align: left;
 }
 
 .rsvpPhoto {
   width: min(44vw, 600px);
   aspect-ratio: 16 / 9;
-  margin: 0 auto clamp(64px, 7vw, 110px);
+  margin: 0 auto;
   overflow: hidden;
   position: relative;
   border: clamp(2px, 0.18vw, 3px) solid transparent;
@@ -1049,34 +893,6 @@ summary:focus-visible {
     rgba(244, 239, 230, 0.4) 16%,
     transparent 30%
   );
-}
-
-.rsvpPhotoDivider {
-  width: min(32vw, 220px);
-  margin: 0 auto clamp(30px, 3vw, 46px);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: var(--gold);
-}
-
-.rsvpPhotoDivider::before,
-.rsvpPhotoDivider::after {
-  height: 1px;
-  content: "";
-  flex: 1;
-  background: linear-gradient(90deg, transparent, currentColor);
-}
-
-.rsvpPhotoDivider::after {
-  background: linear-gradient(90deg, currentColor, transparent);
-}
-
-.rsvpPhotoDivider span {
-  width: 7px;
-  height: 7px;
-  border: 1px solid currentColor;
-  transform: rotate(45deg);
 }
 
 @media (max-width: 760px) {
@@ -1288,13 +1104,8 @@ summary:focus-visible {
   }
 
   .homePhotoStory {
-    padding-top: 50px;
+    padding-top: 0;
     padding-bottom: 0;
-  }
-
-  .homeStoryDivider {
-    width: min(46vw, 180px);
-    margin-bottom: 38px;
   }
 
   .homeStoryPanorama {
@@ -1307,7 +1118,7 @@ summary:focus-visible {
 
   .homeStoryLower {
     width: var(--content);
-    padding-bottom: 72px;
+    padding-bottom: 0;
     grid-template-columns: 1fr;
     gap: 38px;
   }
@@ -1316,15 +1127,10 @@ summary:focus-visible {
     padding-left: 0;
   }
 
-  .homeStoryMessage h2 {
-    max-width: 10em;
-    font-size: 3.2rem;
-  }
-
   .homeStoryIntro {
     max-width: 22em;
-    margin-top: 24px;
-    font-size: 1.2rem;
+    margin-top: var(--content-space);
+    font-size: var(--type-body);
   }
 
   .homeStoryDetails {
@@ -1336,35 +1142,13 @@ summary:focus-visible {
     aspect-ratio: 4 / 3;
   }
 
-  .scheduleLead {
-    min-height: 130px;
-    padding: 60px 18px 10px;
-  }
-
-  .scheduleLead h1 {
-    font-size: 3.7rem;
-  }
-
   .scheduleScene {
     min-height: 345px;
   }
 
   .scheduleEvent {
     width: var(--content);
-    padding-top: 30px;
-  }
-
-  .scheduleEvent h2 {
-    font-size: 2rem;
-  }
-
-  .scheduleTime {
-    margin: 12px 0 24px;
-    font-size: 1.65rem;
-  }
-
-  .scheduleVenue {
-    font-size: 1.1rem;
+    padding-top: 0;
   }
 
   .scheduleActions {
@@ -1381,25 +1165,9 @@ summary:focus-visible {
     font-size: clamp(0.82rem, 3.7vw, 1rem);
   }
 
-  .travelIntro {
-    width: var(--reading);
-    min-height: 225px;
-    padding: 60px 0 30px;
-  }
-
-  .travelIntro h1,
-  .travelDirections h2 {
-    font-size: 4.3rem;
-  }
-
-  .travelIntro p {
-    margin-top: 26px;
-    font-size: 1.5rem;
-  }
-
   .hotelGrid {
     width: var(--content);
-    padding-top: 25px;
+    padding-top: 0;
     grid-template-columns: 1fr;
     gap: 49px;
   }
@@ -1409,31 +1177,7 @@ summary:focus-visible {
   }
 
   .hotelCard h2 {
-    margin-top: 28px;
-    font-size: 3.15rem;
-  }
-
-  .hotelCard p {
-    margin-top: 31px;
-    font-size: 1.45rem;
-  }
-
-  .hotelLink {
-    margin-top: 34px;
-    font-size: 1.35rem;
-  }
-
-  .registryIntro {
-    padding: 48px 0 72px;
-    gap: 48px;
-  }
-
-  .registryMessage h1 {
-    font-size: 4.6rem;
-  }
-
-  .registryMessage > p {
-    font-size: 1.22rem;
+    margin-top: var(--item-space);
   }
 
   .registryCard {
@@ -1452,38 +1196,10 @@ summary:focus-visible {
     font-size: 1rem;
   }
 
-  .faqList {
-    width: var(--reading);
-    min-height: calc(100svh - 92px);
-    padding: 40px 0 50px;
-  }
-
-  .faqList summary {
-    padding: 28px 34px 24px 0;
-    font-size: 2.15rem;
-    text-align: left;
-  }
-
-  .faqList details p {
-    padding: 0 22px 34px 0;
-    font-size: 1.6rem;
-    text-align: left;
-  }
-
-  .rsvpNotice {
-    width: var(--reading);
-    min-height: clamp(280px, 34svh, 330px);
-    padding: 60px 0 22px;
-  }
-
-  .rsvpNotice p {
-    font-size: 1.45rem;
-  }
-
   .rsvpPhoto {
     width: var(--content);
     aspect-ratio: 16 / 9;
-    margin-bottom: 68px;
+    margin-bottom: 0;
   }
 
   .rsvpPhoto img {
@@ -1492,54 +1208,8 @@ summary:focus-visible {
     transform-origin: 67% 60%;
   }
 
-  .rsvpPhotoDivider {
-    width: min(46vw, 180px);
-    margin-bottom: 32px;
-  }
-
-  /* Keep small-screen copy comfortably readable while reducing the print type. */
+  /* Keep the hero date secondary to the names. */
   .homeTitleLockup p { font-size: 0.9rem; }
-  .homeWelcome p { font-size: 1.45rem; }
-  .scheduleEvent h2 { font-size: 1.6rem; }
-  .scheduleTime { font-size: 1.32rem; }
-  .scheduleVenue { font-size: 0.95rem; }
-  .travelIntro p { font-size: 1.2rem; }
-  .hotelCard p { font-size: 1.16rem; }
-  .hotelLink { font-size: 1.08rem; }
-  .faqList details p { font-size: 1.28rem; }
-  .rsvpNotice p { font-size: 1.16rem; }
-}
-
-/* The desktop artboards use generous display type.  Scale it down on smaller
-   laptop screens while preserving the same hierarchy and line breaks. */
-@media (min-width: 761px) and (max-width: 1200px) {
-  body { font-size: clamp(0.85rem, 1.19vw, 1.05rem); }
-  .homeTitleLockup p { font-size: clamp(0.735rem, 1.54vw, 1.12rem); }
-  .homeStoryMessage h2 { font-size: clamp(3.64rem, 5.07vw, 5.4rem); }
-  .homeWelcome p { font-size: clamp(0.945rem, 1.75vw, 1.785rem); }
-  .scheduleEvent h2 { font-size: clamp(1.05rem, 1.82vw, 1.89rem); }
-  .scheduleTime { font-size: clamp(0.84rem, 1.68vw, 1.75rem); }
-  .scheduleVenue { font-size: clamp(0.7rem, 1.05vw, 0.945rem); }
-  .travelIntro p { font-size: clamp(0.875rem, 1.54vw, 1.645rem); }
-  .hotelCard p { font-size: clamp(0.875rem, 1.47vw, 1.505rem); }
-  .hotelLink { font-size: clamp(0.77rem, 1.4vw, 1.33rem); }
-  .faqList details p { font-size: clamp(1.015rem, 2.17vw, 2.17rem); }
-  .rsvpNotice p { font-size: clamp(0.875rem, 1.47vw, 1.54rem); }
-}
-
-@media (min-width: 1201px) {
-  body { font-size: clamp(0.735rem, 1.19vw, 1.05rem); }
-  .homeTitleLockup p { font-size: clamp(0.735rem, 1.54vw, 1.12rem); }
-  .homeStoryMessage h2 { font-size: clamp(3.64rem, 5.07vw, 5.4rem); }
-  .homeWelcome p { font-size: clamp(0.945rem, 1.75vw, 1.785rem); }
-  .scheduleEvent h2 { font-size: clamp(1.05rem, 1.82vw, 1.89rem); }
-  .scheduleTime { font-size: clamp(0.84rem, 1.68vw, 1.75rem); }
-  .scheduleVenue { font-size: clamp(0.7rem, 1.05vw, 0.945rem); }
-  .travelIntro p { font-size: clamp(0.875rem, 1.54vw, 1.645rem); }
-  .hotelCard p { font-size: clamp(0.875rem, 1.47vw, 1.505rem); }
-  .hotelLink { font-size: clamp(0.77rem, 1.4vw, 1.33rem); }
-  .faqList details p { font-size: clamp(1.015rem, 2.17vw, 2.17rem); }
-  .rsvpNotice p { font-size: clamp(0.875rem, 1.47vw, 1.54rem); }
 }
 
 @media (prefers-reduced-motion: reduce) {

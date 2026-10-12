@@ -1,0 +1,66 @@
+.pageShell > main {
+  padding-top: var(--page-start);
+  padding-bottom: var(--page-end);
+}
+
+.pageIntro {
+  width: var(--reading);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.pageTitle,
+.sectionTitle {
+  margin: 0;
+  font-family: var(--script);
+  font-size: var(--type-title);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+.pageTitleCompact {
+  font-size: var(--type-title-compact);
+}
+
+.pageIntroCopy {
+  display: grid;
+  gap: var(--item-space);
+  margin-top: var(--content-space);
+}
+
+.pageIntroCopy > p {
+  margin: 0;
+  font-size: var(--type-body);
+  line-height: var(--line-body);
+}
+
+.sectionDivider {
+  width: min(46vw, 220px);
+  margin: var(--section-space) auto;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 12px;
+  color: var(--gold);
+}
+
+.sectionDivider::before,
+.sectionDivider::after {
+  height: 1px;
+  content: "";
+  flex: 1;
+  background: linear-gradient(90deg, transparent, currentColor);
+}
+
+.sectionDivider::after {
+  background: linear-gradient(90deg, currentColor, transparent);
+}
+
+.sectionDivider span {
+  width: 7px;
+  height: 7px;
+  border: 1px solid currentColor;
+  transform: rotate(45deg);
+}

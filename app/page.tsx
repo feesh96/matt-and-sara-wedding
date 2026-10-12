@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { SiteHeader } from "@/components/site-header";
+import { SectionDivider } from "@/components/section-divider";
 import { site } from "@/lib/site";
 
 export default function Home() {
@@ -27,13 +28,11 @@ export default function Home() {
         </div>
       </section>
 
+      <SectionDivider className="homeStoryDivider" />
       <section className="homePhotoStory" aria-label="Sara and Matt in Japan">
-        <div className="homeStoryDivider" aria-hidden="true">
-          <span />
-        </div>
         <div className="homeStoryLower">
           <div className="homeStoryMessage">
-            <h2>Welcome</h2>
+            <h2 className="sectionTitle">Welcome</h2>
             <p className="homeStoryIntro">
               We are so excited to celebrate our marriage with our cherished family and friends.
             </p>
@@ -48,6 +47,7 @@ export default function Home() {
             />
           </figure>
         </div>
+        <SectionDivider />
         <figure className="homeStoryPanorama">
           <Image
             src={site.media.pagodaTowerLandscape}

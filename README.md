@@ -15,7 +15,8 @@ Open [http://localhost:3000](http://localhost:3000).
 
 - Edit wedding copy and navigation in `lib/site.ts`.
 - Replace assigned images in `public/images` and update `site.media`.
-- Change colors and typography roles in `app/theme.css`.
+- Change colors, sizing, and spacing tokens in `app/theme.css`.
+- Follow [the design library](docs/design-system.md) and reuse `PageIntro` and `SectionDivider`.
 - Change the visual composition in `app/globals.css` without coupling it to wedding data.
 
 The pagoda portrait is intentionally not used in the first draft.

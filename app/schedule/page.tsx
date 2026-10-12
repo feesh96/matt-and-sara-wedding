@@ -1,6 +1,8 @@
 import Image from "next/image";
 import type { Metadata } from "next";
 import { PageShell } from "@/components/page-shell";
+import { PageIntro } from "@/components/page-intro";
+import { SectionDivider } from "@/components/section-divider";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = { title: "Schedule" };
@@ -8,11 +10,13 @@ export const metadata: Metadata = { title: "Schedule" };
 export default function SchedulePage() {
   return (
     <PageShell className="schedulePage">
-      <section className="scheduleLead" aria-labelledby="schedule-title">
-        <h1 id="schedule-title">
-          <span>Sunday, May</span> 30<sup>th</sup>, 2027
-        </h1>
-      </section>
+      <PageIntro
+        className="scheduleLead"
+        titleId="schedule-title"
+        compact
+        title={<><span>Sunday, May</span> 30<sup>th</sup>, 2027</>}
+      />
+      <SectionDivider />
       <section className="scheduleScene" aria-labelledby="ceremony-title">
         <Image className="scheduleAerial" src={site.media.aerial} alt="" fill sizes="100vw" />
         <div className="scheduleSceneWash" aria-hidden="true" />
