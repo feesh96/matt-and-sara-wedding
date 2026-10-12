@@ -22,6 +22,7 @@ export default function SchedulePage() {
           <div className="scheduleVenue">
             <strong>{site.wedding.venue}</strong>
             <address>{site.wedding.address}</address>
+            <p className="scheduleDressCode">{site.wedding.dressCode}</p>
           </div>
           <div className="scheduleActions">
             <a

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { Metadata } from "next";
 import { PageShell } from "@/components/page-shell";
+import { TravelCards } from "@/components/travel-card";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = { title: "Travel" };
@@ -11,6 +12,7 @@ export default function TravelPage() {
       <section className="travelIntro" aria-labelledby="accommodations-title">
         <h1 id="accommodations-title">Accommodations</h1>
         <p>{site.travel.accommodations}</p>
+        <p>{site.travel.roomBlockNote}</p>
       </section>
       <section className="hotelGrid" aria-label="Hotel room blocks">
         {site.travel.hotels.map((hotel) => (
@@ -31,6 +33,13 @@ export default function TravelPage() {
             </a>
           </article>
         ))}
+      </section>
+      <section className="travelDirections" aria-labelledby="directions-title">
+        <div className="homeStoryDivider" aria-hidden="true">
+          <span />
+        </div>
+        <h2 id="directions-title">Getting to Princeton</h2>
+        <TravelCards directions={site.travel.directions} />
       </section>
     </PageShell>
   );

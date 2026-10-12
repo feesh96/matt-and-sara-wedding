@@ -240,3 +240,60 @@ test("phone layouts have no horizontal overflow", async ({ page }) => {
     expect(dimensions.viewportWidth - contentBox!.x - contentBox!.width).toBeGreaterThanOrEqual(38);
   }
 });
+
+test("travel cards collapse when either paragraph is clicked", async ({ page }) => {
+  await page.goto("/travel/");
+  const cards = page.locator(".travelCard");
+  await expect(cards).toHaveCount(3);
+
+  for (const title of ["By Plane", "By Train", "By Car"]) {
+    const card = page.getByRole("button", { name: title, exact: true });
+    await expect(card).toHaveAttribute("aria-expanded", "false");
+    for (const paragraph of await card.locator(".travelCardParagraph").all()) {
+      await card.click();
+      await expect(paragraph).toBeVisible();
+      await paragraph.click();
+      await expect(card).toHaveAttribute("aria-expanded", "false");
+    }
+    await card.press("Enter");
+    await expect(card).toHaveAttribute("aria-expanded", "true");
+    await card.press("Space");
+    await expect(card).toHaveAttribute("aria-expanded", "false");
+  }
+
+  const flightCard = page.getByRole("button", { name: "By Plane", exact: true });
+  await flightCard.click();
+  await expect(flightCard.locator(".travelCardParagraph").first()).toContainText("Princeton Junction (~45 minutes)");
+  await expect(flightCard.locator(".travelCardParagraph").first()).toContainText("hotels (~10 min)");
+});
+
+test("selected travel cards fill the gutters and slide the other choices away", async ({ page }) => {
+  await page.goto("/travel/");
+  const section = page.locator(".travelDirections");
+  const cards = page.locator(".travelCard");
+
+  for (const title of ["By Plane", "By Train", "By Car"]) {
+    const card = page.getByRole("button", { name: title, exact: true });
+    await card.click();
+    await expect.poll(async () => {
+      const selected = await card.boundingBox();
+      const gutters = await section.boundingBox();
+      return Math.abs(selected!.width - gutters!.width) + Math.abs(selected!.x - gutters!.x);
+    }).toBeLessThan(1);
+
+    const gutters = (await section.boundingBox())!;
+    for (const other of await cards.filter({ hasNotText: title }).all()) {
+      await expect(other).toHaveAttribute("aria-hidden", "true");
+      await expect(other).toHaveAttribute("inert", "");
+      const box = (await other.boundingBox())!;
+      expect(box.x + box.width <= gutters.x + 1 || box.x >= gutters.x + gutters.width - 1).toBe(true);
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth === document.documentElement.clientWidth)).toBe(true);
+
+    await card.press("Escape");
+    await expect(page.locator('.travelCard[aria-hidden="true"]')).toHaveCount(0);
+    await expect(page.getByRole("button", { name: "By Plane", exact: true })).toBeVisible();
+    await expect(page.getByRole("button", { name: "By Train", exact: true })).toBeVisible();
+    await expect(page.getByRole("button", { name: "By Car", exact: true })).toBeVisible();
+  }
+});

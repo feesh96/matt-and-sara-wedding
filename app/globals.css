@@ -448,6 +448,13 @@ summary:focus-visible {
   font-style: normal;
 }
 
+.scheduleDressCode {
+  margin: 0.8em 0 0;
+  font-size: 1.15em;
+  font-weight: 700;
+  font-style: italic;
+}
+
 .scheduleActions {
   width: fit-content;
   max-width: 92vw;
@@ -469,7 +476,7 @@ summary:focus-visible {
 .travelIntro {
   width: var(--reading);
   min-height: clamp(185px, 18vw, 300px);
-  padding: clamp(78px, 8vw, 128px) 0 35px;
+  padding: clamp(55px, 6vw, 96px) 0 35px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -477,9 +484,13 @@ summary:focus-visible {
   text-align: center;
 }
 
+.travelIntro h1,
+.travelDirections h2 {
+  font-size: clamp(4rem, 8.3vw, 8.2rem);
+}
+
 .travelIntro h1 {
   margin: 0;
-  font-size: clamp(4rem, 8.3vw, 8.2rem);
   line-height: 0.86;
   letter-spacing: 0;
 }
@@ -489,6 +500,199 @@ summary:focus-visible {
   margin: 0;
   font-size: clamp(1.25rem, 2.2vw, 2.35rem);
   line-height: 1.33;
+}
+
+.travelIntro p + p {
+  margin-top: clamp(20px, 2vw, 32px);
+}
+
+.travelDirections {
+  width: var(--content);
+  padding: clamp(24px, 3.5vw, 56px) 0 clamp(55px, 6vw, 100px);
+  margin: 0 auto;
+}
+
+.travelDirections h2 {
+  margin: 0 0 clamp(28px, 3vw, 44px);
+  font-family: var(--script);
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+}
+
+.travelCardViewport {
+  --travel-card-gap: clamp(18px, 2.4vw, 32px);
+  --travel-card-motion: 460ms cubic-bezier(0.22, 1, 0.36, 1);
+  padding: 6px;
+  margin: -6px;
+  overflow: hidden;
+}
+
+.travelCardTrack {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--travel-card-gap);
+  transform: translateX(0);
+  transition: transform var(--travel-card-motion);
+}
+
+.travelCardViewport.isExpanded .travelCardTrack {
+  /* Earlier cards keep their compact width as the chosen card fills the row. */
+  transform: translateX(calc(var(--active-index) * (100% + var(--travel-card-gap)) / -3));
+}
+
+.travelCard {
+  flex: 0 0 calc((100% - 2 * var(--travel-card-gap)) / 3);
+  min-width: 0;
+  padding: 0;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1.5px solid rgba(180, 151, 85, 0.38);
+  border-radius: 8px;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  transition: flex-basis var(--travel-card-motion), transform 180ms ease, border-color 180ms ease;
+}
+
+.travelCard.isActive {
+  flex-basis: 100%;
+}
+
+.travelCard[inert] {
+  pointer-events: none;
+}
+
+.travelCardHeader {
+  min-height: 180px;
+  padding: 32px 24px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  transition: min-height var(--travel-card-motion), padding var(--travel-card-motion);
+}
+
+.travelCard.isActive .travelCardHeader {
+  min-height: 144px;
+  padding: 26px 24px;
+}
+
+.travelCardToggle {
+  position: absolute;
+  top: 14px;
+  right: 20px;
+  color: var(--gold-deep);
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.travelCard:focus-visible {
+  outline: 2px solid var(--gold-deep);
+  outline-offset: -6px;
+}
+
+.travelCardIcon {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+  color: inherit;
+}
+
+.travelCardTitle {
+  font-size: clamp(1.7rem, 2.5vw, 2.2rem);
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.1;
+  text-align: center;
+}
+
+.travelCardReveal {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  transition: grid-template-rows var(--travel-card-motion), opacity 220ms ease, visibility 0s 460ms;
+}
+
+.travelCard.isActive .travelCardReveal {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+  transition: grid-template-rows var(--travel-card-motion), opacity 260ms ease 160ms, visibility 0s;
+}
+
+.travelCardBodyClip {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.travelCardBody {
+  display: block;
+  max-width: 860px;
+  padding: 0 clamp(22px, 3vw, 44px) 30px;
+  margin: 0 auto;
+  font-size: clamp(1.15rem, 1.6vw, 1.4rem);
+  line-height: 1.4;
+}
+
+.travelCardParagraph {
+  display: block;
+}
+
+.travelCardParagraph + .travelCardParagraph {
+  margin-top: 1em;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .travelCardViewport:not(.isExpanded) .travelCard:hover {
+    transform: scale(1.025);
+    border-color: var(--gold);
+  }
+}
+
+@media (max-width: 760px) {
+  .travelCardViewport {
+    --travel-card-gap: 10px;
+  }
+
+  .travelCardHeader {
+    min-height: 146px;
+    padding: 28px 8px 20px;
+    gap: 12px;
+  }
+
+  .travelCardTitle {
+    font-size: 1.45rem;
+  }
+
+  .travelCardToggle {
+    top: 6px;
+    right: 10px;
+    font-size: 2rem;
+  }
+
+  .travelCard.isActive .travelCardTitle {
+    font-size: 1.8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .travelCardTrack,
+  .travelCard,
+  .travelCardHeader,
+  .travelCardReveal,
+  .travelCard.isActive .travelCardReveal {
+    transition: none;
+  }
+
+  .travelCardViewport:not(.isExpanded) .travelCard:hover {
+    transform: none;
+  }
 }
 
 .hotelGrid {
@@ -521,7 +725,7 @@ summary:focus-visible {
 .hotelCard h2 {
   margin: clamp(20px, 2vw, 34px) 0 0;
   font-family: var(--script);
-  font-size: clamp(2.7rem, 5vw, 5.5rem);
+  font-size: clamp(2.2rem, 4vw, 4.4rem);
   font-weight: 700;
   line-height: 0.93;
   letter-spacing: 0;
@@ -1180,10 +1384,11 @@ summary:focus-visible {
   .travelIntro {
     width: var(--reading);
     min-height: 225px;
-    padding: 73px 0 30px;
+    padding: 60px 0 30px;
   }
 
-  .travelIntro h1 {
+  .travelIntro h1,
+  .travelDirections h2 {
     font-size: 4.3rem;
   }
 
@@ -1205,7 +1410,7 @@ summary:focus-visible {
 
   .hotelCard h2 {
     margin-top: 28px;
-    font-size: 3.9rem;
+    font-size: 3.15rem;
   }
 
   .hotelCard p {
