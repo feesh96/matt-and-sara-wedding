@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { site, type NavigationItem } from "@/lib/site";
 
@@ -64,6 +64,8 @@ function MobileNavIcon({ label }: { label: string }) {
 }
 
 export function SiteHeader({ overlay = false }: SiteHeaderProps) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   const headerClassName = `siteHeader${overlay ? " siteHeaderOverlay" : ""}`;
   const pathname = usePathname().replace(/\/$/, "") || "/";
 
@@ -89,8 +91,24 @@ export function SiteHeader({ overlay = false }: SiteHeaderProps) {
         <Link className="wordmark" href="/" aria-label="Sara and Matt, home">
           <Image src="/images/monogram.png" alt="" width={322} height={249} priority={overlay} />
         </Link>
-        <details className="mobileMenu">
-          <summary className="menuButton">
+        <div
+          className="mobileMenu"
+          data-open={menuOpen}
+          onKeyDown={(event) => {
+            if (event.key === "Escape" && menuOpen) {
+              setMenuOpen(false);
+              menuButtonRef.current?.focus();
+            }
+          }}
+        >
+          <button
+            ref={menuButtonRef}
+            type="button"
+            className="menuButton"
+            aria-expanded={menuOpen}
+            aria-controls="mobile-navigation"
+            onClick={() => setMenuOpen((open) => !open)}
+          >
             <span className="visuallyHidden">Toggle navigation</span>
             <span className="menuButtonLabel" aria-hidden="true">Menu</span>
             <span className="menuIcon" aria-hidden="true">
@@ -98,13 +116,19 @@ export function SiteHeader({ overlay = false }: SiteHeaderProps) {
               <span />
               <span />
             </span>
-          </summary>
-          <nav id="mobile-navigation" className="mobileNav" aria-label="Mobile navigation">
+          </button>
+          <nav
+            id="mobile-navigation"
+            className="mobileNav"
+            aria-label="Mobile navigation"
+            inert={!menuOpen}
+            onClick={() => setMenuOpen(false)}
+          >
             <ul>
               <NavigationItems mobile pathname={pathname} />
             </ul>
           </nav>
-        </details>
+        </div>
       </div>
     </header>
   );

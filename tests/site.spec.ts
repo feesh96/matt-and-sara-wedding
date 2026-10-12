@@ -93,9 +93,10 @@ test("mobile navigation opens and provides every working route", async ({ page }
   expect(menuBox).not.toBeNull();
   expect(wordmarkBox).not.toBeNull();
   expect(Math.abs(menuBox!.y + menuBox!.height / 2 - (wordmarkBox!.y + wordmarkBox!.height / 2))).toBeLessThanOrEqual(1);
-  await expect(menu).not.toHaveAttribute("open", "");
-  await menu.locator("summary").click();
-  await expect(menu).toHaveAttribute("open", "");
+  const toggle = menu.getByRole("button", { name: "Toggle navigation" });
+  await expect(toggle).toHaveAttribute("aria-expanded", "false");
+  await toggle.click();
+  await expect(toggle).toHaveAttribute("aria-expanded", "true");
 
   const navigation = page.getByRole("navigation", { name: "Mobile navigation" });
   await expect(menu.getByText("Menu", { exact: true })).toBeVisible();
@@ -459,7 +460,7 @@ test("navigation fades every interior page, including return visits", async ({ p
     ["Travel", "/travel/"],
   ]) {
     if (page.viewportSize()!.width <= 760) {
-      await page.locator(".mobileMenu summary").click();
+      await page.getByRole("button", { name: "Toggle navigation" }).click();
       await page.getByRole("navigation", { name: "Mobile navigation" }).getByRole("link", { name: label, exact: true }).click();
     } else {
       await page.locator(".desktopHeader").getByRole("link", { name: label, exact: true }).click();

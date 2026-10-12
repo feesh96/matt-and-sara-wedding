@@ -973,10 +973,6 @@ summary:focus-visible {
     list-style: none;
   }
 
-  .menuButton::-webkit-details-marker {
-    display: none;
-  }
-
   .menuButtonLabel {
     font-size: 0.9rem;
     font-weight: 400;
@@ -999,22 +995,16 @@ summary:focus-visible {
     transition: transform 180ms ease, opacity 180ms ease;
   }
 
-  .mobileMenu[open] .menuIcon span:first-child {
+  .mobileMenu[data-open="true"] .menuIcon span:first-child {
     transform: translateY(6px) rotate(45deg);
   }
 
-  .mobileMenu[open] .menuIcon span:nth-child(2) {
+  .mobileMenu[data-open="true"] .menuIcon span:nth-child(2) {
     opacity: 0;
   }
 
-  .mobileMenu[open] .menuIcon span:last-child {
+  .mobileMenu[data-open="true"] .menuIcon span:last-child {
     transform: translateY(-6px) rotate(-45deg);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .menuIcon span {
-      transition: none;
-    }
   }
 
   .mobileNav {
@@ -1027,10 +1017,30 @@ summary:focus-visible {
     border-radius: 14px;
     background: var(--paper);
     box-shadow: 0 18px 24px rgba(77, 56, 41, 0.12);
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-16px);
+    clip-path: inset(0 0 100% 0 round 14px);
+    transition:
+      transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+      clip-path 320ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 200ms ease,
+      visibility 0s linear 320ms;
   }
 
-  .mobileMenu:not([open]) .mobileNav {
-    display: none;
+  .mobileMenu[data-open="true"] .mobileNav {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+    clip-path: inset(-40px round 14px);
+    transition-delay: 0s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .menuIcon span,
+    .mobileNav {
+      transition: none;
+    }
   }
 
   .mobileNav ul {
