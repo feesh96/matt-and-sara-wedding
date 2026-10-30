@@ -22,7 +22,7 @@ export type Hotel = {
 
 const navigation: readonly NavigationItem[] = [
   { label: "Home", side: "left", href: "/" },
-  { label: "Us", side: "left", href: "/our-story" },
+  { label: "Us", side: "left", href: "/us" },
   { label: "Schedule", side: "left", href: "/schedule" },
   { label: "Travel", side: "left", href: "/travel" },
   { label: "Wedding Party", side: "right", href: "/wedding-party" },

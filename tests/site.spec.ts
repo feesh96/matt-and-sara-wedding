@@ -66,7 +66,7 @@ test("desktop navigation reaches every available route", async ({ page }) => {
 
   for (const [label, path] of [
     ["Home", "/"],
-    ["Us", "/our-story"],
+    ["Us", "/us"],
     ["Schedule", "/schedule"],
     ["Travel", "/travel"],
   ] as const) {
@@ -108,7 +108,7 @@ test("mobile navigation opens and provides every working route", async ({ page }
   const registry = navigation.getByRole("link", { name: "Registry" });
   await expect(registry).toHaveAttribute("href", /\/registry\/$/);
   await expect(navigation).toHaveCSS("border-top-left-radius", "14px");
-  await expect(navigation.getByRole("link", { name: "Us" })).toHaveAttribute("href", "/our-story/");
+  await expect(navigation.getByRole("link", { name: "Us" })).toHaveAttribute("href", "/us/");
   await expect(navigation.getByRole("link", { name: "Wedding Party" })).toHaveAttribute("href", "/wedding-party/");
   await expect(navigation.locator(".mobileNavIcon")).toHaveCount(8);
 
@@ -227,7 +227,7 @@ test("phone layouts have no horizontal overflow", async ({ page }) => {
   for (const [path, contentSelector] of [
     ["/", ".homeStoryLower"],
     ["/schedule", ".scheduleEvent"],
-    ["/our-story", ".pageIntro"],
+    ["/us", ".pageIntro"],
     ["/wedding-party", ".weddingPartyGrid"],
     ["/travel", ".travelIntro"],
     ["/registry", ".registryIntro"],
@@ -310,7 +310,7 @@ test("selected travel cards fill the gutters and slide the other choices away", 
 
 test("interior pages share title sizing and header spacing", async ({ page }) => {
   let reference: { size: number; gap: number } | undefined;
-  for (const path of ["/travel/", "/registry/", "/faq/", "/rsvp/", "/our-story/", "/wedding-party/"]) {
+  for (const path of ["/travel/", "/registry/", "/faq/", "/rsvp/", "/us/", "/wedding-party/"]) {
     await page.goto(path);
     const title = page.locator(".pageTitle");
     await expect(title).toBeVisible();
@@ -461,7 +461,7 @@ test("navigation fades every interior page, including return visits", async ({ p
 
   for (const [label, path] of [
     ["Schedule", "/schedule/"],
-    ["Us", "/our-story/"],
+    ["Us", "/us/"],
     ["Wedding Party", "/wedding-party/"],
     ["Travel", "/travel/"],
     ["Registry", "/registry/"],

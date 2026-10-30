@@ -4,7 +4,7 @@ import { readFile } from "node:fs/promises";
 
 test("gallery shows the selected photos without cropping and opens an accessible viewer", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/our-story/");
+  await page.goto("/us/");
   const gallery = page.getByRole("region", { name: "Gallery", exact: true });
   await expect(gallery.getByRole("img")).toHaveCount(20);
   const first = gallery.getByRole("button", { name: /^View photo 1:/ });
@@ -46,7 +46,7 @@ test("all selected gallery assets are available", async ({ request, isMobile }) 
 test("final gallery preserves the saved selections and captions without editing controls", async ({ page, isMobile }) => {
   const draft = JSON.parse(await readFile("docs/story-assets/gallery-final-draft.json", "utf8"));
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/our-story/");
+  await page.goto("/us/");
   const gallery = page.getByRole("region", { name: "Gallery", exact: true });
   await expect(gallery.locator(".storyGalleryItem")).toHaveCount(20);
   await expect(gallery.locator(".storyGalleryCaption")).toHaveCount(14);
@@ -80,7 +80,7 @@ test("final gallery preserves the saved selections and captions without editing 
 test("mobile cover opens fully before the page extends downward", async ({ page, isMobile }) => {
   test.skip(!isMobile, "Single-sheet mobile opening");
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.goto("/our-story/");
+  await page.goto("/us/");
   await page.getByRole("button", { name: "Open Matt & Sara’s storybook" }).click();
   const samples = await page.evaluate(async () => {
     const stage = document.querySelector<HTMLElement>(".storyBookStage")!;
@@ -121,7 +121,7 @@ test("mobile cover opens fully before the page extends downward", async ({ page,
 test("mobile binding follows the visible book height while expanding and shrinking", async ({ page, isMobile }) => {
   test.skip(!isMobile, "Mobile resizing shell");
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.goto("/our-story/");
+  await page.goto("/us/");
   const stage = page.locator(".storyBookStage");
   await page.getByRole("button", { name: "Open Matt & Sara’s storybook" }).click();
   await expect(stage).toHaveAttribute("data-cover", "expanding");
@@ -156,7 +156,7 @@ test("mobile binding follows the visible book height while expanding and shrinki
 });
 
 test("slideshow centers arrows, animates both directions and closes outside the photo", async ({ page }) => {
-  await page.goto("/our-story/");
+  await page.goto("/us/");
   await page.getByRole("button", { name: /^View photo 2:/ }).click();
   const viewer = page.getByRole("dialog");
   const next = viewer.getByRole("button", { name: "Next photo" });
@@ -191,7 +191,7 @@ test("slideshow centers arrows, animates both directions and closes outside the 
 });
 
 test("gallery keeps its desktop top-to-bottom sequence when resized to mobile", async ({ page }) => {
-  await page.goto("/our-story/");
+  await page.goto("/us/");
   const grid = page.locator(".storyGalleryPhotos");
   await expect(grid).toHaveAttribute("data-masonry", "true");
   const expected = galleryPhotos.map(photo => photo.src);

@@ -2,14 +2,14 @@ import { expect, test, type Page } from "@playwright/test";
 import { storyChapters } from "../lib/story";
 
 async function openBook(page: Page) {
-  if (new URL(page.url()).pathname !== "/our-story/") return;
+  if (new URL(page.url()).pathname !== "/us/") return;
   await page.getByRole("button", { name: "Open Matt & Sara’s storybook" }).click();
   await expect(page.locator(".storyBookStage")).toHaveAttribute("data-cover", "open");
 }
 
 test("book arrows stay inside the book and respect boundaries and rapid input", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.goto("/our-story/");
+  await page.goto("/us/");
   await openBook(page);
   const book = page.locator(".storyBook");
   const next = book.getByRole("button", { name: "Next page", exact: true });
@@ -46,7 +46,7 @@ test("book arrows stay inside the book and respect boundaries and rapid input", 
 
 test("motion variants remain available through direct links without comparison controls", async ({ page }) => {
   for (const motion of ["gentle", "characters"]) {
-    await page.goto(`/our-story/?motion=${motion}`);
+    await page.goto(`/us/?motion=${motion}`);
     await openBook(page);
     await expect(page.locator(".storyExperience")).toHaveAttribute("data-motion", motion);
     await expect(page.locator(".storyComparison")).toHaveCount(0);
@@ -54,7 +54,7 @@ test("motion variants remain available through direct links without comparison c
 });
 
 test("scrolling chapters preserve every paragraph and load the storybook illustrations", async ({ page }) => {
-  await page.goto("/our-story/scroll/");
+  await page.goto("/us/scroll/");
   await openBook(page);
   for (const chapter of storyChapters) {
     const section = page.locator(`#${chapter.id}`);
@@ -67,7 +67,7 @@ test("scrolling chapters preserve every paragraph and load the storybook illustr
 
 test("reduced motion uses still illustrations and instant page changes", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/our-story/?motion=characters");
+  await page.goto("/us/?motion=characters");
   await openBook(page);
   await expect(page.locator(".storyBookSpread[data-active-chapter] .storyScene")).toHaveAttribute("data-state", "still");
   await expect(page.locator(".storyBookSpread[data-active-chapter] .storyBackground")).toBeVisible();
@@ -79,7 +79,7 @@ test("reduced motion uses still illustrations and instant page changes", async (
 
 test("scenes pause offscreen and settle after one six-second playback", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.goto("/our-story/scroll/?motion=characters");
+  await page.goto("/us/scroll/?motion=characters");
   await openBook(page);
   const first = page.locator('#blacksburg .storyScene');
   await expect(page.locator(".storyExperience")).toHaveAttribute("data-motion", "characters");
@@ -98,7 +98,7 @@ test("scenes pause offscreen and settle after one six-second playback", async ({
 
 test("failed artwork leaves the story and navigation available", async ({ page }) => {
   await page.route("**/images/story/*", (route) => route.abort());
-  await page.goto("/our-story/");
+  await page.goto("/us/");
   await openBook(page);
   await expect(page.locator(".storyImageFallback")).toBeVisible();
   await expect(page.locator(".storyBook > .storyBookSpread[data-active-chapter] .storyParagraph")).toContainText("Over Shabbat dinners at Chabad");
@@ -117,7 +117,7 @@ test("a delayed later illustration does not block the first chapter or its own t
     await route.continue();
   });
   try {
-    await page.goto("/our-story/scroll/", { waitUntil: "domcontentloaded" });
+    await page.goto("/us/scroll/", { waitUntil: "domcontentloaded" });
     await openBook(page);
     await expect(page.locator("#blacksburg .storyParagraph")).toBeVisible();
     const finalChapter = page.locator("#kyoto");
@@ -137,7 +137,7 @@ test("a delayed later illustration does not block the first chapter or its own t
 test("both layouts fit narrow phones and tablet widths", async ({ page }) => {
   for (const width of [320, 390, 899, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });
-    for (const path of ["/our-story/", "/our-story/scroll/"]) {
+    for (const path of ["/us/", "/us/scroll/"]) {
       await page.goto(path);
       await openBook(page);
       await expect(page.getByRole("heading", { name: "Our Story", exact: true })).toBeVisible();
@@ -151,7 +151,7 @@ test("all book pages keep one height with centered arrows at every breakpoint", 
   await page.emulateMedia({ reducedMotion: "reduce" });
   for (const width of [320, 390, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });
-    await page.goto("/our-story/");
+    await page.goto("/us/");
     await openBook(page);
     await page.evaluate(() => document.fonts.ready);
     const book = page.locator(".storyBook");
@@ -173,7 +173,7 @@ test("all book pages keep one height with centered arrows at every breakpoint", 
 
 test("page edges fade on hover and retain the shadow during a turn", async ({ page, isMobile }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.goto("/our-story/");
+  await page.goto("/us/");
   await openBook(page);
   if (!isMobile) await page.mouse.move(0, 0);
   const next = page.getByRole("button", { name: "Next page" });
@@ -195,7 +195,7 @@ test("page edges fade on hover and retain the shadow during a turn", async ({ pa
 
 test("side taps and horizontal swipes turn pages while vertical scrolling does not", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/our-story/");
+  await page.goto("/us/");
   await openBook(page);
   const book = page.locator(".storyBook");
   const active = page.locator("[data-active-chapter]");
@@ -223,7 +223,7 @@ test("page turns retain decoded scene nodes and wait for delayed artwork", async
   let release!: () => void;
   const gate = new Promise<void>((resolve) => { release = resolve; });
   await page.route("**/images/story/new-york-*.webp", async (route) => { await gate; await route.continue(); });
-  await page.goto("/our-story/");
+  await page.goto("/us/");
   await openBook(page);
   const book = page.locator(".storyBook");
   const oldScene = await page.locator('[data-active-chapter] .storyArtwork').elementHandle();
@@ -243,7 +243,7 @@ test("page turns retain decoded scene nodes and wait for delayed artwork", async
 
 test("turns rotate a two-sided leaf without clipping the spread into a wipe", async ({ page, isMobile }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.goto("/our-story/");
+  await page.goto("/us/");
   await openBook(page);
   await page.getByRole("button", { name: "Next page" }).click();
   await expect(page.locator(".storyBook")).toHaveAttribute("data-turning", "true");
@@ -281,7 +281,7 @@ test("turns rotate a two-sided leaf without clipping the spread into a wipe", as
 
 test("cover opens to page one, locks navigation during animations, and closes from the last page", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.goto("/our-story/");
+  await page.goto("/us/");
   const stage = page.locator(".storyBookStage");
   const cover = page.getByRole("button", { name: "Open Matt & Sara’s storybook" });
   await expect(stage).toHaveAttribute("data-cover", "closed");
@@ -317,7 +317,7 @@ test("the cover remains available while page-one artwork loads", async ({ page }
   const gate = new Promise<void>((resolve) => { release = resolve; });
   await page.route("**/images/story/blacksburg-storybook.webp", async (route) => { await gate; await route.continue(); });
   try {
-    await page.goto("/our-story/", { waitUntil: "domcontentloaded" });
+    await page.goto("/us/", { waitUntil: "domcontentloaded" });
     const cover = page.getByRole("button", { name: "Open Matt & Sara’s storybook" });
     await expect(cover).toBeVisible();
     await cover.click();
@@ -332,7 +332,7 @@ test("the cover remains available while page-one artwork loads", async ({ page }
 
 test("reduced motion opens and closes the cover without animations", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/our-story/");
+  await page.goto("/us/");
   await openBook(page);
   for (const id of ["new-york", "home", "kyoto"]) {
     await page.getByRole("button", { name: "Next page", exact: true }).click();
@@ -347,7 +347,7 @@ test("reduced motion opens and closes the cover without animations", async ({ pa
 
 test("the first page closes through its back arrow, keyboard, or swipe", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/our-story/");
+  await page.goto("/us/");
   for (const input of ["arrow", "keyboard", "swipe"]) {
     await openBook(page);
     await expect(page.locator("[data-active-chapter]")).toHaveAttribute("data-active-chapter", "blacksburg");
@@ -366,7 +366,7 @@ test("the first page closes through its back arrow, keyboard, or swipe", async (
 
 test("cover carries its inside artwork while the flat left page stays concealed", async ({ page, isMobile }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.goto("/our-story/");
+  await page.goto("/us/");
   const cover = page.getByRole("button", { name: "Open Matt & Sara’s storybook" });
   const rings = cover.locator(".storyCoverRings");
   if (!isMobile) {
