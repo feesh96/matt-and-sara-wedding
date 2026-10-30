@@ -96,7 +96,7 @@ export function StoryGallery() {
               onClick={() => setSelected(item.src)}>
               <Image src={item.src} alt={item.alt} width={item.width} height={item.height} loading="lazy" draggable={false} />
             </button>
-            {item.caption && <figcaption id={`gallery-caption-${number}`} className="storyGalleryCaption">{item.caption}</figcaption>}
+            {item.caption && <figcaption id={`gallery-caption-${number}`} className="storyGalleryCaption"><span>{item.caption}</span></figcaption>}
           </figure>;
         })}
       </div>
