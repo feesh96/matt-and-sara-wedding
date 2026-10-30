@@ -11,10 +11,31 @@ export function StoryGallery() {
   const busy = useRef(false);
   const request = useRef(0);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const grid = useRef<HTMLDivElement>(null);
   const dialog = useRef<HTMLDialogElement>(null);
   const selectedIndex = galleryPhotos.findIndex(item => item.src === selected);
   const photo = galleryPhotos[selectedIndex];
   const isOpen = Boolean(photo);
+
+  useEffect(() => {
+    const element = grid.current;
+    if (!element) return;
+    // Reserve each image's height from its dimensions, before lazy loading finishes.
+    const layout = () => {
+      const style = getComputedStyle(element);
+      const columns = Number(style.getPropertyValue("--gallery-columns"));
+      const gap = parseFloat(style.columnGap);
+      const width = (element.clientWidth - gap * (columns - 1)) / columns;
+      Array.from(element.children).forEach((child, index) => {
+        const photo = galleryPhotos[index];
+        (child as HTMLElement).style.gridRowEnd = `span ${Math.ceil(width * photo.height / photo.width + gap)}`;
+      });
+      element.dataset.masonry = "true";
+    };
+    const observer = new ResizeObserver(layout);
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const element = dialog.current;
@@ -67,7 +88,7 @@ export function StoryGallery() {
     <section className="storyGallery" aria-labelledby="gallery-title">
       <SectionDivider />
       <h2 className="sectionTitle" id="gallery-title">Gallery</h2>
-      <div className="storyGalleryPhotos">
+      <div ref={grid} className="storyGalleryPhotos">
         {galleryPhotos.map((item, index) => {
           const number = index + 1;
           return <figure className="storyGalleryItem" key={item.src}>

@@ -67,10 +67,10 @@ test("final gallery preserves the saved selections and captions without editing 
   const viewer = page.getByRole("dialog", { name: "Gallery photo viewer" });
   await expect(viewer.locator(".storyGalleryViewerCaption")).toHaveText(draft.captions[galleryPhotos[0].src]);
   await viewer.getByRole("button", { name: "Next photo" }).click();
-  await expect(viewer.locator(".storyGalleryViewerCaption")).toHaveCount(0);
+  await expect(viewer.locator(".storyGalleryViewerCaption")).toHaveText(galleryPhotos[1].caption!);
   await viewer.getByRole("button", { name: "Next photo" }).click();
   await expect(viewer.getByRole("img")).toHaveAttribute("src", galleryPhotos[2].src);
-  await expect(viewer.locator(".storyGalleryViewerCaption")).toHaveText(draft.captions[galleryPhotos[2].src]);
+  await expect(viewer.locator(".storyGalleryViewerCaption")).toHaveCount(0);
   await page.keyboard.press("Escape");
   await page.reload();
   await expect(gallery.locator(".storyGalleryItem")).toHaveCount(20);
@@ -188,4 +188,25 @@ test("slideshow centers arrows, animates both directions and closes outside the 
   await viewer.click({ position: { x: 5, y: 5 } });
   await expect(viewer).not.toBeVisible();
   await expect(page.getByRole("button", { name: /^View photo 2:/ })).toBeFocused();
+});
+
+test("gallery keeps its desktop top-to-bottom sequence when resized to mobile", async ({ page }) => {
+  await page.goto("/our-story/");
+  const grid = page.locator(".storyGalleryPhotos");
+  await expect(grid).toHaveAttribute("data-masonry", "true");
+  const expected = galleryPhotos.map(photo => photo.src);
+  expect(expected.slice(0, 3)).toEqual([
+    "/images/gallery/matt-sara-01.jpg",
+    "/images/gallery/matt-sara-02.jpg",
+    "/images/gallery/matt-sara-25.jpg",
+  ]);
+  for (const width of [1280, 390, 768, 1280]) {
+    await page.setViewportSize({ width, height: 900 });
+    await expect.poll(() => grid.locator(".storyGalleryItem").evaluateAll(items => items.map(item => ({
+      src: item.querySelector("img")!.getAttribute("src"),
+      x: item.getBoundingClientRect().x,
+      y: item.getBoundingClientRect().y,
+    })).sort((a, b) => Math.abs(a.y - b.y) < .5 ? a.x - b.x : a.y - b.y).map(item => item.src))).toEqual(expected);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  }
 });
