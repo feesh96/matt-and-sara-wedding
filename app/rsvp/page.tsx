@@ -21,7 +21,7 @@ export default function RsvpPage() {
       <figure className="rsvpPhoto">
         <Image
           src={site.media.rsvpKyoto}
-          alt="Sara and Matt beside a temple pond in Kyoto"
+          alt="Matt and Sara beside a temple pond in Kyoto"
           fill
           sizes="100vw"
         />

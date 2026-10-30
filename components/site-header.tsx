@@ -36,7 +36,7 @@ function NavigationItems({
       ) : (
         <Link
           href={item.href}
-          aria-current={pathname === item.href ? "page" : undefined}
+          aria-current={pathname === item.href || (item.href !== "/" && pathname.startsWith(`${item.href}/`)) ? "page" : undefined}
         >
           {mobile && <MobileNavIcon label={item.label} />}
           {item.label}
@@ -49,6 +49,8 @@ function NavigationItems({
 function MobileNavIcon({ label }: { label: string }) {
   const paths: Record<string, ReactNode> = {
     Home: <path d="m3 10 9-7 9 7v10H3V10Zm6 10v-6h6v6" />,
+    Us: <path d="M12 20S3 14.5 3 8.5a4.5 4.5 0 0 1 9-1 4.5 4.5 0 0 1 9 1C21 14.5 12 20 12 20Z" />,
+    "Wedding Party": <path d="M15 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM6 21v-2a6 6 0 0 1 12 0v2M19 5a3 3 0 0 1 0 6m2 9v-2a5 5 0 0 0-2-4M5 5a3 3 0 0 0 0 6M3 20v-2a5 5 0 0 1 2-4" />,
     Schedule: <path d="M5 4h14v16H5V4Zm0 5h14M8 2v4m8-4v4" />,
     Travel: <path d="M5 8h14v12H5V8Zm4 0V5h6v3m-3 4v4" />,
     Registry: <path d="M4 10h16v10H4V10Zm8 0v10M3 6h18v4H3V6Zm9 0c-3 0-4-4-1-4 2 0 1 3 1 4Zm0 0c3 0 4-4 1-4-2 0-1 3-1 4Z" />,
@@ -77,7 +79,7 @@ export function SiteHeader({ overlay = false }: SiteHeaderProps) {
             <NavigationItems side="left" pathname={pathname} />
           </ul>
         </nav>
-        <Link className="wordmark" href="/" aria-label="Sara and Matt, home">
+        <Link className="wordmark" href="/" aria-label="Matt and Sara, home">
           <Image src="/images/monogram.png" alt="" width={322} height={249} priority={overlay} />
         </Link>
         <nav className="desktopNav desktopNavRight" aria-label="Secondary navigation">
@@ -88,7 +90,7 @@ export function SiteHeader({ overlay = false }: SiteHeaderProps) {
       </div>
 
       <div className="mobileHeader">
-        <Link className="wordmark" href="/" aria-label="Sara and Matt, home">
+        <Link className="wordmark" href="/" aria-label="Matt and Sara, home">
           <Image src="/images/monogram.png" alt="" width={322} height={249} priority={overlay} />
         </Link>
         <div

@@ -24,6 +24,7 @@ function PageReveal({ children }: { children: ReactNode }) {
       if (cancelled || !main || fonts.some((faces) => faces.length === 0)) return;
 
       const images = [...main.querySelectorAll("img")].filter((image) => {
+        if (image.closest("[inert], [aria-hidden='true']")) return false;
         const box = image.getBoundingClientRect();
         return box.top < window.innerHeight && box.bottom > 0;
       });

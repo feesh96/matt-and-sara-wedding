@@ -22,8 +22,10 @@ export type Hotel = {
 
 const navigation: readonly NavigationItem[] = [
   { label: "Home", side: "left", href: "/" },
+  { label: "Us", side: "left", href: "/our-story" },
   { label: "Schedule", side: "left", href: "/schedule" },
   { label: "Travel", side: "left", href: "/travel" },
+  { label: "Wedding Party", side: "right", href: "/wedding-party" },
   {
     label: "Registry",
     side: "right",
@@ -55,7 +57,7 @@ const hotels = [
 
 export const site = {
   couple: {
-    displayNames: "Sara & Matt",
+    displayNames: "Matt & Sara",
   },
   wedding: {
     dateIso: "2027-05-30",

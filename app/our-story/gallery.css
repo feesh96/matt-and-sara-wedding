@@ -1,0 +1,123 @@
+.storyGallery {
+  width: var(--content);
+  margin: 88px auto 0;
+}
+.storyGallery > .sectionDivider { margin: 0 auto 48px; }
+.storyGallery > .sectionTitle { text-align: center; margin: 0 0 48px; scroll-margin-top: 130px; }
+.storyGalleryPhotos { columns: 3; column-gap: 20px; }
+.storyGalleryItem { position: relative; margin: 0 0 20px; break-inside: avoid; }
+.storyGalleryPhoto {
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: var(--paper-bright);
+  break-inside: avoid;
+  cursor: zoom-in;
+  touch-action: manipulation;
+}
+.storyGalleryPhoto img { display: block; width: 100%; height: auto; }
+.storyGalleryPhoto:focus-visible { outline: 3px solid var(--sage-deep); outline-offset: 5px; }
+.storyGalleryViewer {
+  --gallery-available-width: min(1100px, calc(100vw - 180px), calc((100dvh - 220px) * 4 / 3));
+  --gallery-photo-width: min(var(--photo-natural-width), var(--gallery-available-width), calc((100dvh - 220px) * var(--photo-ratio)));
+  --gallery-target-inset: min(9vw, calc((100vw - var(--gallery-available-width)) / 4));
+  --gallery-arrow-center: calc((100vw - var(--gallery-available-width)) / 2 - 39px);
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 24px;
+  box-sizing: border-box;
+  border: 0;
+  background: transparent;
+  color: var(--paper-bright);
+}
+.storyGalleryViewer[open] { display: grid; place-items: center; }
+.storyGalleryViewer::backdrop { background: #161411ed; }
+.storyGalleryViewerContent {
+  position: relative; width: var(--gallery-available-width); height: calc(100dvh - 64px);
+  --slide-offset: 48px;
+}
+.storyGalleryViewerContent[data-direction="back"] { --slide-offset: -48px; }
+.storyGallerySlide {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; pointer-events: none;
+}
+.storyGallerySlide > img {
+  display: block; width: auto; height: auto; max-width: 100%;
+  max-height: calc(100dvh - 220px); object-fit: contain; pointer-events: auto;
+}
+.storyGallerySlide .storyGalleryViewerCaption { max-height: 130px; overflow-y: auto; pointer-events: auto; }
+.storyGallerySlide.isLeaving { animation: gallerySlideOut 380ms ease both; pointer-events: none; }
+.storyGallerySlide.isEntering { animation: gallerySlideIn 380ms ease both; }
+@keyframes gallerySlideOut { to { opacity: 0; transform: translateX(calc(-1 * var(--slide-offset))); } }
+@keyframes gallerySlideIn { from { opacity: 0; transform: translateX(var(--slide-offset)); } to { opacity: 1; transform: translateX(0); } }
+.storyGalleryArrow {
+  position: fixed; top: 20dvh; display: grid; place-items: center;
+  width: calc((100vw - var(--gallery-photo-width)) / 2 - var(--gallery-target-inset)); height: 60dvh; border: 0; padding: 0;
+  color: var(--paper-bright); background: transparent; cursor: pointer; isolation: isolate;
+}
+.storyGalleryPrevious { left: var(--gallery-target-inset); }
+.storyGalleryNext { right: var(--gallery-target-inset); }
+.storyGalleryArrow::before {
+  content: ""; position: fixed; top: 50dvh; transform: translateY(-50%); pointer-events: none;
+  width: 72px; height: 72px; z-index: -1; opacity: 0;
+  background: radial-gradient(circle, #ffffff38 0%, #ffffff14 35%, transparent 70%);
+  transition: opacity 180ms ease;
+}
+.storyGalleryPrevious::before { left: calc(var(--gallery-arrow-center) - 36px); }
+.storyGalleryNext::before { right: calc(var(--gallery-arrow-center) - 36px); }
+.storyGalleryPrevious svg { left: var(--gallery-arrow-center); transform: translate(-50%, -50%); }
+.storyGalleryNext svg { right: var(--gallery-arrow-center); transform: translate(50%, -50%); }
+.storyGalleryArrow svg { position: fixed; top: 50dvh; pointer-events: none; width: 38px; height: 38px; fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; transition: filter 180ms ease; }
+.storyGalleryArrow:hover:not(:disabled)::before, .storyGalleryArrow:active:not(:disabled)::before, .storyGalleryArrow:focus-visible::before { opacity: 1; }
+.storyGalleryArrow:hover:not(:disabled) svg { filter: drop-shadow(0 0 6px #ffffff80); }
+.storyGalleryArrow:focus-visible { outline: none; }
+.storyGalleryArrow:focus-visible svg { filter: drop-shadow(0 0 4px white); stroke-width: 4; }
+.storyGalleryArrow:disabled { opacity: .2; cursor: default; }
+.storyGalleryViewer:focus { outline: none; }
+@media (max-width: 600px) {
+  .storyGalleryViewer { --gallery-available-width: calc(100vw - 104px); --gallery-target-inset: 0px; --gallery-arrow-center: 29px; }
+  .storyGalleryViewerContent { width: var(--gallery-available-width); height: calc(100dvh - 40px); --slide-offset: 20px; }
+  .storyGalleryViewerContent[data-direction="back"] { --slide-offset: -20px; }
+  .storyGalleryArrow svg { width: 30px; height: 30px; }
+  .storyGalleryArrow::before { width: 60px; height: 60px; }
+  .storyGalleryPrevious::before { left: calc(var(--gallery-arrow-center) - 30px); }
+  .storyGalleryNext::before { right: calc(var(--gallery-arrow-center) - 30px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .storyGallerySlide.isLeaving, .storyGallerySlide.isEntering { animation: none; }
+  .storyGalleryArrow::before, .storyGalleryArrow svg { transition: none; }
+}
+@media (max-width: 899px) {
+  .storyGallery { width: 90vw; margin-top: 72px; }
+  .storyGalleryPhotos { columns: 2; column-gap: 12px; }
+  .storyGalleryItem { margin-bottom: 12px; }
+  .storyGalleryViewer { padding: 16px; }
+}
+
+.storyGalleryCaption {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 28px 16px 16px;
+  color: var(--paper-bright);
+  background: linear-gradient(transparent, #161411e6);
+  font: 400 1.15rem/1.35 var(--print);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 160ms ease;
+}
+.storyGalleryItem:hover .storyGalleryCaption,
+.storyGalleryItem:focus-within .storyGalleryCaption { opacity: 1; }
+.storyGalleryViewerCaption { max-width: 560px; margin: 16px auto 0; text-align: center; font: 400 1.25rem/1.4 var(--print); white-space: pre-wrap; overflow-wrap: anywhere; }
+@media (prefers-reduced-motion: reduce) { .storyGalleryCaption { transition: none; } }

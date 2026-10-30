@@ -7,10 +7,10 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://mattandsara.us"),
   title: {
-    default: "Sara & Matt | May 30, 2027",
-    template: "%s | Sara & Matt",
+    default: "Matt & Sara | May 30, 2027",
+    template: "%s | Matt & Sara",
   },
-  description: "Sara and Matt's wedding celebration in Princeton, New Jersey.",
+  description: "Matt and Sara's wedding celebration in Princeton, New Jersey.",
   icons: {
     icon: [
       { url: "/ring-icon.svg", type: "image/svg+xml" },
@@ -20,21 +20,21 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    siteName: "Sara & Matt",
-    title: "Sara & Matt | May 30, 2027",
+    siteName: "Matt & Sara",
+    title: "Matt & Sara | May 30, 2027",
     description: "Celebrate with us in Princeton, New Jersey on May 30, 2027.",
     images: [
       {
         url: "/social-preview.jpg",
         width: 1200,
         height: 630,
-        alt: "Sara and Matt together in Japan",
+        alt: "Matt and Sara together in Japan",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sara & Matt | May 30, 2027",
+    title: "Matt & Sara | May 30, 2027",
     description: "Celebrate with us in Princeton, New Jersey on May 30, 2027.",
     images: ["/social-preview.jpg"],
   },

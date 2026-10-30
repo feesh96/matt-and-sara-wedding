@@ -8,7 +8,7 @@ export function SiteFooter() {
       <Image
         className="footerMonogram"
         src="/images/monogram.png"
-        alt="Sara and Matt monogram"
+        alt="Matt and Sara monogram"
         width={322}
         height={249}
       />

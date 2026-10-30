@@ -14,7 +14,7 @@ export default function Home() {
         <div className="homeHeroWash" aria-hidden="true" />
         <HomeTitle>
           <h1 id="home-title" aria-label={site.couple.displayNames}>
-            Sara <span aria-hidden="true">&amp;</span> Matt
+            Matt <span aria-hidden="true">&amp;</span> Sara
           </h1>
           <p>
             <time dateTime={site.wedding.dateIso}>{site.wedding.date}</time>
@@ -24,7 +24,7 @@ export default function Home() {
       </section>
 
       <SectionDivider className="homeStoryDivider" />
-      <section className="homePhotoStory" aria-label="Sara and Matt in Japan">
+      <section className="homePhotoStory" aria-label="Matt and Sara in Japan">
         <div className="homeStoryLower">
           <div className="homeStoryMessage">
             <h2 className="sectionTitle">Welcome</h2>
@@ -35,7 +35,7 @@ export default function Home() {
           <figure className="homeStoryPortrait">
             <Image
               src={site.media.welcomePortrait}
-              alt="Sara and Matt together at a temple in Japan"
+              alt="Matt and Sara together at a temple in Japan"
               fill
               loading="eager"
               sizes="(max-width: 760px) 88vw, 48vw"
@@ -46,7 +46,7 @@ export default function Home() {
         <figure className="homeStoryPanorama">
           <Image
             src={site.media.pagodaTowerLandscape}
-            alt="Sara and Matt in front of a pagoda tower in Japan"
+            alt="Matt and Sara in front of a pagoda tower in Japan"
             fill
             loading="eager"
             sizes="100vw"

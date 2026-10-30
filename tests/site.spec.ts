@@ -3,17 +3,17 @@ import { expect, test } from "@playwright/test";
 test("shows the final home-page lockup and supplied photography", async ({ page }) => {
   await page.goto("/");
 
-  await expect(page.getByRole("heading", { name: "Sara & Matt" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Matt & Sara" })).toBeVisible();
   await expect(page.getByText("May 30, 2027", { exact: true })).toBeVisible();
   await expect(page.getByText("05.30, 2027", { exact: true })).toHaveCount(0);
   await expect(
     page.getByText("We are so excited to celebrate our marriage with our cherished family and friends."),
   ).toBeVisible();
-  await expect(page.getByAltText("Sara and Matt in front of a pagoda tower in Japan")).toHaveAttribute(
+  await expect(page.getByAltText("Matt and Sara in front of a pagoda tower in Japan")).toHaveAttribute(
     "src",
     /pagoda-tower-landscape-sara-wedding\.jpg/,
   );
-  await expect(page.getByAltText("Sara and Matt together at a temple in Japan")).toHaveAttribute(
+  await expect(page.getByAltText("Matt and Sara together at a temple in Japan")).toHaveAttribute(
     "src",
     /welcome-portrait\.png/,
   );
@@ -30,7 +30,7 @@ test("uses the updated pagoda photo on mobile without stretching it", async ({ p
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
 
-  const photo = page.getByAltText("Sara and Matt in front of a pagoda tower in Japan");
+  const photo = page.getByAltText("Matt and Sara in front of a pagoda tower in Japan");
   await expect(photo).toBeVisible();
   await expect.poll(() => photo.evaluate((image: HTMLImageElement) => image.currentSrc)).toMatch(
     /pagoda-tower-landscape-sara-wedding\.jpg/,
@@ -50,7 +50,7 @@ test("keeps the home title visible and on one line across viewport shapes", asyn
     await page.setViewportSize(viewport);
     await page.goto("/");
 
-    const title = page.getByRole("heading", { name: "Sara & Matt" });
+    const title = page.getByRole("heading", { name: "Matt & Sara" });
     const titleBox = await title.boundingBox();
     expect(titleBox).not.toBeNull();
     expect(titleBox!.y).toBeGreaterThanOrEqual(0);
@@ -66,6 +66,7 @@ test("desktop navigation reaches every available route", async ({ page }) => {
 
   for (const [label, path] of [
     ["Home", "/"],
+    ["Us", "/our-story"],
     ["Schedule", "/schedule"],
     ["Travel", "/travel"],
   ] as const) {
@@ -74,6 +75,7 @@ test("desktop navigation reaches every available route", async ({ page }) => {
   }
 
   const secondaryNavigation = page.getByRole("navigation", { name: "Secondary navigation" });
+  await expect(secondaryNavigation.getByRole("link", { name: "Wedding Party" })).toHaveAttribute("href", "/wedding-party/");
   await expect(secondaryNavigation.getByRole("link", { name: "Registry" })).toHaveAttribute(
     "href",
     "/registry/",
@@ -106,7 +108,9 @@ test("mobile navigation opens and provides every working route", async ({ page }
   const registry = navigation.getByRole("link", { name: "Registry" });
   await expect(registry).toHaveAttribute("href", /\/registry\/$/);
   await expect(navigation).toHaveCSS("border-top-left-radius", "14px");
-  await expect(navigation.locator(".mobileNavIcon")).toHaveCount(6);
+  await expect(navigation.getByRole("link", { name: "Us" })).toHaveAttribute("href", "/our-story/");
+  await expect(navigation.getByRole("link", { name: "Wedding Party" })).toHaveAttribute("href", "/wedding-party/");
+  await expect(navigation.locator(".mobileNavIcon")).toHaveCount(8);
 
   const menuItems = navigation.locator("li");
   const firstItem = await menuItems.first().boundingBox();
@@ -223,6 +227,8 @@ test("phone layouts have no horizontal overflow", async ({ page }) => {
   for (const [path, contentSelector] of [
     ["/", ".homeStoryLower"],
     ["/schedule", ".scheduleEvent"],
+    ["/our-story", ".pageIntro"],
+    ["/wedding-party", ".weddingPartyGrid"],
     ["/travel", ".travelIntro"],
     ["/registry", ".registryIntro"],
     ["/faq", ".faqList"],
@@ -235,10 +241,12 @@ test("phone layouts have no horizontal overflow", async ({ page }) => {
     }));
     expect(dimensions.pageWidth).toBe(dimensions.viewportWidth);
 
-    const contentBox = await page.locator(contentSelector).boundingBox();
-    expect(contentBox).not.toBeNull();
-    expect(contentBox!.x).toBeGreaterThanOrEqual(38);
-    expect(dimensions.viewportWidth - contentBox!.x - contentBox!.width).toBeGreaterThanOrEqual(38);
+    for (const content of await page.locator(contentSelector).all()) {
+      const contentBox = await content.boundingBox();
+      expect(contentBox).not.toBeNull();
+      expect(contentBox!.x).toBeGreaterThanOrEqual(38);
+      expect(dimensions.viewportWidth - contentBox!.x - contentBox!.width).toBeGreaterThanOrEqual(38);
+    }
   }
 });
 
@@ -302,7 +310,7 @@ test("selected travel cards fill the gutters and slide the other choices away", 
 
 test("interior pages share title sizing and header spacing", async ({ page }) => {
   let reference: { size: number; gap: number } | undefined;
-  for (const path of ["/travel/", "/registry/", "/faq/", "/rsvp/"]) {
+  for (const path of ["/travel/", "/registry/", "/faq/", "/rsvp/", "/our-story/", "/wedding-party/"]) {
     await page.goto(path);
     const title = page.locator(".pageTitle");
     await expect(title).toBeVisible();
@@ -453,13 +461,15 @@ test("navigation fades every interior page, including return visits", async ({ p
 
   for (const [label, path] of [
     ["Schedule", "/schedule/"],
+    ["Us", "/our-story/"],
+    ["Wedding Party", "/wedding-party/"],
     ["Travel", "/travel/"],
     ["Registry", "/registry/"],
     ["FAQs", "/faq/"],
     ["RSVP", "/rsvp/"],
     ["Travel", "/travel/"],
   ]) {
-    if (page.viewportSize()!.width <= 760) {
+    if (page.viewportSize()!.width <= 1050) {
       await page.getByRole("button", { name: "Toggle navigation" }).click();
       await page.getByRole("navigation", { name: "Mobile navigation" }).getByRole("link", { name: label, exact: true }).click();
     } else {

@@ -1,0 +1,497 @@
+.ourStoryPage {
+  --story-paper: var(--paper-bright);
+  --story-rule: color-mix(in srgb, var(--gold) 38%, transparent);
+  --story-frame-shadow: 0 2px 0 1px #dfd4bf, 0 5px 0 1px #f4eddf, 0 7px 0 1px #d1c4aa, 0 9px 0 3px #736450, 0 20px 35px -20px #4d38294d;
+}
+
+.storyExperience {
+  width: var(--content);
+  margin: var(--content-space) auto 0;
+}
+
+.storyBook {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  isolation: isolate;
+  border-radius: 3px 12px 12px 3px;
+  background: var(--story-paper);
+  box-shadow: var(--story-frame-shadow);
+  perspective: 2200px;
+}
+
+.storyBook::after {
+  position: absolute;
+  inset: 0 auto 0 50%;
+  width: 32px;
+  content: "";
+  pointer-events: none;
+  z-index: 3;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, #4d382908 36%, #4d38291c 49%, #fff7e942 53%, transparent);
+}
+
+.storyBookSpread {
+  grid-area: 1 / 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 520px;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%2387682c' opacity='.025' filter='url(%23n)' d='M0 0h160v160H0z'/%3E%3C/svg%3E");
+}
+
+.storyBook > .storyBookSpread { grid-column: 1 / -1; grid-row: 1; }
+.storyBookSizer { visibility: hidden; pointer-events: none; }
+.storyCopySizer { display: grid; width: 100%; }
+.storyCopySizer > .storyCopy { grid-area: 1 / 1; align-self: center; }
+
+.storyBookIllustration,
+.storyBookText {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding: 40px 28px 40px 64px;
+}
+
+.storyBookText {
+  padding: 46px 76px 46px clamp(28px, 3.7vw, 56px);
+}
+
+.storyFigure {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+}
+
+.storyScene {
+  position: relative;
+  aspect-ratio: 1;
+  width: 100%;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--story-paper);
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent), linear-gradient(0deg, transparent, #000 5%, #000 95%, transparent);
+  mask-composite: intersect;
+}
+
+.storyArtwork {
+  position: absolute;
+  inset: 0;
+  transform: translateZ(0);
+}
+
+.storyBackground {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.storyAtmosphere {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.storyImageFallback {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  display: grid;
+  align-content: center;
+  text-align: center;
+  font-style: italic;
+  color: var(--sage-deep);
+}
+
+.storyCopy {
+  width: 100%;
+  text-align: center;
+}
+
+.storyParagraph {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(1.375rem, 1.8vw, 1.5625rem);
+}
+
+.storyParagraph p {
+  margin: 0;
+  text-align: left;
+  text-wrap: pretty;
+  line-height: 1.55;
+  font-size: inherit;
+}
+
+.storyOpening {
+  font-size: 1.35em;
+  font-variant-caps: small-caps;
+  letter-spacing: .025em;
+  line-height: 1;
+}
+
+.storyRenderedSpread { position: relative; background-color: var(--story-paper); visibility: hidden; pointer-events: none; }
+.storyRenderedSpread[data-visible="true"] { visibility: visible; }
+.storyRenderedSpread[data-active-chapter] { z-index: 2; }
+.storyRenderedSpread[data-incoming="true"] { z-index: 1; }
+.storyBook { overflow: hidden; touch-action: pan-y; }
+
+@media (min-width: 900px) {
+/* The existing pages become the two faces of one leaf. No artwork is replaced. */
+.storyBook[data-turning="true"] .storyRenderedSpread {
+  z-index: auto;
+  background: transparent;
+  display: contents;
+}
+.storyBook[data-turning="true"] .storyRenderedSpread > .storyBookIllustration { grid-area: 1 / 1; }
+.storyBook[data-turning="true"] .storyRenderedSpread > .storyBookText { grid-area: 1 / 2; }
+.storyBook[data-turning="true"] .storyRenderedSpread > :is(.storyBookIllustration, .storyBookText) {
+  position: relative;
+  z-index: 1;
+  background: var(--story-paper);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.storyBook[data-turning="true"][data-direction="forward"] .storyOutgoing > .storyBookText,
+.storyBook[data-turning="true"][data-direction="backward"] .storyRenderedSpread[data-incoming="true"] > .storyBookText {
+  z-index: 4;
+  transform-origin: left center;
+  animation: storyLeafToLeft 650ms cubic-bezier(.45, 0, .25, 1) both;
+}
+.storyBook[data-turning="true"][data-direction="forward"] .storyRenderedSpread[data-incoming="true"] > .storyBookIllustration,
+.storyBook[data-turning="true"][data-direction="backward"] .storyOutgoing > .storyBookIllustration {
+  z-index: 4;
+  transform-origin: right center;
+  animation: storyLeafFromRight 650ms cubic-bezier(.45, 0, .25, 1) both;
+}
+.storyBook[data-turning="true"][data-direction="backward"] .storyOutgoing > .storyBookIllustration,
+.storyBook[data-turning="true"][data-direction="backward"] .storyRenderedSpread[data-incoming="true"] > .storyBookText {
+  animation-direction: reverse;
+}
+.storyBook[data-turning="true"][data-direction="forward"] :is(.storyOutgoing > .storyBookText, .storyRenderedSpread[data-incoming="true"] > .storyBookIllustration)::after,
+.storyBook[data-turning="true"][data-direction="backward"] :is(.storyOutgoing > .storyBookIllustration, .storyRenderedSpread[data-incoming="true"] > .storyBookText)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, #49321c42, #49321c08 35%, #fff7e922 65%, #49321c30);
+  box-shadow: 8px 0 24px #39281630;
+  animation: storyLeafShade 650ms ease-in-out both;
+}
+}
+@keyframes storyLeafToLeft { from { transform: rotateY(0deg); } to { transform: rotateY(-180deg); } }
+@keyframes storyLeafFromRight { from { transform: rotateY(180deg); } to { transform: rotateY(0deg); } }
+@keyframes storyLeafShade { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
+
+.storyPageButton {
+  position: absolute;
+  inset: 0 auto 0 0;
+  z-index: 6;
+  width: 50%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #66666680;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: pan-y;
+}
+.storyPageNext { left: auto; right: 0; }
+.storyPageButton::before {
+  position: absolute;
+  content: "";
+  inset: 0 auto 0 0;
+  width: clamp(48px, 7vw, 96px);
+  background: linear-gradient(90deg, #4d38294d, #4d382924 38%, transparent);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+.storyPageNext::before { left: auto; right: 0; transform: scaleX(-1); }
+.storyArrow {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  color: var(--story-arrow-color, inherit);
+  border-radius: 50%;
+  transition: color 180ms ease;
+}
+.storyPageNext .storyArrow { left: auto; right: 10px; }
+.storyArrow svg {
+  position: relative;
+  width: 21px;
+  height: 14px;
+}
+.storyArrow path { stroke-width: var(--story-arrow-weight, 1.75); transition: stroke-width 180ms ease; }
+@media (hover: hover) {
+  .storyPageButton:hover:not(:disabled)::before { opacity: 1; }
+  .storyPageButton:hover:not(:disabled) {
+    --story-arrow-color: #000;
+    --story-arrow-weight: 3.5;
+  }
+}
+.storyPageButton:focus-visible::before { opacity: 1; }
+.storyPageButton:active:not(:disabled)::before,
+.storyPageButton[data-pressed="true"]::before { opacity: 1; }
+.storyPageButton:focus-visible,
+.storyPageButton:active:not(:disabled),
+.storyPageButton[data-pressed="true"] {
+  --story-arrow-color: #000;
+  --story-arrow-weight: 3.5;
+}
+.storyPageButton:disabled { cursor: default; }
+.storyPageButton:disabled .storyArrow { opacity: .22; }
+.storyPageButton[data-pressed="true"] .storyArrow { opacity: 1; }
+.storyPageButton:focus-visible { outline: none; }
+.storyPageButton:focus-visible .storyArrow { outline: 2px solid var(--sage-deep); outline-offset: 3px; }
+.storyScreenReaderOnly { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+.storyScrollChapter {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: clamp(40px, 6vw, 90px);
+  scroll-margin-top: 130px;
+}
+
+.storyScrollChapter:nth-of-type(even) .storyFigure { grid-column: 2; grid-row: 1; }
+.storyScrollChapter:nth-of-type(even) .storyCopy { grid-column: 1; grid-row: 1; }
+.storyScrollChapter .storyScene { background: var(--paper); }
+.storyScrollChapter .storyCopy { padding: 10px 0; }
+
+.storyAnimated { animation-duration: 6s; animation-timing-function: linear; animation-fill-mode: both; animation-play-state: paused; }
+.storyScene[data-state="playing"] .storyAnimated { animation-play-state: running; }
+.storySceneClock { position: absolute; width: 1px; height: 1px; opacity: 0; animation-name: storyClock; }
+.storyCandleGlow { animation-name: storyCandle; }
+.storyWindowGlow { animation-name: storyWindow; }
+.storyScene[data-state="still"] .storyAnimated { animation: none; }
+
+@keyframes storyClock { from { opacity: 0; } to { opacity: 0; } }
+@keyframes storyCandle { 0%, 100% { opacity: .08; } 12%, 43%, 77% { opacity: .23; } 25%, 61%, 90% { opacity: .11; } }
+@keyframes storyWindow { 0%, 100% { opacity: .04; } 50% { opacity: .15; } }
+
+@media (max-width: 899px) {
+  .storyBook { scroll-margin-top: 112px; grid-template-columns: 1fr; }
+  .storyBookSpread { grid-template-columns: 1fr; grid-template-rows: max-content 1fr; min-height: 0; }
+  .storyBook::after { display: none; }
+  .storyBookIllustration { padding: 24px 56px 0; }
+  .storyBookIllustration .storyFigure { max-width: 440px; margin: 0 auto; }
+  .storyBookText { padding: 28px 56px 36px; }
+  .storyRenderedSpread { overflow: hidden; isolation: isolate; }
+  .storyArtwork { transform: none; }
+  /* Transform the whole sheet so its illustration and paragraph cannot separate. */
+  .storyBook { perspective-origin: left center; }
+  .storyBook[data-turning="true"] .storyRenderedSpread {
+    background: var(--story-paper);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform-origin: left center;
+  }
+  .storyBook[data-turning="true"][data-direction="forward"] .storyOutgoing {
+    z-index: 4;
+    animation: storySingleSheetForward 650ms cubic-bezier(.45, 0, .25, 1) both;
+  }
+  .storyBook[data-turning="true"][data-direction="backward"] .storyRenderedSpread[data-incoming="true"] {
+    z-index: 4;
+    animation: storySingleSheetBackward 650ms cubic-bezier(.45, 0, .25, 1) both;
+  }
+  .storyBook[data-turning="true"][data-direction="forward"] .storyOutgoing::after,
+  .storyBook[data-turning="true"][data-direction="backward"] .storyRenderedSpread[data-incoming="true"]::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(90deg, #49321c38, transparent 65%);
+    animation: storyLeafShade 650ms ease-in-out both;
+  }
+  .storyScrollChapter { grid-template-columns: 1fr; gap: 28px; }
+  .storyScrollChapter .storyFigure { max-width: 520px; margin: 0 auto; }
+  .storyScrollChapter:nth-of-type(even) :is(.storyFigure, .storyCopy) { grid-column: auto; grid-row: auto; }
+  .storyScrollChapter .storyCopy { max-width: 520px; margin: 0 auto; }
+}
+
+
+@keyframes storySingleSheetForward { from { transform: rotateY(0); } to { transform: rotateY(-90deg); } }
+@keyframes storySingleSheetBackward { from { transform: rotateY(-90deg); } to { transform: rotateY(0); } }
+
+@media (max-width: 500px) {
+  .storyExperience { width: 94vw; }
+  .storyBookIllustration { padding: 20px 44px 0; }
+  .storyBookText { padding: 26px 52px 32px; }
+  .storyScroll { width: 80vw; margin: 0 auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .storyPageButton::before, .storyArrow, .storyArrow svg, .storyArrow path { transition: none; }
+  .ourStoryPage .storyAnimated { animation: none !important; }
+  .ourStoryPage .storyTurn { display: none; }
+}
+
+/* The closed volume sits in the center, then its spine moves into place as it opens. */
+.storyBookStage {
+  position: relative;
+  height: var(--story-open-height);
+  perspective: 2200px;
+  transform: translateX(-25%);
+  transition: transform 1050ms cubic-bezier(.45, 0, .2, 1), height 1050ms ease;
+}
+.storyBookStage:is([data-cover="opening"], [data-cover="expanding"], [data-cover="open"], [data-cover="collapsing"]) { transform: translateX(0); }
+.storyBookStage:is([data-cover="closed"], [data-cover="preparing"]) > .storyBook { visibility: hidden; opacity: 0; }
+.storyBookStage[data-cover="opening"] > .storyBook { animation: storyUnfold 1050ms cubic-bezier(.45, 0, .2, 1) both; }
+.storyBookStage[data-cover="closing"] > .storyBook { animation: storyUnfold 1050ms cubic-bezier(.45, 0, .2, 1) both reverse; }
+.storyBookStage:not([data-cover="open"]) .storyPageButton { pointer-events: none; }
+.storyCover {
+  position: absolute;
+  inset: 0 0 0 50%;
+  z-index: 8;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transition: transform 1050ms cubic-bezier(.45, 0, .2, 1);
+}
+.storyBookStage:is([data-cover="opening"], [data-cover="expanding"], [data-cover="open"], [data-cover="collapsing"]) .storyCover { transform: rotateY(-180deg); }
+.storyBookStage:is([data-cover="expanding"], [data-cover="open"], [data-cover="collapsing"]) .storyCover { visibility: hidden; pointer-events: none; }
+.storyCoverFront, .storyCoverInside {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 6px 12px 12px 6px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  box-shadow: 1px 2px 0 #b9a386, 3px 4px 0 #eadfc9, 4px 5px 0 #806349, 0 12px 22px -10px #33251b40;
+}
+.storyCoverFront {
+  border: 0;
+  /* Show the page stack and back board beyond all three exposed edges. */
+  box-shadow: 0 2px 0 1px #dfd4bf, 0 4px 0 2px #f4eddf, 0 6px 0 2px #c8b99c, 0 8px 0 3px #eee2ca, 0 11px 0 4px #654b35, 0 20px 26px -14px #33251b40;
+  padding: 15%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  background: #503020;
+  color: #e6c87e;
+  text-shadow: 0 1px 2px #27140960;
+  cursor: pointer;
+  transform: translateZ(1px);
+}
+.storyCoverFront:disabled { cursor: default; }
+.storyCoverFront:focus-visible { outline: 3px solid var(--gold); outline-offset: 8px; }
+.storyCoverTexture { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: inherit; object-fit: fill; pointer-events: none; }
+.storyCoverTitle {
+  position: relative;
+  font-family: var(--script);
+  font-weight: 700;
+  font-size: clamp(2.7rem, 4.5vw, 4.6rem);
+  line-height: 1.1;
+  white-space: nowrap;
+  letter-spacing: 0;
+}
+.storyCoverCue {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #f3e2b5;
+  font-family: var(--print);
+  font-size: clamp(1.125rem, 1.6vw, 1.4rem);
+  letter-spacing: .07em;
+}
+.storyCoverCue svg { width: 24px; height: 16px; }
+.storyCoverRings {
+  position: relative;
+  display: block;
+  width: clamp(60px, 7vw, 86px);
+  color: #c6a460;
+  filter: drop-shadow(0 -1px 1px #291409);
+  transition: color 250ms ease, filter 250ms ease;
+}
+.storyCoverRings svg { display: block; width: 100%; height: auto; }
+.storyCoverRings::before {
+  content: "";
+  position: absolute;
+  inset: -24px;
+  background: radial-gradient(ellipse, #f1c66a30, transparent 68%);
+  opacity: 0;
+  transition: opacity 250ms ease;
+  pointer-events: none;
+}
+@media (hover: hover) {
+  .storyCoverFront:hover:not(:disabled) .storyCoverRings { color: #ffe5a4; filter: drop-shadow(0 0 5px #f4d184b0) drop-shadow(0 0 14px #e8b95770); }
+  .storyCoverFront:hover:not(:disabled) .storyCoverRings::before { opacity: 1; }
+}
+.storyCoverFront:focus-visible .storyCoverRings,
+.storyCoverFront:active:not(:disabled) .storyCoverRings { color: #ffe5a4; filter: drop-shadow(0 0 5px #f4d184b0) drop-shadow(0 0 14px #e8b95770); }
+.storyCoverFront:focus-visible .storyCoverRings::before,
+.storyCoverFront:active:not(:disabled) .storyCoverRings::before { opacity: 1; }
+.storyCoverInside {
+  transform: rotateY(180deg);
+  display: flex;
+  align-items: center;
+  padding: 40px 28px 40px 64px;
+  background: var(--story-paper);
+  box-sizing: border-box;
+}
+/* The left illustration travels on the cover; only the right leaf sits beneath it. */
+@keyframes storyUnfold {
+  from { clip-path: inset(-30px -40px -50px 50%); }
+  to { clip-path: inset(-30px -40px -50px 50%); }
+}
+@media (min-width: 900px) {
+  .storyBookSpread { min-height: 600px; }
+}
+@media (max-width: 899px) {
+  .storyBookStage {
+    --story-cover-height: min(115vw, 580px);
+    height: var(--story-cover-height);
+    transform: none;
+    perspective-origin: left center;
+    transition: height 450ms ease;
+  }
+  .storyBookStage:is([data-cover="expanding"], [data-cover="open"]) { height: var(--story-open-height); }
+  /* Keep the binding on the resizing shell, outside the clipped page artwork. */
+  .storyBook { box-shadow: none; }
+  .storyBookStage::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 3px 12px 12px 3px;
+    box-shadow: var(--story-frame-shadow);
+    pointer-events: none;
+  }
+  .storyBookStage:is([data-cover="closed"], [data-cover="preparing"])::before { visibility: hidden; }
+  .storyBookStage[data-cover="opening"]::before { animation: storyFrameReveal 1050ms cubic-bezier(.45, 0, .2, 1) both; }
+  .storyBookStage[data-cover="closing"]::before { animation: storyFrameReveal 1050ms cubic-bezier(.45, 0, .2, 1) both reverse; }
+  .storyCover { left: 0; height: var(--story-cover-height); }
+  /* A single sheet has no left-hand spread for the reverse cover to land on. */
+  .storyBookStage:is([data-cover="opening"], [data-cover="expanding"], [data-cover="open"], [data-cover="collapsing"]) .storyCover { transform: rotateY(-90deg); }
+  .storyCoverInside { display: none; }
+  .storyCoverFront { padding: 12%; }
+  .storyCoverTitle { font-size: clamp(2.5rem, 8vw, 4.2rem); }
+  .storyBookStage[data-cover="opening"] > .storyBook { animation-name: storyUnfoldMobile; }
+  .storyBookStage[data-cover="closing"] > .storyBook { animation-name: storyUnfoldMobile; }
+  .storyBookStage[data-cover="expanding"] > .storyBook { animation: storyExtendMobile 450ms ease both; }
+  .storyBookStage[data-cover="collapsing"] > .storyBook { animation: storyExtendMobile 450ms ease both reverse; }
+}
+@keyframes storyUnfoldMobile {
+  from { opacity: 0; clip-path: inset(-12px -12px calc(100% - var(--story-cover-height)) -12px); }
+  55% { opacity: 1; }
+  to { opacity: 1; clip-path: inset(-12px -12px calc(100% - var(--story-cover-height)) -12px); }
+}
+@keyframes storyExtendMobile {
+  from { clip-path: inset(-12px -12px calc(100% - var(--story-cover-height)) -12px); }
+  to { clip-path: inset(-12px -12px -35px -12px); }
+}
+@keyframes storyFrameReveal { from { opacity: 0; } 55%, to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .storyBookStage, .storyCover, .storyCoverRings, .storyCoverRings::before { transition: none; }
+  .storyBookStage > .storyBook, .storyBookStage::before, .storyBookStage .storyCoverInside { animation: none !important; }
+}

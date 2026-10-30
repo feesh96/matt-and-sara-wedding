@@ -1,4 +1,4 @@
-# Sara and Matt's wedding website
+# Matt and Sara's wedding website
 
 The current phase is a static save-the-date website for May 30, 2027 in Princeton, New Jersey.
 
