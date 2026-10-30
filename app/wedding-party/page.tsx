@@ -15,7 +15,7 @@ const members = [
   { name: "Conor Dewey", role: "Groomsman" },
   { name: "Marcello Balboa", role: "Groomsman" },
   { name: "Dillon Massaro", role: "Groomsman" },
-  { name: "Lindsay Fishman", role: "Bridesmaid" },
+  { name: "Lindsay Kaye", role: "Bridesmaid" },
   { name: "Melissa Pham", role: "Bridesmaid" },
   { name: "Karlee Parker", role: "Bridesmaid" },
   { name: "Tiffany Javid", role: "Bridesmaid" },
