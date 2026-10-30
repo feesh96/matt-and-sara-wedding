@@ -278,6 +278,7 @@
 @keyframes storyWindow { 0%, 100% { opacity: .04; } 50% { opacity: .15; } }
 
 @media (max-width: 899px) {
+  .storyBook .storyParagraph { font-size: clamp(.9625rem, 1.26vw, 1.09375rem); }
   .storyBook { scroll-margin-top: 112px; grid-template-columns: 1fr; }
   .storyBookSpread { grid-template-columns: 1fr; grid-template-rows: max-content 1fr; min-height: 0; }
   .storyBook::after { display: none; }
