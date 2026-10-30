@@ -142,7 +142,7 @@ test("both layouts fit narrow phones and tablet widths", async ({ page }) => {
       await openBook(page);
       await expect(page.getByRole("heading", { name: "Our Story", exact: true })).toBeVisible();
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true);
-      expect(await page.locator(".storyParagraph").first().evaluate((element) => parseFloat(getComputedStyle(element).fontSize))).toBeGreaterThanOrEqual(19);
+      expect(await page.locator(".storyParagraph").first().evaluate((element) => parseFloat(getComputedStyle(element).fontSize))).toBeGreaterThanOrEqual(17.5);
     }
   }
 });

@@ -278,13 +278,14 @@
 @keyframes storyWindow { 0%, 100% { opacity: .04; } 50% { opacity: .15; } }
 
 @media (max-width: 899px) {
-  .storyBook .storyParagraph { font-size: clamp(.9625rem, 1.26vw, 1.09375rem); }
+  .storyBook .storyParagraph { font-size: clamp(1.1rem, 1.44vw, 1.25rem); }
+  .storyBook .storyParagraph p { text-wrap: wrap; }
   .storyBook { scroll-margin-top: 112px; grid-template-columns: 1fr; }
   .storyBookSpread { grid-template-columns: 1fr; grid-template-rows: max-content 1fr; min-height: 0; }
   .storyBook::after { display: none; }
   .storyBookIllustration { padding: 24px 56px 0; }
   .storyBookIllustration .storyFigure { max-width: 440px; margin: 0 auto; }
-  .storyBookText { padding: 28px 56px 36px; }
+  .storyBookText { padding: 28px 48px 36px; }
   .storyRenderedSpread { overflow: hidden; isolation: isolate; }
   .storyArtwork { transform: none; }
   /* Transform the whole sheet so its illustration and paragraph cannot separate. */
@@ -325,7 +326,7 @@
 @media (max-width: 500px) {
   .storyExperience { width: 94vw; }
   .storyBookIllustration { padding: 20px 44px 0; }
-  .storyBookText { padding: 26px 52px 32px; }
+  .storyBookText { padding: 26px 44px 32px; }
   .storyScroll { width: 80vw; margin: 0 auto; }
 }
 
