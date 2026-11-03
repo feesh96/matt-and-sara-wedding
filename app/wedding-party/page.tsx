@@ -3,24 +3,10 @@ import { PageShell } from "@/components/page-shell";
 import { PageIntro } from "@/components/page-intro";
 import { SectionDivider } from "@/components/section-divider";
 
-export const metadata: Metadata = { title: "Wedding Party" };
+import { members } from "@/lib/wedding-party";
+import { WeddingPartyCard } from "@/components/wedding-party-card";
 
-const members = [
-  { name: "Eric Newman", role: "Best Man" },
-  { name: "Elana Sacher", role: "Maid of Honor" },
-  { name: "Maya Mohindroo", role: "Maid of Honor" },
-  { name: "Jeremy Kaye", role: "Groomsman" },
-  { name: "Max Sacher", role: "Groomsman" },
-  { name: "Myles Cobb", role: "Groomsman" },
-  { name: "Conor Dewey", role: "Groomsman" },
-  { name: "Marcello Balboa", role: "Groomsman" },
-  { name: "Dillon Massaro", role: "Groomsman" },
-  { name: "Lindsay Kaye", role: "Bridesmaid" },
-  { name: "Melissa Pham", role: "Bridesmaid" },
-  { name: "Karlee Parker", role: "Bridesmaid" },
-  { name: "Tiffany Javid", role: "Bridesmaid" },
-  { name: "Mikaela Osinaga", role: "Bridesmaid" },
-];
+export const metadata: Metadata = { title: "Wedding Party" };
 
 export default function WeddingPartyPage() {
   return (
@@ -36,11 +22,15 @@ export default function WeddingPartyPage() {
         <section className="weddingPartyGroup" key={group.title} aria-labelledby={`party-${group.title.toLowerCase()}`}>
           <h2 className="sectionTitle" id={`party-${group.title.toLowerCase()}`}>{group.title}</h2>
           <div className="weddingPartyGrid">
-            {group.members.map(member => (
-              <article className="weddingPartyMember" key={member.name}>
-                <h3>{member.name}</h3>
-                <p className="weddingPartyRole">{member.role}</p>
-              </article>
+            {[
+              group.members.slice(0, Math.ceil(group.members.length / 2)),
+              group.members.slice(Math.ceil(group.members.length / 2)),
+            ].map((column, index) => (
+              <div className="weddingPartyColumn" key={index}>
+                {column.map(member => (
+                  <WeddingPartyCard key={member.name} member={member} />
+                ))}
+              </div>
             ))}
           </div>
         </section>

@@ -328,62 +328,82 @@ summary:focus-visible {
 }
 
 .weddingPartyGrid {
-  width: var(--content);
+  width: min(80vw, 900px);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: var(--section-space) clamp(24px, 2.5vw, 40px);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 12px clamp(32px, 5vw, 72px);
+}
+
+.weddingPartyColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
 }
 
 .weddingPartyMember {
-  text-align: center;
+  position: relative;
+  container-type: inline-size;
+  border-bottom: 1px solid var(--gold-light);
+}
+
+.weddingPartyMember h3 { margin: 0; font-weight: 400; }
+
+.weddingPartyTrigger {
+  width: 100%;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0 12px 76px;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  transition: padding-left 420ms ease;
+}
+
+button.weddingPartyTrigger { cursor: pointer; }
+.weddingPartyTrigger:focus-visible { outline: 2px solid var(--sage-deep); outline-offset: 5px; border-radius: 8px; }
+.weddingPartyTrigger:hover .weddingPartyName { color: var(--sage-deep); }
+.weddingPartyName { display: block; font-family: var(--print); font-size: var(--type-question); line-height: 1.15; }
+.weddingPartyRole { display: block; margin-top: 6px; color: var(--sage-deep); font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; }
+.weddingPartyToggle { flex-shrink: 0; width: 24px; font-size: 1.6rem; color: var(--gold-deep); text-align: center; }
+
+.weddingPartyPortrait,
+.weddingPartyInitials {
+  position: absolute;
+  top: 12px;
+  left: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--paper-bright);
+  pointer-events: none;
 }
 
 .weddingPartyPortrait {
-  max-width: 180px;
-  aspect-ratio: 4 / 5;
-  margin: 0 auto var(--item-space);
-  overflow: hidden;
-  border: 1px solid var(--gold);
-  border-radius: 50% 50% 0 0 / 40% 40% 0 0;
-  background: var(--paper-bright);
-  padding: 4px;
+  z-index: 1;
+  transition: width 420ms ease, height 420ms ease, top 420ms ease, border-radius 420ms ease;
 }
+.weddingPartyPortrait img { object-fit: cover; object-position: var(--thumbnail-position); transition: object-position 420ms ease; }
+.weddingPartyInitials { display: grid; place-items: center; border: 1px solid var(--gold-light); color: var(--sage-deep); font-size: 1.25rem; }
+.weddingPartyMember[data-open="true"]:has(.weddingPartyPortrait) .weddingPartyTrigger { padding-left: 0; }
+.weddingPartyMember[data-open="true"] .weddingPartyPortrait { top: 96px; width: 100%; height: 125cqw; border-radius: 18px; }
+.weddingPartyMember[data-open="true"] .weddingPartyPortrait img { object-position: var(--portrait-position); }
+.weddingPartyPanel { display: grid; grid-template-rows: 0fr; visibility: hidden; transition: grid-template-rows 420ms ease, visibility 420ms; }
+.weddingPartyMember[data-open="true"] .weddingPartyPanel { grid-template-rows: 1fr; visibility: visible; }
+.weddingPartyPanelInner { overflow: hidden; min-height: 0; }
+.weddingPartyPhotoSpace { aspect-ratio: 4 / 5; margin-top: 16px; }
+.weddingPartyBio { margin: 20px 0 28px; white-space: pre-line; line-height: 1.5; }
 
-.weddingPartyPortrait img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: inherit;
-}
-
-.weddingPartyMember h3 {
-  margin: 0;
-  font-family: var(--print);
-  font-size: var(--type-question);
-  font-weight: 400;
-  line-height: 1.2;
-}
-
-.weddingPartyRole {
-  margin: 8px 0 0;
-  color: var(--sage-deep);
-  font-size: var(--type-action);
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.weddingPartyBio {
-  margin: 16px auto 0;
-  max-width: 30ch;
-}
-
-@media (min-width: 761px) and (max-width: 1050px) {
-  .weddingPartyGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+@media (prefers-reduced-motion: reduce) {
+  .weddingPartyTrigger, .weddingPartyPortrait, .weddingPartyPortrait img, .weddingPartyPanel { transition: none; }
 }
 
 .schedulePage {
