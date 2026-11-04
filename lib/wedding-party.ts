@@ -41,7 +41,7 @@ export const members: WeddingPartyMember[] = [
     position: "center 20%", thumbnailPosition: "center top",
     bio: "It’s been an honor having Sara and Matt in my life since college. They both have been such close friends of mine, and we have shared many amazing trips and life events together. They constantly brighten every room they are in and I am so happy for them on this new chapter."
   },
-  { name: "Lindsay Fishman", role: "Bridesmaid",
+  { name: "Lindsay Kaye", role: "Bridesmaid",
     image: "/images/wedding-party/lindsay-fishman.jpg",
     position: "center 20%", thumbnailPosition: "center top",
     bio: "Lindsay is Matt’s big sister and couldn’t be more excited to finally have a sister of her own! From the moment she met Sara, she knew Matt had found his perfect match. She feels so lucky to be gaining not just a sister-in-law, but a lifelong friend. She can’t wait for a lifetime of double dates, family vacations, and, of course, free babysitting!"
