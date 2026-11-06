@@ -46,8 +46,14 @@ export const members: WeddingPartyMember[] = [
     position: "center 20%", thumbnailPosition: "center top",
     bio: "Lindsay is Matt’s big sister and couldn’t be more excited to finally have a sister of her own! From the moment she met Sara, she knew Matt had found his perfect match. She feels so lucky to be gaining not just a sister-in-law, but a lifelong friend. She can’t wait for a lifetime of double dates, family vacations, and, of course, free babysitting!"
   },
-  { name: "Melissa Pham", role: "Bridesmaid" },
-  { name: "Karlee Parker", role: "Bridesmaid" },
+  { name: "Melissa Pham", role: "Bridesmaid",
+    image: "/images/wedding-party/melissa-pham.png",
+    position: "center 20%", thumbnailPosition: "center top",
+    bio: "Sara and I became BFFs in middle school and she hasn’t been able to get rid of me since. From our awkward middle school days to being randomly placed as dorm room neighbors at Virginia Tech (fate) to living out our city rat dreams in the East Village, it’s been so special to watch her grow through all her life chapters. My favorite chapter to-date is the one where she meets the love of her life - Matt Fishman aka Feesh aka the absolute jewnit. Some of my favorite Sundays are spent with these two - cheering on our fantasy football teams (which shout out to Matt for helping me Sara and draft), ordering takeout, couch rotting, and (mostly Sara and I) yapping about everything under the sun. Couldn’t be happier to celebrate these two getting married!"
+  },
+  { name: "Karlee Parker", role: "Bridesmaid",
+    bio: "Karlee and Sara’s friendship has been years in the making, with their paths first crossing in high school, again in college, and finally in NYC when they became roommates and besties. Having known Matt since college as well, Karlee likes to think she played a small role in bringing these two together (but she won’t take too much credit 😉). Having had a front-row seat to all of Sara’s eras, Karlee couldn’t be more excited to celebrate her favorite one yet. Here’s to the Fishmans!"
+  },
   { name: "Tiffany Javid", role: "Bridesmaid" },
   { name: "Mikaela Osinaga", role: "Bridesmaid" },
 ];

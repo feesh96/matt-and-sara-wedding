@@ -1,11 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useId, useState, type CSSProperties } from "react";
+import { useId, type CSSProperties } from "react";
 import type { WeddingPartyMember } from "@/lib/wedding-party";
 
-export function WeddingPartyCard({ member }: { member: WeddingPartyMember }) {
-  const [open, setOpen] = useState(false);
+export function WeddingPartyCard({ member, open, onToggle }: {
+  member: WeddingPartyMember;
+  open: boolean;
+  onToggle: () => void;
+}) {
   const id = useId();
   const available = Boolean(member.image || member.bio);
   const initials = member.name.split(" ").map(part => part[0]).join("");
@@ -23,7 +26,7 @@ export function WeddingPartyCard({ member }: { member: WeddingPartyMember }) {
       ) : <span className="weddingPartyInitials" aria-hidden="true">{initials}</span>}
       <h3>
         {available ? (
-          <button className="weddingPartyTrigger" aria-expanded={open} aria-controls={id} onClick={() => setOpen(!open)}>
+          <button className="weddingPartyTrigger" aria-expanded={open} aria-controls={id} onClick={onToggle}>
             {label}<span className="weddingPartyToggle" aria-hidden="true">{open ? "−" : "+"}</span>
           </button>
         ) : <span className="weddingPartyTrigger">{label}</span>}
